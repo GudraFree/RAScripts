@@ -4,6 +4,8 @@
 // 76141b23e88258933dcca4636abe636c linked by Bryan1150
 
 // CONSTANTS 
+usOffset = 0xd80
+
 // monster index
 MON_ID = 0
 MON_NAME = 1
