@@ -4,8 +4,6 @@
 // 76141b23e88258933dcca4636abe636c linked by Bryan1150
 
 // CONSTANTS 
-usOffset = 0xd80
-
 // monster index
 MON_ID = 0
 MON_NAME = 1
@@ -680,7 +678,7 @@ function tail() {
     return byte(questPointer() + qpoIsTailCut)
 }
 
-function rathBreak() {
+function rathBreak(monId) {
     leftWingTrigger = word(questPointer() + qpoPart1trigger)
     rightWingTrigger = word(questPointer() + qpoPart2trigger)
     head = word(questPointer() + qpoPart6trigger)
@@ -699,13 +697,14 @@ function rathBreak() {
                 once(rightWingTrigger==1),
                 once(head==2),
                 once(tail()==1)
-            )
+            ),
+            when=monsterId()==monId
         )
     
     return fullBreak
 }
 
-function rockBreak() {
+function rockBreak(monId) {
     stomach = word(questPointer() + qpoPart6trigger)
     
     fullBreak =
@@ -718,21 +717,22 @@ function rockBreak() {
             tally(2,
                 once(stomach==1),
                 once(tail()==1)
-            )
+            ),
+            when=monsterId()==monId
         )
     
     return fullBreak
 }
 
-function gypcerosBreak() {
+function gypcerosBreak(monId) {
     crest = word(questPointer() + qpoGypCrest)
     
     fullBreak = prev(crest)==1 && crest==0
     
-    return fullBreak
+    return fullBreak && monId==monsterId()
 }
 
-function blosBreak(horns) {
+function blosBreak(horns,monId) {
     horn = word(questPointer() + qpoBlosHornBrokenCounter)
     
     fullBreak =
@@ -745,27 +745,28 @@ function blosBreak(horns) {
             tally(2,
                 once(horn==horns),
                 once(tail()==1)
-            )
+            ),
+            when=monsterId()==monId
         )
     
     return fullBreak
 }
 
-function fatalisBreak() {
+function fatalisBreak(monId) {
     parts = high4(questPointer() + qpoFatalisParts)
     
     fullBreak = prev(parts)>0 && parts==0
     
-    return fullBreak
+    return fullBreak && monId==monsterId()
 }
 
-function breakArray(i) {
-    if(i==BREAK_RATH) return rathBreak()
-    if(i==BREAK_ROCK) return rockBreak()
-    if(i==BREAK_GYP) return gypcerosBreak()
-    if(i==BREAK_MONO) return blosBreak(1)
-    if(i==BREAK_DIA) return blosBreak(2)
-    if(i==BREAK_FATA) return fatalisBreak()
+function breakArray(i, monId) {
+    if(i==BREAK_RATH) return rathBreak(monId)
+    if(i==BREAK_ROCK) return rockBreak(monId)
+    if(i==BREAK_GYP) return gypcerosBreak(monId)
+    if(i==BREAK_MONO) return blosBreak(1,monId)
+    if(i==BREAK_DIA) return blosBreak(2,monId)
+    if(i==BREAK_FATA) return fatalisBreak(monId)
 }
 
 function hunterHP() {
@@ -1091,10 +1092,11 @@ function kutTheKu() {
     killKutku = monsterHP()==0 && prev(monsterHP())>0
     
     counter = measured(
-                repeated(10, killKutku)
+                repeated(10, killKutku),
+                when=questId()==questIdKutku
             )
     
-    return questId()==questIdKutku && counter && never(questTerminated())
+    return counter && never(questTerminated())
 }
 
 function dromeHunter() {
@@ -1245,7 +1247,7 @@ for monGroup in monsterList {
         title = titleFirst,
         description = format("Slay {0} {1}",firstHunts, name),
         points = pointsLow,
-        trigger = questClear() && prev(hunts)==firstHunts-1 && hunts==firstHunts,
+        trigger = questClear() && prev(hunts)==firstHunts-1 && measured(hunts==firstHunts),
     id = cheevoId
     )
     
@@ -1256,7 +1258,7 @@ for monGroup in monsterList {
         title = monsterHuntTitles[name],
         description = format("Slay {0} {1}",lastHunts, name),
         points = pointsHigh,
-        trigger = questClear() && prev(hunts)==lastHunts-1 && hunts==lastHunts,
+        trigger = questClear() && prev(hunts)==lastHunts-1 && measured(hunts==lastHunts, when=hunts>=firstHunts),
     id = cheevoId
     )
     
@@ -1517,16 +1519,16 @@ achievement(
 // challenges
 cheevoId = 379472
 for breakable in monsterBreakables {
-    monId = false
+    breakConditions = false
     for id in breakable[BREAK_IDS] {
-        monId = monId || id==monsterId()
+        breakConditions = breakConditions || breakArray(breakable[BREAK_INDEX], id)
     }
     
     achievement(
         title = format("{0} Destroyer", breakable[BREAK_NAME]),
         description = format("Break all breakable parts of a {0} in a single hunt (High Rank only)", breakable[BREAK_NAME]),
         points = 5,
-        trigger = monId && breakArray(breakable[BREAK_INDEX]) && highRank(),
+        trigger = breakConditions && highRank(),
         id = cheevoId
     )
     
@@ -1577,7 +1579,7 @@ achievement(
     title = "Already tracked you down",
     description = "Kill a monster in less than a minute after the paint effect on it goes off (High Rank only)",
     points = 10,
-    trigger = paintChallenge(),
+    trigger = paintChallenge() && highRank(),
     id = cheevoId
 )
     
