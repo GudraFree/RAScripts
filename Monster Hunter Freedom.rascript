@@ -14,7 +14,7 @@ MON_CROWN_S = 5
 MON_CROWN_G = 6
 MON_SIZE = 7
 MON_SIZE_FACTOR = 8
-
+ 
 // quest index
 QUEST_NAME = 0
 QUEST_TYPE_TEXT = 1
@@ -53,14 +53,14 @@ AWARD_ADRESS = 1
 AWARD_BIT = 2
 
 // strings
-_1s = "1★"
-_2s = "2★"
-_3s = "3★"
-_4s = "4★"
-_5s = "5★"
-_6s = "6★"
-_7s = "7★"
-_8s = "8★"
+_1s = "1 stars"
+_2s = "2 stars"
+_3s = "3 stars"
+_4s = "4 stars"
+_5s = "5 stars"
+_6s = "6 stars"
+_7s = "7 stars"
+_8s = "8 stars"
 u = "urgent"
 v = "Village"
 gh = "Guild Hall"
@@ -151,6 +151,12 @@ itemStone = 0x9f
 felyneWhimHeroics = 0xbf
 
 time50min = 0x15f90
+
+locationVillage = 0x57
+locationHome = 0x56
+locationHub = 0x18
+locationFarm = 0x11
+locationKitchen = 0x0f
 
 // ARRAYS
 // MON_ID, MON_NAME, MON_HUNTS_1, MON_HUNTS_2, MON_SLAIN, MON_CROWN_S, MON_CROWN_G, MON_SIZE, MON_SIZE_FACTOR
@@ -544,6 +550,8 @@ function loadingProtection() {
     return prev(dword(0x0185a60c))!=0xffffffff
 }
 
+function slotNotLoaded() => dword(0x0185a60c)==0xffffffff
+
 function questId() { 
     return word(0x97481a)
 }
@@ -662,6 +670,10 @@ function highRank() {
     return isHR
 }
 
+function location() {
+    return byte(0x00f79e8a)
+}
+
 function questPointer() {
     return pspPointer(questPointer)
 }
@@ -701,7 +713,7 @@ function rathBreak(monId) {
             when=monsterId()==monId
         )
     
-    return fullBreak
+    return fullBreak && never(questTerminated())
 }
 
 function rockBreak(monId) {
@@ -721,7 +733,7 @@ function rockBreak(monId) {
             when=monsterId()==monId
         )
     
-    return fullBreak
+    return fullBreak && never(questTerminated())
 }
 
 function gypcerosBreak(monId) {
@@ -749,7 +761,7 @@ function blosBreak(horns,monId) {
             when=monsterId()==monId
         )
     
-    return fullBreak
+    return fullBreak && never(questTerminated())
 }
 
 function fatalisBreak(monId) {
@@ -780,7 +792,7 @@ function noArmor() {
     arms = word(0x018548c0)
     waist = word(0x018548c2)
     
-    return head==0 && torso==0 && arms==0 && waist==0 && legs==0
+    return head==0 && torso==0 && arms==0 && waist==0 && legs==0 && never(slotNotLoaded())
 }
 
 function blademaster() {
@@ -805,9 +817,10 @@ function gsOld() {
     return isGS && blademaster()
 }
 
-function gs(questId) {
+function gs(questId, noArmor) {
     id = word(0x018548b6)
     plus = questClear() && blademaster() && questId()==questId
+    if(noArmor==true) plus = plus && noArmor()
     
     return tally(1,
         // GS comparisons
@@ -825,9 +838,10 @@ function gs(questId) {
     )
 }
 
-function hammer(questId) {
+function hammer(questId, noArmor) {
     id = word(0x018548b6)
     plus = questClear() && blademaster() && questId()==questId
+    if(noArmor==true) plus = plus && noArmor()
     
     return tally(1,
         // HM comparisons
@@ -846,9 +860,10 @@ function hammer(questId) {
     )
 }
 
-function lance(questId) {
+function lance(questId, noArmor) {
     id = word(0x018548b6)
     plus = questClear() && blademaster() && questId()==questId
+    if(noArmor==true) plus = plus && noArmor()
     
     return tally(1,
         once(id>=0x67 && id<=0x9b && plus),
@@ -864,9 +879,10 @@ function lance(questId) {
     )
 }
 
-function swordNShield(questId) {
+function swordNShield(questId, noArmor) {
     id = word(0x018548b6)
     plus = questClear() && blademaster() && questId()==questId
+    if(noArmor==true) plus = plus && noArmor()
     
     return tally(1,    
         once(id>=0x9c && id<=0xce && plus),
@@ -874,14 +890,16 @@ function swordNShield(questId) {
         once(id==0xe2 && plus),
         once(id==0x108 && plus),
         once(id>=0x150 && id<=0x165 && plus),
-        once(id==0x174 || id==0x179 && plus),
+        once(id==0x179 && plus),
+        once(id==0x174 && plus),
         once(id>=0x1a5 && id<=0x1ad && plus)
     )
 }
 
-function dualBlades(questId) {
+function dualBlades(questId, noArmor) {
     id = word(0x018548b6)
     plus = questClear() && blademaster() && questId()==questId
+    if(noArmor==true) plus = plus && noArmor()
     
     return tally(1,    
         once(id>=0xea && id<=0x102 && plus),
@@ -895,9 +913,10 @@ function dualBlades(questId) {
     )
 }
 
-function lbg(questId) {
+function lbg(questId, noArmor) {
     id = word(0x018548b6)
     plus = questClear() && gunner() && questId()==questId
+    if(noArmor==true) plus = plus && noArmor()
     
     return tally(1,    
         once(id>=0x01 && id<=0x0c && plus),
@@ -908,9 +927,10 @@ function lbg(questId) {
     )
 }
 
-function hbg(questId) {
+function hbg(questId, noArmor) {
     id = word(0x018548b6)
     plus = questClear() && gunner() && questId()==questId
+    if(noArmor==true) plus = plus && noArmor()
     
     return tally(1,    
         once(id>=0x0d && id<=0x17 && plus),
@@ -1044,7 +1064,7 @@ function fullFelyne() {
     deltas = prev(felyne1lv)+prev(felyne2lv)+prev(felyne3lv)+prev(felyne4lv)+prev(felyne5lv)
     values = felyne1lv+felyne2lv+felyne3lv+felyne4lv+felyne5lv
     
-    return deltas<45 && measured(values==45, format="percent")
+    return deltas<45 && measured(values==45, format="percent") && location() == locationKitchen
 }
 
 function felyneGift() {
@@ -1052,7 +1072,7 @@ function felyneGift() {
     for adress in felyneActions {
         trigger = trigger || (bit2(adress)==1 && prev(bit1(adress))==0 && bit1(adress)==1)
     }
-    return trigger
+    return trigger && location() == locationKitchen
 }
 
 function felyneTrade() {
@@ -1060,12 +1080,12 @@ function felyneTrade() {
     for adress in felyneActions {
         trigger = trigger || (bit3(adress)==1 && prev(bit1(adress))==0 && bit1(adress)==1)
     }
-    return trigger
+    return trigger && location() == locationKitchen
 }
 
 function felyneRegularGift() {
     adress = byte(0x018556d6)
-    return prev(adress)==10 && adress==0
+    return prev(adress)==10 && adress==0 && location() == locationKitchen
 }
 
 function poogie() {
@@ -1085,7 +1105,7 @@ function unshockingEvent() {
 }
 
 function punchingBag() {
-    return gs(questIdVdrome) && hammer(questIdVdrome) && lance(questIdVdrome) && swordNShield(questIdVdrome) && dualBlades(questIdVdrome) && lbg(questIdVdrome) && hbg(questIdVdrome)
+    return gs(questIdVdrome, false) && hammer(questIdVdrome, false) && lance(questIdVdrome, false) && swordNShield(questIdVdrome, false) && dualBlades(questIdVdrome, false) && lbg(questIdVdrome, false) && hbg(questIdVdrome, false) && never(slotNotLoaded())
 }
 
 function kutTheKu() {
@@ -1157,8 +1177,8 @@ for quest in quests {
 // village stars
 for star in vStars {
     achievement(
-        title = format("Village {0}★",star),
-        description = format("Clear all {0}★ village quests",star),
+        title = format("Village {0} stars",star),
+        description = format("Clear all {0} stars village quests",star),
         points = 10,
         trigger = questClear() && sumQuests(star,v),
     id = cheevoId
@@ -1180,8 +1200,8 @@ cheevoId = cheevoId + 1
 // guild hall stars
 for star in ghStars {
     achievement(
-        title = format("Guild Hall {0}★",star),
-        description = format("Clear all {0}★ Guild Hall quests",star),
+        title = format("Guild Hall {0} stars",star),
+        description = format("Clear all {0} stars Guild Hall quests",star),
         points = 10,
         trigger = questClear() && sumQuests(star,gh),
     id = cheevoId
@@ -1547,7 +1567,7 @@ achievement(
 
 achievement(
     title = "Kut the Ku",
-    description = "Hunt 10 Yian Kut-Ku in a row in the 7★ GH quest \"Wrath of the Yian Kut-Ku\"",
+    description = "Hunt 10 Yian Kut-Ku in a row in the 7 stars GH quest \"Wrath of the Yian Kut-Ku\"",
     points = 10,
     trigger = kutTheKu(),
     id = cheevoId
@@ -1557,7 +1577,7 @@ achievement(
 
 achievement(
     title = "Official Freedom Punching Bag",
-    description = "Complete the 2★ village quest \"Formidable Velocidrome!\" with all 7 weapons in a single session",
+    description = "Complete the 2 stars village quest \"Formidable Velocidrome!\" with all 7 weapons in a single session",
     points = 5,
     trigger = punchingBag(),
     id = cheevoId
@@ -1576,8 +1596,8 @@ achievement(
     cheevoId = cheevoId + 1
 
 achievement(
-    title = "Already tracked you down",
-    description = "Kill a monster in less than a minute after the paint effect on it goes off (High Rank only)",
+    title = "Already Tracked You Down",
+    description = "Kill a monster in less than a minute after the paint effect wears off (High Rank only)",
     points = 10,
     trigger = paintChallenge() && highRank(),
     id = cheevoId
@@ -1587,9 +1607,9 @@ achievement(
 
 achievement(
     title = "Just a Big Sword",
-    description = "Complete the 5★ GH quest \"On the Trail of the Beast\" (Kirin) using a Great Sword and no armor at all",
+    description = "Complete the 5 stars GH quest \"On the Trail of the Beast\" (Kirin) using a Great Sword and no armor at all",
     points = 25,
-    trigger = gs(questIdKirin) && noArmor(),
+    trigger = gs(questIdKirin, true),
     id = cheevoId
 )
     
@@ -1597,9 +1617,9 @@ achievement(
 
 achievement(
     title = "Naked and Afraid",
-    description = "Complete the 8★ GH quest \"Slay the Rathalos!\" (Azure Rathalos) using a Sword and Shield and no armor at all",
+    description = "Complete the 8 stars GH quest \"Slay the Rathalos!\" (Azure Rathalos) using a Sword and Shield and no armor at all",
     points = 25,
-    trigger = swordNShield(questIdAzureLos) && noArmor(),
+    trigger = swordNShield(questIdAzureLos, true),
     id = cheevoId
 )
     
@@ -1607,19 +1627,19 @@ achievement(
 
 achievement(
     title = "UNGA BUNGA",
-    description = "Complete the 7★ GH quest \"Queen of the Desert\" (Pink Rathian) using a Hammer and no armor at all",
+    description = "Complete the 7 stars GH quest \"Queen of the Desert\" (Pink Rathian) using a Hammer and no armor at all",
     points = 25,
-    trigger = hammer(questIdPinkIan) && noArmor(),
+    trigger = hammer(questIdPinkIan, true),
     id = cheevoId
 )
     
     cheevoId = cheevoId + 1
 
 achievement(
-    title = "A shield is enough",
-    description = "Complete the 7★ GH quest \"A Wyvern in the Darkness\" (Red Khezu) using a Lance and no armor at all",
+    title = "A Shield is Enough",
+    description = "Complete the 7 stars GH quest \"A Wyvern in the Darkness\" (Red Khezu) using a Lance and no armor at all",
     points = 25,
-    trigger = lance(questIdRedKhezu) && noArmor(),
+    trigger = lance(questIdRedKhezu, true),
     id = cheevoId
 )
     
@@ -1627,9 +1647,9 @@ achievement(
 
 achievement(
     title = "Berserker",
-    description = "Complete the 8★ GH quest \"Volcanic Valor\" (Black Gravios) using Dual Blades and no armor at all",
+    description = "Complete the 8 stars GH quest \"Volcanic Valor\" (Black Gravios) using Dual Blades and no armor at all",
     points = 25,
-    trigger = dualBlades(questIdBlackGravios) && noArmor(),
+    trigger = dualBlades(questIdBlackGravios, true),
     id = cheevoId
 )
     
@@ -1637,9 +1657,9 @@ achievement(
 
 achievement(
     title = "Going Commando",
-    description = "Complete the 8★ GH quest \"Water Wyvern in the Jungle\" (Green Plesioth) using a Light Bowgun and no armor at all",
+    description = "Complete the 8 stars GH quest \"Water Wyvern in the Jungle\" (Green Plesioth) using a Light Bowgun and no armor at all",
     points = 25,
-    trigger = lbg(questIdGreenPlesi) && noArmor(),
+    trigger = lbg(questIdGreenPlesi, true),
     id = cheevoId
 )
     
@@ -1647,9 +1667,9 @@ achievement(
 
 achievement(
     title = "Not so Heavy Bowgun",
-    description = "Complete the 8★ GH quest \"The Runaway Diablos\" (Black Diablos) using a Heavy Bowgun and no armor at all",
+    description = "Complete the 8 stars GH quest \"The Runaway Diablos\" (Black Diablos) using a Heavy Bowgun and no armor at all",
     points = 25,
-    trigger = hbg(questIdBlackDiablos) && noArmor(),
+    trigger = hbg(questIdBlackDiablos, true),
     id = cheevoId
 )
 
@@ -1824,8 +1844,6 @@ function countTQ() {
     
     return completedQuests
 }
-
-function slotNotLoaded() => dword(0x0185a60c)==0xffffffff
 
 weaponTypeMasterLookup = {
 0x000500: "GS",
@@ -2955,7 +2973,8 @@ weaponNameMasterLookup = {
 }
 
 rich_presence_conditional_display(slotNotLoaded(), "Preparing for the hunt")
-rich_presence_display("HR{0} {1}{2}{3}{4}{5}{6}{7}{8}{9} | {10} - {11} | 🎖️ {12}/61 | 🥉 {13}/30 | 🥈 {14}/44 | 🥇 {15}/55 | 🏅 {16}/50",
+//rich_presence_display("HR{0} {1}{2}{3}{4}{5}{6}{7}{8}{9} | {10} - {11} | 🎖️ {12}/61 | 🥉 {13}/30 | 🥈 {14}/44 | 🥇 {15}/55 | 🏅 {16}/50",
+rich_presence_display("HR{0} | {10} - {11} | 🎖️ {12}/61 | 🥉 {13}/30 | 🥈 {14}/44 | 🥇 {15}/55 | 🏅 {16}/50",
     rich_presence_macro("Number", hr()), // Hunting Rank - 0
     rich_presence_macro("UnicodeChar", c1()), // Name - 1
     rich_presence_macro("UnicodeChar", c2()), // Name - 2
