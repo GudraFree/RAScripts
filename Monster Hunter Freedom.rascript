@@ -28,10 +28,10 @@ QUEST_DESC_APPEND = 8
 
 // training quests index
 TQ_NAME = 0
-TQ_SWORD = 1
-TQ_GS = 2
-TQ_HAMMER = 3
-TQ_LANCE = 4
+TQ_GS = 1
+TQ_HAMMER = 2
+TQ_LANCE = 3
+TQ_SWORD = 4
 TQ_BOWGUN = 5
 
 // break index
@@ -498,7 +498,7 @@ awards = {
 }
 
 trainingQuests = [
-// TQ_NAME, TQ_SWORD, TQ_GS, TQ_HAMMER, TQ_LANCE, TQ_BOWGUN
+// TQ_NAME, TQ_GS, TQ_HAMMER, TQ_LANCE, TQ_SWORD, TQ_BOWGUN
     [kutku[MON_NAME], bit4(0x018554ef), bit5(0x018554ef), bit6(0x018554ef), bit7(0x018554ef), bit0(0x018554f0)],
     [rathalos[MON_NAME], bit1(0x018554f0), bit2(0x018554f0), bit3(0x018554f0), bit4(0x018554f0), bit5(0x018554f0)],
     [gypceros[MON_NAME], bit6(0x018554f0), bit7(0x018554f0), bit0(0x018554f1), bit1(0x018554f1), bit2(0x018554f1)],
@@ -546,6 +546,10 @@ function pspPointer(address) {
     return (dword(address) & mask25bit)
 }
 
+function pointerSanityCheck(address) {
+    return dword(address)>0 && dword(address)==prev(dword(address))
+}
+
 function loadingProtection() {
     return prev(dword(0x0185a60c))!=0xffffffff
 }
@@ -588,8 +592,8 @@ function singleQuest(quest) {
 }
 
 function monsterTQ(tq) {
-    deltas = prev(tq[TQ_SWORD])+prev(tq[TQ_GS])+prev(tq[TQ_HAMMER])+prev(tq[TQ_LANCE])+prev(tq[TQ_BOWGUN])
-    values = tq[TQ_SWORD]+tq[TQ_GS]+tq[TQ_HAMMER]+tq[TQ_LANCE]+tq[TQ_BOWGUN]
+    deltas = prev(tq[TQ_GS])+prev(tq[TQ_HAMMER])+prev(tq[TQ_LANCE])+prev(tq[TQ_SWORD])+prev(tq[TQ_BOWGUN])
+    values = tq[TQ_GS]+tq[TQ_HAMMER]+tq[TQ_LANCE]+tq[TQ_SWORD]+tq[TQ_BOWGUN]
     return questClear() && deltas==4 && measured(values==5)
 }
 
@@ -694,6 +698,7 @@ function rathBreak(monId) {
     leftWingTrigger = word(questPointer() + qpoPart1trigger)
     rightWingTrigger = word(questPointer() + qpoPart2trigger)
     head = word(questPointer() + qpoPart6trigger)
+    whenMeasured = monsterId()==monId
     
     fullBreak =
         tally(3,
@@ -710,14 +715,15 @@ function rathBreak(monId) {
                 once(head==2),
                 once(tail()==1)
             ),
-            when=monsterId()==monId
+            when=whenMeasured
         )
     
-    return fullBreak && never(questTerminated())
+    return fullBreak && never(questTerminated()) && highRank() && pointerSanityCheck(questPointer)
 }
 
 function rockBreak(monId) {
     stomach = word(questPointer() + qpoPart6trigger)
+    whenMeasured = monsterId()==monId
     
     fullBreak =
         tally(1,
@@ -730,10 +736,10 @@ function rockBreak(monId) {
                 once(stomach==1),
                 once(tail()==1)
             ),
-            when=monsterId()==monId
+            when=whenMeasured
         )
     
-    return fullBreak && never(questTerminated())
+    return fullBreak && never(questTerminated()) && highRank() && pointerSanityCheck(questPointer)
 }
 
 function gypcerosBreak(monId) {
@@ -741,11 +747,12 @@ function gypcerosBreak(monId) {
     
     fullBreak = prev(crest)==1 && crest==0
     
-    return fullBreak && monId==monsterId()
+    return fullBreak && monId==monsterId() && highRank() && pointerSanityCheck(questPointer)
 }
 
 function blosBreak(horns,monId) {
-    horn = word(questPointer() + qpoBlosHornBrokenCounter)
+    horn = byte(questPointer() + qpoBlosHornBrokenCounter)
+    whenMeasured = monsterId()==monId
     
     fullBreak =
         tally(1,
@@ -758,10 +765,11 @@ function blosBreak(horns,monId) {
                 once(horn==horns),
                 once(tail()==1)
             ),
-            when=monsterId()==monId
+            when=whenMeasured
         )
     
-    return fullBreak && never(questTerminated())
+    if(horns==2) return fullBreak && never(questTerminated()) && highRank() && pointerSanityCheck(questPointer)
+    return fullBreak && never(questTerminated()) && pointerSanityCheck(questPointer)
 }
 
 function fatalisBreak(monId) {
@@ -769,7 +777,7 @@ function fatalisBreak(monId) {
     
     fullBreak = prev(parts)>0 && parts==0
     
-    return fullBreak && monId==monsterId()
+    return fullBreak && monId==monsterId() && highRank() && pointerSanityCheck(questPointer)
 }
 
 function breakArray(i, monId) {
@@ -1043,15 +1051,15 @@ function fullFarm() {
     shroom = byte(0x01858d54) // 3
     rest = bitcount(0x01858d55)// 4
     
-    deltas = prev(field)+prev(fish)+prev(mine)+prev(bug)+prev(rest)
+    deltas = prev(field)+prev(fish)+prev(mine)+prev(bug)+prev(shroom)+prev(rest)
     values = field+fish+mine+bug+shroom+rest
     
     return deltas==14 && measured(values==15)
 }
 
 function felyneHire() {
-    adress = word(0x018556d8)
-    return prev(adress)==0 && adress==1
+    address = byte(0x018556d8)
+    return prev(address)==0 && address==1
 }
 
 function fullFelyne() {
@@ -1078,14 +1086,14 @@ function felyneGift() {
 function felyneTrade() {
     trigger = false
     for adress in felyneActions {
-        trigger = trigger || (bit3(adress)==1 && prev(bit1(adress))==0 && bit1(adress)==1)
+        trigger = trigger || (bit5(adress)==1 && prev(bit1(adress))==0 && bit1(adress)==1)
     }
     return trigger && location() == locationKitchen
 }
 
 function felyneRegularGift() {
-    adress = byte(0x018556d6)
-    return prev(adress)==10 && adress==0 && location() == locationKitchen
+    address = byte(0x018556d6)
+    return prev(address)==10 && address==0 && location() == locationKitchen
 }
 
 function poogie() {
@@ -1101,7 +1109,7 @@ function unshockingEvent() {
     // 
     never = disable_when((hunterHP()-prev(hunterHP()))>1, questTerminated()||questStarted()) // allows natural red bar healing (1HP at a time)
     
-    return (monsterId()==idKhezu || monsterId()==idRedKhezu) && trigger && never
+    return (monsterId()==idKhezu || monsterId()==idRedKhezu) && trigger && never && pointerSanityCheck(questPointer)
 }
 
 function punchingBag() {
@@ -1116,7 +1124,7 @@ function kutTheKu() {
                 when=questId()==questIdKutku
             )
     
-    return counter && never(questTerminated())
+    return counter && never(questTerminated()) && pointerSanityCheck(questPointer)
 }
 
 function dromeHunter() {
@@ -1147,9 +1155,9 @@ function paintChallenge() {
     //paintTimeLeft = word(questPointer()+qpoPaintTime)
     paintGoesOff = once(isPainted==0 && prev(isPainted)>0)
     kill = monsterHP()==0 && prev(monsterHP())>0
-    reset = never(paintGoesOff && repeated(3600, always_true()))
+    reset = never(paintGoesOff && repeated(3600, always_true())) && never(questTerminated())
     
-    return paintGoesOff && trigger_when(kill) && reset
+    return paintGoesOff && trigger_when(kill) && reset && pointerSanityCheck(questPointer)
 }
 
 // -- ACHIEVEMENTS --
@@ -1267,8 +1275,8 @@ for monGroup in monsterList {
         title = titleFirst,
         description = format("Slay {0} {1}",firstHunts, name),
         points = pointsLow,
-        trigger = questClear() && prev(hunts)==firstHunts-1 && measured(hunts==firstHunts),
-    id = cheevoId
+        trigger = questFinished() && prev(hunts)<firstHunts && prev(hunts)>0 && measured(hunts>=firstHunts),
+        id = cheevoId
     )
     
     cheevoId = cheevoId + 1
@@ -1278,8 +1286,8 @@ for monGroup in monsterList {
         title = monsterHuntTitles[name],
         description = format("Slay {0} {1}",lastHunts, name),
         points = pointsHigh,
-        trigger = questClear() && prev(hunts)==lastHunts-1 && measured(hunts==lastHunts, when=hunts>=firstHunts),
-    id = cheevoId
+        trigger = questFinished() && prev(hunts)<lastHunts && measured(hunts>=lastHunts, when=hunts>=firstHunts),
+        id = cheevoId
     )
     
     cheevoId = cheevoId + 1
@@ -1295,8 +1303,8 @@ for monGroup in monsterList {
             title = name+titleSilver,
             description = format("Obtain at least the {0} silver crown", name),
             points = 5,
-            trigger = questClear() && isSilver,
-    id = cheevoId
+            trigger = questFinished() && isSilver,
+            id = cheevoId
         )
     
         cheevoId = cheevoId + 1
@@ -1306,8 +1314,8 @@ for monGroup in monsterList {
             title = name+titleGold,
             description = format("Obtain the {0} gold crown", name),
             points = 10,
-            trigger = questClear() && isGold,
-    id = cheevoId
+            trigger = questFinished() && isGold,
+            id = cheevoId
         )
     
         cheevoId = cheevoId + 1
@@ -1335,7 +1343,7 @@ for tq in trainingQuests {
         description = format("Complete all the {0} training quests", name),
         points = 5,
         trigger = monsterTQ(tq),
-    id = cheevoId
+        id = cheevoId
     )
     
     cheevoId = cheevoId + 1
@@ -1543,12 +1551,14 @@ for breakable in monsterBreakables {
     for id in breakable[BREAK_IDS] {
         breakConditions = breakConditions || breakArray(breakable[BREAK_INDEX], id)
     }
+    description = "Break all breakable parts of a {0} in a single hunt"
+    if(breakable[BREAK_NAME] != monoblos[MON_NAME]) description = description + " (High Rank only)"
     
     achievement(
         title = format("{0} Destroyer", breakable[BREAK_NAME]),
-        description = format("Break all breakable parts of a {0} in a single hunt (High Rank only)", breakable[BREAK_NAME]),
+        description = format(description, breakable[BREAK_NAME]),
         points = 5,
-        trigger = breakConditions && highRank(),
+        trigger = breakConditions,
         id = cheevoId
     )
     
