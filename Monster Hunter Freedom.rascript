@@ -69,6 +69,8 @@ gh = "Guild Hall"
 cheevoId = 376416
 mask25bit = 0x1ffffff
 
+questSlainCounter = 0x01859bb4
+
 questStatusObjectiveMet = 0x03
 questStatusComplete = 0x04
 questStatusFailed = 0x06
@@ -128,8 +130,8 @@ qpoPart1trigger = 0x5ee
 qpoPart2trigger = 0x5f6
 qpoPart6trigger = 0x616
 qpoBlosHornBrokenCounter = 0x7ba
-qpoGypCrest = 0x7ea
-qpoFatalisParts = 0x80a
+qpoGypCrest = 0x7eb
+qpoFatalisParts = 0x80b
 
 itemRawMeat = 0x25
 itemPoisonMeat = 0x2a
@@ -678,6 +680,8 @@ function location() {
     return byte(0x00f79e8a)
 }
 
+function questSlainCounter() => byte(questSlainCounter)
+
 function questPointer() {
     return pspPointer(questPointer)
 }
@@ -743,7 +747,7 @@ function rockBreak(monId) {
 }
 
 function gypcerosBreak(monId) {
-    crest = word(questPointer() + qpoGypCrest)
+    crest = bit0(questPointer() + qpoGypCrest)
     
     fullBreak = prev(crest)==1 && crest==0
     
@@ -1117,14 +1121,14 @@ function punchingBag() {
 }
 
 function kutTheKu() {
-    killKutku = monsterHP()==0 && prev(monsterHP())>0
+    //killKutku = monsterHP()==0 && prev(monsterHP())>0
     
     counter = measured(
-                repeated(10, killKutku),
+                questSlainCounter()==10,
                 when=questId()==questIdKutku
             )
     
-    return counter && never(questTerminated()) && pointerSanityCheck(questPointer)
+    return counter //&& never(questTerminated()) && pointerSanityCheck(questPointer)
 }
 
 function dromeHunter() {
@@ -1176,6 +1180,7 @@ for quest in quests {
             points = quest[QUEST_POINTS],
             trigger = singleQuest(quest),
             id = cheevoId
+            //, type=progression
         )
         cheevoId = cheevoId + 1
     }
