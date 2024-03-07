@@ -25,11 +25,13 @@ ALT_NAME = "altName"
 CHAR_ID = "charId"
 CHAR_SKIN_ACCESSOR = "charSkinAccessor"
 CHAR_ALT_ACCESSOR = "charAltAccessor"
+CHAR_SKIN_CHEEVO_NAME = "charSkinCheevoName"
+CHAR_ALT_CHEEVO_NAME = "charAltCheevoName"
 
 BOARD_NAME = "boardName"
 BOARD_ID = "boardId"
 BOARD_UNLOCK = "boardUnlock"
-BOARD_OWNER = "boardUnknown"
+BOARD_OWNER = "boardOwner"
 
 // #endregion indexes
 
@@ -83,6 +85,7 @@ a_airborne = 0x272f03
 a_damage = 0x272f18
 a_power = 0x273458
 a_endScreen = 0x27a124
+a_endTimeBonus = 0x27a134
 a_endTime = 0x27a144
 a_endPoints = 0x27a184
 a_endCoins = 0x27a1b4
@@ -207,6 +210,7 @@ function damage() => dword_be(a_damage)
 function power() => float_be(a_power)
 function endScreen() => dword_be(a_endScreen)
 function endTime() => float_be(a_endTime)
+function endTimeBonus() => float_be(a_endTimeBonus)
 function endPoints() => dword_be(a_endPoints)
 function endCoins() => dword_be(a_endCoins)
 
@@ -345,7 +349,19 @@ DIFF_HARD = 0x1
 DIFF_EXPERT = 0x2
 DIFF_EXTREME = 0x3
 
+SCREEN_CHAR_SELECT = 0x0
+SCREEN_BOARD_SELECT = 0x1
 SCREEN_TITLE = 0x2
+SCREEN_LEVEL = 0x3
+SCREEN_MENU = 0x4
+SCREEN_MP = 0x5
+SCREEN_OPTIONS = 0x7
+SCREEN_MATCH = 0x8
+SCREEN_RECORDS = 0x9
+SCREEN_LAN = 0xa
+SCREEN_MEMCARD = 0xb
+SCREEN_REPLAY = 0xc
+
 // #endregion game values
 
 // #region objects
@@ -515,7 +531,7 @@ mapTopTree = {
     TRICK_CHEEV_NAME: "",
 }
 mapTreble = {
-    MAP_NAME: "Treble Trussle",
+    MAP_NAME: "Treble Tussle",
     MAP_ID: MAP_TREBLE,
     MAP_DIFF: DIFF_EXTREME,
     GATE_ACCESSOR: gateClearTreble(),
@@ -672,6 +688,8 @@ charRicky = {
     CHAR_ID: CHAR_RICKY,
     CHAR_SKIN_ACCESSOR: unlockRickyAlt(),
     CHAR_ALT_ACCESSOR: unlockFrosty(),
+    CHAR_SKIN_CHEEVO_NAME: "Let's Tear It Up",
+    CHAR_ALT_CHEEVO_NAME: "Cool, Cooler, Coolest",
 }
 charAkari = {
     CHAR_NAME: "Akari",
@@ -679,6 +697,8 @@ charAkari = {
     CHAR_ID: CHAR_AKARI,
     CHAR_SKIN_ACCESSOR: unlockAkariAlt(),
     CHAR_ALT_ACCESSOR: unlockCrystal(),
+    CHAR_SKIN_CHEEVO_NAME: "No Cold Gal",
+    CHAR_ALT_CHEEVO_NAME: "We Are the Crystal Gems",
 }
 charKemen = {
     CHAR_NAME: "Kemen",
@@ -686,6 +706,8 @@ charKemen = {
     CHAR_ID: CHAR_KEMEN,
     CHAR_SKIN_ACCESSOR: unlockKemenAlt(),
     CHAR_ALT_ACCESSOR: unlockTitanium(),
+    CHAR_SKIN_CHEEVO_NAME: "You Got It, Man",
+    CHAR_ALT_CHEEVO_NAME: "Almost Silver Surfer",
 }
 charRob = {
     CHAR_NAME: "Rob",
@@ -693,6 +715,8 @@ charRob = {
     CHAR_ID: CHAR_ROB,
     CHAR_SKIN_ACCESSOR: unlockRobAlt(),
     CHAR_ALT_ACCESSOR: unlockBones(),
+    CHAR_SKIN_CHEEVO_NAME: "It's Cold Up There",
+    CHAR_ALT_CHEEVO_NAME: "No Anti-piracy Measures",
 }
 charTara = {
     CHAR_NAME: "Tara",
@@ -700,6 +724,8 @@ charTara = {
     CHAR_ID: CHAR_TARA,
     CHAR_SKIN_ACCESSOR: unlockTaraAlt(),
     CHAR_ALT_ACCESSOR: unlockMimi(),
+    CHAR_SKIN_CHEEVO_NAME: "Do I Know You?",
+    CHAR_ALT_CHEEVO_NAME: "*Unintelligible Grunting*",
 }
 
 // #endregion characters
@@ -900,6 +926,20 @@ lookupBoardUnlock = {
     1: 5,
     2: 9,
     3: 18
+}
+
+lookupBoardCheevoName = {
+    0: "New Options",
+    1: "There Is More Where This Came From",
+    2: "Top-Notch Boards",
+    3: "But the Hat Is New!"
+}
+
+lookupBoardSpecialCheevoName = {
+    BOARD_PENGUIN: "A Good Penguib",
+    BOARD_PAINT: "You're a Kid, You're a Squid",
+    BOARD_NES: "So Retro",
+    BOARD_ROCKET: "Surprisingly Not Illegal"
 }
 
 // #endregion lookups
@@ -1112,7 +1152,7 @@ function challengeAvalanche() {
 // cheevo functions
 function cheevoNoviceMatchRace() {
     achievement(
-        "Novice Match Race",
+        "Promising Newcomer",
         "Conquer the Novice Match Race",
         5,
         noviceMatchRace(),
@@ -1124,7 +1164,7 @@ function cheevoNoviceMatchRace() {
 }
 function cheevoHardMatchRace() {
     achievement(
-        "Hard Match Race",
+        "Hard-boiled Racer",
         "Conquer the Hard Match Race",
         10,
         hardMatchRace(),
@@ -1136,7 +1176,7 @@ function cheevoHardMatchRace() {
 }
 function cheevoExpertMatchRace() {
     achievement(
-        "Expert Match Race",
+        "Mountain Master",
         "Conquer the Expert Match Race",
         25,
         expertMatchRace(),
@@ -1148,7 +1188,7 @@ function cheevoExpertMatchRace() {
 }
 function cheevoExtremeMatchRace() {
     achievement(
-        "Extreme Match Race",
+        "Avalanche Conqueror",
         "Conquer the Extreme Match Race",
         50,
         extremeMatchRace(),
@@ -1161,12 +1201,12 @@ function cheevoExtremeMatchRace() {
 function cheevoCharacterSkinUnlock(char) {
     charId = char[CHAR_ID]
     charName = char[CHAR_NAME]
-    cheevoName = format("{0} Alt unlock", charName)
+    cheevoName = char[CHAR_SKIN_CHEEVO_NAME]
     accessor = char[CHAR_SKIN_ACCESSOR]
     
     achievement(
         cheevoName,
-        format("Unlock the extra costume for {0} by beating Expert Match Race with {1}", charName, lookupGender[charId]),
+        format("Unlock the extra costume for {0} by beating the Expert Match Race with {1}", charName, lookupGender[charId]),
         5,
         unlockDelayed(accessor),
         id = cheevoId
@@ -1179,12 +1219,12 @@ function cheevoCharacterAltUnlock(char) {
     charId = char[CHAR_ID]
     charName = char[CHAR_NAME]
     altName = char[ALT_NAME]
-    cheevoName = format("{0} unlock", altName)
+    cheevoName = char[CHAR_ALT_CHEEVO_NAME]
     accessor = char[CHAR_ALT_ACCESSOR]
     
     achievement(
         cheevoName,
-        format("Unlock {1} by beating Extreme Match Race with {0}", charName, altName),
+        format("Unlock {1} by beating the Extreme Match Race with {0}", charName, altName),
         10,
         unlockDelayed(accessor),
         id = cheevoId
@@ -1194,14 +1234,14 @@ function cheevoCharacterAltUnlock(char) {
 }
 
 function cheevoBoardSetUnlock(boardGroup, setId) {
-    setName = format("Set {0}", (setId+2)) // ids 0, 1, 2 for sets 2, 3, 4
-    if(setId == 3) setName = "Alternate Designs" // set 3 is our hacky number for alternate designs
-    cheevoName = setName // TODO: change
+    setName = format("board set {0}", (setId+2)) // ids 0, 1, 2 for sets 2, 3, 4
+    if(setId == 3) setName = "alternate designs for the boards" // set 3 is our hacky number for alternate designs
+    cheevoName = lookupBoardCheevoName[setId]
     unlockNumber = lookupBoardUnlock[setId]
     
     achievement(
         cheevoName,
-        format("Unlock the Board {0} by obtaining {1} Time Trial coins", setName, unlockNumber),
+        format("Unlock {0} by obtaining {1} Time Trial coins", setName, unlockNumber),
         lookupPointsDiff[setId],
         timeTrialUnlocks(unlockNumber),
         id = cheevoId
@@ -1212,7 +1252,7 @@ function cheevoBoardSetUnlock(boardGroup, setId) {
 function cheevoBoardSpecialUnlock(board, boardIndex) {
     boardName = board[BOARD_NAME]
     boardAccessor = board[BOARD_UNLOCK]
-    cheevoName = boardName // TODO: change
+    cheevoName = lookupBoardSpecialCheevoName[board[BOARD_ID]]
     unlockNumber = lookupBoardUnlock[boardIndex]
     
     achievement(
@@ -1234,7 +1274,7 @@ function cheevoGateChallenge(map) {
     
     achievement(
         cheevoName,
-        format("Obtain the {0} Gate Challenge Trophy", mapName),
+        format("Obtain the {0} Gate Challenge trophy", mapName),
         lookupPointsDiff[diff],
         unlockDelayed(mapAccessor),
         id = cheevoId
@@ -1266,10 +1306,12 @@ function cheevoTrickAttack(map) {
     mapName = map[MAP_NAME]
     cheevoName = map[TRICK_CHEEV_NAME]
     points = map[POINTS]
+    pointThousands = points/1000
+    pointUnits = points%1000
     
     achievement(
         cheevoName,
-        format("Beat the Trick Attack record of {1} in {0}", mapName, points),
+        format("Beat the Trick Attack record of {1},{2} in {0}", mapName, pointThousands, pointUnits),
         10,
         trickAttack(map),
         id = cheevoId
@@ -1281,7 +1323,7 @@ function cheevoTrickAttack(map) {
 function cheevoChallengeRocket() {
     achievement(
         "Back to the Basics",
-        "Using the NST 1080-A, get a time under 0'50\"00 on Sky School Time Trial",
+        "Using the NST 1080-A, get a time under 0'50\"00 on the Ski School Time Trial",
         5,
         challengeRocket(),
         id = cheevoId
@@ -1382,3 +1424,164 @@ cheevoChallenge1080()
 cheevoChallengeRainbow()
 cheevoChallengeNature()
 cheevoChallengeAvalanche()
+
+
+// leaderboards
+lbId = 91716
+function lbMatchRace(map) {
+    start = 
+        repeated(60, endScreen() == ENDSCREEN_VICTORY) &&
+        modeId() == MODE_MATCH &&
+        mapId() == map[MAP_ID] &&
+        difficultyId() == map[MAP_DIFF]
+    cancel = always_false()
+    submit = always_true()
+    value = endTime() * 100
+    
+    leaderboard(
+        format("Match Race - {0}", map[MAP_NAME]),
+        format("Best time in {0}, Match Race mode", map[MAP_NAME]),
+        start, cancel, submit, value,
+        format="CENTISECS",
+        lower_is_better=true,
+        id=lbId
+    )
+    lbId = lbId + 1
+}
+function lbTimeTrial(map) {
+    start = 
+        repeated(60, endScreen() == ENDSCREEN_SUCCESS) &&
+        modeId() == MODE_TIME &&
+        mapId() == map[MAP_ID] &&
+        difficultyId() == map[MAP_DIFF] &&
+        endCoins() == FULL_COINS
+    cancel = always_false()
+    submit = always_true()
+    value = endTime() * 100
+    
+    leaderboard(
+        format("Time Trial - {0}", map[MAP_NAME]),
+        format("Best time with a full coin in {0}, Time Trial mode", map[MAP_NAME]),
+        start, cancel, submit, value,
+        format="CENTISECS",
+        lower_is_better=true,
+        id=lbId
+    )
+    lbId = lbId + 1
+}
+function lbGateChallenge(map) {
+    start = 
+        repeated(60, endScreen() == ENDSCREEN_SUCCESS) &&
+        modeId() == MODE_GATE &&
+        mapId() == map[MAP_ID] &&
+        difficultyId() == map[MAP_DIFF]
+    cancel = always_false()
+    submit = always_true()
+    value = endPoints() + (endTimeBonus()*500)
+    
+    leaderboard(
+        format("Gate Challenge - {0}", map[MAP_NAME]),
+        format("Most points in {0}, Gate Challenge mode", map[MAP_NAME]),
+        start, cancel, submit, value,
+        format="VALUE",
+        lower_is_better=false,
+        id=lbId
+    )
+    lbId = lbId + 1
+}
+function lbTrickAttack(map) {
+    start = 
+        repeated(60, endScreen() == ENDSCREEN_SUCCESS) &&
+        modeId() == MODE_TRICK &&
+        mapId() == map[MAP_ID] &&
+        difficultyId() == map[MAP_DIFF]
+    cancel = always_false()
+    submit = always_true()
+    value = endPoints()
+    
+    leaderboard(
+        format("Trick Attack - {0}", map[MAP_NAME]),
+        format("Most points in {0}, Trick Attack mode", map[MAP_NAME]),
+        start, cancel, submit, value,
+        format="VALUE",
+        lower_is_better=false,
+        id=lbId
+    )
+    lbId = lbId + 1
+}
+for map in maps {
+    if (map[POINTS]>0) { // trick map
+        lbTrickAttack(map)
+    }
+    else { // all other maps
+        if(map[TIME]>0) { // regular map
+            lbGateChallenge(map)
+            lbTimeTrial(map)
+        }
+        lbMatchRace(map)
+    }
+}
+
+// RP
+lookupMenu = {
+    SCREEN_BOARD_SELECT: "Picking the best board for the ocasion",
+    SCREEN_CHAR_SELECT: "Pondering who they identify with today",
+    SCREEN_LAN: "LAN PARTY!",
+    SCREEN_LEVEL: "Choosing a destination",
+    SCREEN_MATCH: "Getting ready to tackle a Match Race",
+    SCREEN_MEMCARD: "Organizing the Memory Card. Important bussiness",
+    SCREEN_MENU: "Relaxing at the lodge",
+    SCREEN_MP: "Setting up a multiplayer game. Destroy your friends!",
+    SCREEN_OPTIONS: "Customizing their snowboarding experience",
+    SCREEN_RECORDS: "Proudly checking their records",
+    SCREEN_REPLAY: "Reminding their greatest races",
+    SCREEN_TITLE: "Warming up for some peak gaming"
+}
+
+function uniqueMapId() => difficultyId()*0x10 + mapId()
+lookupMapName = {}
+for map in maps {
+    lookupMapName[map[MAP_DIFF]*0x10 + map[MAP_ID]] = map[MAP_NAME]
+}
+
+lookupMode = {
+    MODE_GATE: "Gate Challenge",
+    MODE_MATCH: "Match Race",
+    MODE_TIME: "Time Trial",
+    MODE_TRICK: "Trick Attack",
+}
+
+function uniqueCharId() => skinSelected()*0x10 + characterSelected()
+lookupCharName = {}
+for char in characters {
+    id = char[CHAR_ID]
+    name = char[CHAR_NAME]
+    skinName = name+" (Alt)"
+    altName = char[ALT_NAME]
+    
+    lookupCharName[SKIN_REGULAR*0x10+id] = name
+    lookupCharName[SKIN_ALT*0x10+id] = skinName
+    lookupCharName[SKIN_ALT_CHAR*0x10+id] = altName
+}
+
+lookupBoardName = {}
+for boardGroup in boardGroups {
+    for board in boardGroup {
+        lookupBoardName[board[BOARD_ID]] = board[BOARD_NAME]
+    }
+}
+
+playing = "Playing {0} - On {1}, as {2}, with the {3} board"
+menu = "{0}" // lol
+
+rich_presence_conditional_display(
+    mapLoaded(),
+    playing,
+    rich_presence_lookup("Mode", modeId(), lookupMode),
+    rich_presence_lookup("Map", uniqueMapId(), lookupMapName),
+    rich_presence_lookup("Character", uniqueCharId(), lookupCharName),
+    rich_presence_lookup("Board", boardSelected(), lookupBoardName)
+)
+rich_presence_display(menu,
+    rich_presence_lookup("Screen", currentScreen(), lookupMenu, "On an unknown state of matter and time")
+)
