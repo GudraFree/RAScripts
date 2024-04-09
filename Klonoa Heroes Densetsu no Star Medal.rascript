@@ -359,8 +359,8 @@ function isCaught() => bit7(a_isCaught + (character() * o_characterStatBlock))
 function treasuresObtained() => byte(a_treasures)
 
 function character() => byte(a_character)
-function weaponSlot() => word(a_weaponEquipped)
-function weaponEquipped(char) => word(a_firstWeapon + (char * o_characterEquipBlock) + (weaponSlot() * 2))
+function weaponSlot(char) => word(a_weaponEquipped + (char * o_characterEquipBlock))
+function weaponEquipped(char) => word(a_firstWeapon + (char * o_characterEquipBlock) + (weaponSlot(char) * 2))
 function hp() => word(a_hp + (character() * o_characterStatBlock))
 function enemyHp(enemy) => word(a_hp + ((2+enemy) * o_characterStatBlock))
 function enemyHpMax(enemy) => word(a_hp + ((2+enemy) * o_characterStatBlock) + 2)
@@ -373,7 +373,7 @@ function enemyHpDyn(i) => word(prev(enemyStaticPointer(i)) + o_enmStc_hp)
 function enemyHpMaxDyn(i) => word(prev(enemyStaticPointer(i)) + o_enmStc_hp + 2)
 //function enemyPermPointer(i) => tbyte(enemyStaticPointer(i) + o_enmStc_pointerPermanentData) + o_gbaTax // this pointer is 02
 
-function namcoFinale() => bit3(a_namco_quest)
+function namcoFinale() => bit4(a_namco_quest)
 function screen() => byte(a_screen)
 function village() => byte(a_village)
 function mapWorld() => byte(a_mapWorld)
@@ -892,7 +892,7 @@ w5v2 = {
 w5v3areas = {
     1: range(1,0x19),
     2: range(1,0x1e),
-    3: range(1,0x25),
+    3: array_concat(range(1,19), range(22, 0x25)),
     4: range(1,0x1c),
     5: range(1,0x1e),
     6: range(1,0x1d),
@@ -1043,14 +1043,14 @@ w7v2 = {
 
 // #region Vision 3
 w7v3areas = {
-    1: range(1,0x25),
-    2: range(1,0x2e),
+    1: range(3,0x25),
+    2: range(3,0x2e),
     3: range(1,0x24),
     4: range(1,0x2f),
     5: range(1,0x2d),
     6: range(1,0x35),
     7: range(1,0x3a),
-    8: range(1,0x37),
+    8: array_concat(array_concat(range(2,5),range(7,36)), range(38, 0x37)),
     9: range(1,0x27),
     10: [],
 }
@@ -1166,8 +1166,8 @@ w4vE = {
 w5vEareas = {
     1: range(1,0x20),
     2: range(1,0x21),
-    3: range(1,0x2b),
-    4: range(1,0x1f),
+    3: range(2,0x2b),
+    4: range(2,0x1f),
 }
 
 w5vE = {
@@ -1198,7 +1198,7 @@ w6vE = {
 w7vEareas = {
     1: range(1,0x2f),
     2: range(1,0x27),
-    3: range(1,0x3e),
+    3: array_concat(array_concat(array_concat(array_concat(array_concat(range(1,8), range(10,22)), [24]), range(26,46)), range(48,53)), range(55, 0x3e)),
     4: range(3,0x27),
 }
 
@@ -1412,7 +1412,7 @@ function noDamage() => disable_when(hp()<prev(hp()), until=worldId()==0)
 
 function noHealing() => disable_when(hp()>prev(hp()), until=worldId()==0)
 
-function noHealingEnemy(enemy) => disable_when(enemyHp(enemy)>prev(enemyHp(enemy)), until=worldId()==0)
+function noHealingEnemy(enemy, area) => disable_when(enemyHp(enemy)>prev(enemyHp(enemy)) && repeated(60,areaId()==area), until=(worldId()==0 || areaId()!=prev(areaId())))
 
 function triggerBoss() => prev(enemyHp(1))>0 && trigger_when(enemyHp(1)==0)
 
@@ -1692,10 +1692,21 @@ function bossChallengeStory4() {
         characterLock(KLONOA) &&
         once(
             charAction() == ACTION_SPECIAL_A &&
-            enemyHp(ENM_POS_JOKA_HAND_1) == 1 &&
+            enemyHp(ENM_POS_JOKA_HAND_1) == 0 &&
             prev(enemyHp(ENM_POS_JOKA_HAND_1)) > 1 &&
-            enemyHp(ENM_POS_JOKA_HAND_2) == 1 &&
-            prev(enemyHp(ENM_POS_JOKA_HAND_2)) > 1
+            never(
+                charAction() != ACTION_SPECIAL_A &&
+                enemyHp(ENM_POS_JOKA_HAND_2) > 1
+            )
+        ) &&
+        once(
+            charAction() == ACTION_SPECIAL_A &&
+            enemyHp(ENM_POS_JOKA_HAND_2) == 0 &&
+            prev(enemyHp(ENM_POS_JOKA_HAND_2)) > 1 &&
+            never(
+                charAction() != ACTION_SPECIAL_A &&
+                enemyHp(ENM_POS_JOKA_HAND_1) > 1
+            )
         ) &&
         never(
             enemyHp(ENM_POS_JOKA_HAND_1) > 1 &&
@@ -1724,7 +1735,7 @@ function bossChallengeRematch4() {
 function bossChallengeStory5() {
     trigger =
         areaCheckStory(5, 4, 7, a_w5v4_events) &&
-        noHealingEnemy(1) &&
+        noHealingEnemy(1, 7) &&
         triggerBoss()
         
     return trigger
