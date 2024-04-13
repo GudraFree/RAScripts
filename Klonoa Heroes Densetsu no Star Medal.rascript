@@ -1404,17 +1404,19 @@ timeBosses = {
 
 // #endregion constants
 
-function characterLock(char) => disable_when(char!=character(), until=(worldId()==0 || areaId()!=prev(areaId())))
+function ingame() => byte(0x003670)==5
+
+function characterLock(char) => disable_when(char!=character() && ingame(), until=!ingame())
 
 function weaponType(char, weapon) => weaponEquipped(char) >= weapon && weaponEquipped(char) < weaponTypes[weapon]
 
-function noDamage() => disable_when(hp()<prev(hp()), until=worldId()==0)
+function noDamage() => disable_when(hp()<prev(hp()) && ingame(), until=!ingame())
 
-function noHealing() => disable_when(hp()>prev(hp()), until=worldId()==0)
+function noHealing() => disable_when(hp()>prev(hp()) && ingame(), until=worldId()==0)
 
-function noHealingEnemy(enemy, area) => disable_when(enemyHp(enemy)>prev(enemyHp(enemy)) && repeated(60,areaId()==area), until=(worldId()==0 || areaId()!=prev(areaId())))
+function noHealingEnemy(enemy, area) => disable_when(enemyHp(enemy)>prev(enemyHp(enemy)) && repeated(60,areaId()==area) && ingame(), until=!ingame())
 
-function triggerBoss() => prev(enemyHp(1))>0 && trigger_when(enemyHp(1)==0)
+function triggerBoss(i=1) => prev(enemyHp(i))>0 && trigger_when(enemyHp(i)==0)
 
 function noItems() {
     mems = sum_of(items, i => byte(i))
@@ -1566,17 +1568,18 @@ function mamettReward(milestone) {
 
 function bestiaryEntry(index, listEntry) {
     total = length(listEntry) * index / 4
+    prevTotal = length(listEntry) * (index-1) / 4
     mems = sum_of(listEntry, p => p / p) == total
-    deltas = sum_of(listEntry, p => prev(p) / prev(p)) == (total-1)
+    deltas = sum_of(listEntry, p => prev(p) / prev(p)) < total
+    floors = sum_of(listEntry, p => prev(p) / prev(p)) > prevTotal
     // add a measured for the last one
     if(index==4) mems = measured(mems, format="percent") 
     
-    return mems && deltas
+    return mems && deltas && floors
 }
 function bestiaryNoEntry(listMem, listDelta, listNotMem, listNotDelta, listEntry) {
     total = length(listMem)
     mems = measured(tally_of(listMem, total, p => p))
-    //memNots = tally_of(listNotMem, 0, p => p)
     deltas = tally_of(listDelta, (total-1), p => p)
     deltaNevers = never(tally_of(listDelta, total, p => p))
     trigger = mems && deltas && deltaNevers && never(screen()==SCREEN_TITLE)
@@ -1665,7 +1668,7 @@ function bossChallengeStory3() {
             prev(enemyHp(ENM_POS_BOXMEAN_R_HAND)) > 0
         ) &&
         triggerBoss() &&
-        never(worldId()==0)
+        never(!ingame())
         
     return trigger
 }
@@ -1695,6 +1698,7 @@ function bossChallengeStory4() {
             enemyHp(ENM_POS_JOKA_HAND_1) == 0 &&
             prev(enemyHp(ENM_POS_JOKA_HAND_1)) > 1 &&
             never(
+            areaCheckStory(4, 4, 7, a_w4v4_events) &&
                 charAction() != ACTION_SPECIAL_A &&
                 enemyHp(ENM_POS_JOKA_HAND_2) > 1
             )
@@ -1704,15 +1708,18 @@ function bossChallengeStory4() {
             enemyHp(ENM_POS_JOKA_HAND_2) == 0 &&
             prev(enemyHp(ENM_POS_JOKA_HAND_2)) > 1 &&
             never(
+            areaCheckStory(4, 4, 7, a_w4v4_events) &&
                 charAction() != ACTION_SPECIAL_A &&
                 enemyHp(ENM_POS_JOKA_HAND_1) > 1
             )
         ) &&
         never(
+            areaCheckStory(4, 4, 7, a_w4v4_events) &&
             enemyHp(ENM_POS_JOKA_HAND_1) > 1 &&
             prev(enemyHp(ENM_POS_JOKA_HAND_1)) == 1
         ) &&
         never(
+            areaCheckStory(4, 4, 7, a_w4v4_events) &&
             enemyHp(ENM_POS_JOKA_HAND_2) > 1 &&
             prev(enemyHp(ENM_POS_JOKA_HAND_2)) == 1
         ) &&
@@ -1725,8 +1732,8 @@ function bossChallengeRematch4() {
     trigger =
         areaCheck(WORLD_MOMETT, 4, 1) &&
         characterLock(GUNTZ) &&
-        disable_when(enemyHp(ENM_POS_JOKA_HAND_1) == 1, until=worldId()==0) &&
-        disable_when(enemyHp(ENM_POS_JOKA_HAND_2) == 1, until=worldId()==0) &&
+        disable_when(areaCheck(WORLD_MOMETT, 4, 1) && enemyHp(ENM_POS_JOKA_HAND_1) == 0, until=!ingame()) &&
+        disable_when(areaCheck(WORLD_MOMETT, 4, 1) && enemyHp(ENM_POS_JOKA_HAND_2) == 0, until=!ingame()) &&
         triggerBoss()
         
     return trigger
@@ -1743,8 +1750,8 @@ function bossChallengeStory5() {
 function bossChallengeRematch5() {
     trigger =
         areaCheck(WORLD_MOMETT, 5, 1) &&
-        disable_when(enemyHp(ENM_POS_JOKA_HAND_1) == 1, until=worldId()==0) &&
-        disable_when(enemyHp(ENM_POS_JOKA_HAND_2) == 1, until=worldId()==0) &&
+        disable_when(enemyHp(ENM_POS_JOKA_HAND_1) == 1 && areaCheck(WORLD_MOMETT, 5, 1), until=!ingame()) &&
+        disable_when(enemyHp(ENM_POS_JOKA_HAND_2) == 1 && areaCheck(WORLD_MOMETT, 5, 1), until=!ingame()) &&
         triggerBoss()
         
     return trigger
@@ -1774,7 +1781,7 @@ function bossChallengeStory7() {
     trigger =
         areaCheckStory(7, 3, 10, a_w7v3_events) &&
         characterLock(PANGO) &&
-        disable_when(charAction()==ACTION_GRABBED, until=worldId()==0) &&
+        disable_when(areaCheckStory(7, 3, 10, a_w7v3_events) &&charAction()==ACTION_GRABBED, until=!ingame()) &&
         triggerBoss()
         
     return trigger
@@ -1805,7 +1812,9 @@ function bossChallengeStory8_2() {
     trigger =
         areaCheck(8, 1, 2) &&
         characterLock(GUNTZ) &&
-        triggerBoss()
+        //triggerBoss()
+        (prev(enemyHp(2))>0 || prev(enemyHp(3))>0) &&
+        trigger_when(enemyHp(2)==0 && enemyHp(3)==0)
         
     return trigger
 }
