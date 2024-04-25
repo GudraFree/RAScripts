@@ -1,9 +1,10 @@
 // WarioWare, Inc.: Mega Party Games!
 // #ID = 6605
-
-cheevoId = 0
+cheevoIdBatch1 = 418292
+cheevoIdBatch1end = 418307
+cheevoId = cheevoIdBatch1
 function cheevoIdPlus() {
-    //cheevoId = cheevoId + 1
+    cheevoId = cheevoId + 1
 }
 
 // #region constants
@@ -17,96 +18,121 @@ A_REAL = "Reality"
 A_NATURE = "Nature"
 A_ANY = "Anything Goes"
 
+S_TIMING = "Timing"
+S_INT = "Intelligence"
+S_CONTROL = "Control"
+S_STAM = "Stamina"
+S_SPEED = "Speed"
+
 MG_ADDRESS = 0
 MG_NAME = 1
 MG_ALBUM = 2
 MG_CLEAR = 3
 
+ST_NAME = 0
+ST_ADDRESS = 1
+ST_LV50 = 2
+
 // #region addresses
+a_stat_timing = 0x00260588
+a_stat_int = 0x0026058c
+a_stat_control = 0x00260590
+a_stat_stamina = 0x00260594
+a_stat_speed = 0x00260598
+
+a_fileSelected = 0x00295910
+o_file = 0x284
+a_fileSelectedFlag = 0x00295930
 
 // #region accessors
-
+function fileSelected() => dword_be(a_fileSelected)
+function fileSelectedFlag() => bit0(a_fileSelectedFlag)
+function statTiming() => dword_be(a_stat_timing + (fileSelected() * o_file))
+function statInt() => dword_be(a_stat_int + (fileSelected() * o_file))
+function statControl() => dword_be(a_stat_control + (fileSelected() * o_file))
+function statStamina() => dword_be(a_stat_stamina + (fileSelected() * o_file))
+function statSpeed() => dword_be(a_stat_speed + (fileSelected() * o_file))
 // #endregion accessors
 // #endregion addresses
 
 // #region minigame scores file 1
-mg001 = [0x260328, "Crazy Cars", A_INTRO, 1]
-mg002 = [0x26032c, "Wario Whirled", A_INTRO, 1]
-mg003 = [0x260340, "Saving Face", A_INTRO, 1]
-mg003 = [0x2603a8, "The Maze That Pays", A_INTRO, 1]
-mg004 = [0x260350, "Diamond Dig", A_INTRO, 1]
-mg005 = [0x26033e, "Dodge Balls", A_INTRO, 1]
-mg006 = [0x26032a, "Repellion", A_INTRO, 1]
-mg007 = [0x260408, "Wario Wear", A_INTRO, 1]
-mg008 = [0x260376, "Hectic Highway", A_INTRO, 1]
-mg010 = [0x260396, "Super Wario Bros.", A_INTRO, 1]
-mg011 = [0x26036a, "I Spy", A_INTRO, 1]
-mg012 = [0x2603be, "Mug Shot", A_INTRO, 1]
-mg013 = [0x26032e, "Log Chop", A_SPORT, 1]
-mg014 = [0x260368, "Fruit Shoot", A_SPORT, 1]
-mg015 = [0x26034e, "Heads Up", A_SPORT, 1]
-mg015 = [0x26036e, "Boing!", A_SPORT, 1]
-mg017 = [0x26037e, "Spare Me", A_SPORT, 1]
-mg018 = [0x260378, "Batter Up", A_SPORT, 1]
-mg019 = [0x26039a, "Baseline Bash", A_SPORT, 1]
-mg020 = [0x26043a, "Butterfly Stroke", A_SPORT, 1]
-mg021 = [0x260384, "Hammer Toss", A_SPORT, 1]
-mg022 = [0x26037a, "Balancing Act", A_SPORT, 1]
-mg023 = [0x2603b6, "Putt For Dough", A_SPORT, 1]
-mg024 = [0x2603a6, "Ski Jump", A_SPORT, 1]
-mg025 = [0x260380, "Mountain Mountin", A_SPORT, 1]
-mg026 = [0x260392, "Guy Scraper", A_SPORT, 1]
-mg027 = [0x2603a4, "Lift & Shout", A_SPORT, 1]
-mg028 = [0x260382, "Pro Curling", A_SPORT, 1]
+mg001 = [0x260328, "Crazy Cars", A_INTRO, 20]
+mg002 = [0x26032c, "Wario Whirled", A_INTRO, 15]
+mg003 = [0x260340, "Saving Face", A_INTRO, 15]
+mg004 = [0x260350, "Diamond Dig", A_INTRO, 20]
+mg005 = [0x26033e, "Dodge Balls", A_INTRO, 15]
+mg006 = [0x26032a, "Repellion", A_INTRO, 15]
+mg007 = [0x260408, "Wario Wear", A_INTRO, 15]
+mg008 = [0x260376, "Hectic Highway", A_INTRO, 15]
+mg009 = [0x2603a8, "The Maze That Pays", A_INTRO, 20]
+mg010 = [0x260396, "Super Wario Bros.", A_INTRO, 20]
+mg011 = [0x26036a, "I Spy", A_INTRO, 20]
+mg012 = [0x2603be, "Mug Shot", A_INTRO, 20]
+mg013 = [0x26032e, "Log Chop", A_SPORT, 20]
+mg014 = [0x260368, "Fruit Shoot", A_SPORT, 30]
+mg015 = [0x26034e, "Heads Up", A_SPORT, 15]
+mg015 = [0x26036e, "Boing!", A_SPORT, 20]
+mg017 = [0x26037e, "Spare Me", A_SPORT, 15]
+mg018 = [0x260378, "Batter Up", A_SPORT, 20]
+mg019 = [0x26039a, "Baseline Bash", A_SPORT, 20]
+mg020 = [0x26043a, "Butterfly Stroke", A_SPORT, 20]
+mg021 = [0x260384, "Hammer Toss", A_SPORT, 15]
+mg022 = [0x26037a, "Balancing Act", A_SPORT, 30]
+mg023 = [0x2603b6, "Putt For Dough", A_SPORT, 25]
+mg024 = [0x2603a6, "Ski Jump", A_SPORT, 25]
+mg025 = [0x260380, "Mountain Mountin", A_SPORT, 20]
+mg026 = [0x260392, "Guy Scraper", A_SPORT, 10]
+mg027 = [0x2603a4, "Lift & Shout", A_SPORT, 20]
+mg028 = [0x260382, "Pro Curling", A_SPORT, 15]
 mg029 = [0x26039c, "High Hoops", A_SPORT, 25]
-mg030 = [0x26038c, "Hurry Hurdles", A_SPORT, 1]
-mg031 = [0x26039e, "Gifted Goalie", A_SPORT, 1]
-mg032 = [0x260332, "Jumpin' Rope", A_SPORT, 1]
-mg033 = [0x26038a, "Ring My Bell", A_SPORT, 1]
-mg033 = [0x260434, "Set-n-Spike", A_SPORT, 1]
-mg035 = [0x260436, "City Surfer", A_SPORT, 1]
-mg036 = [0x26043c, "Snowboard Slalom", A_SPORT, 1]
-mg037 = [0x2603b2, "Alien Ambush", A_SCIFI, 1]
-mg038 = [0x2603d8, "Scooter Commuter", A_SCIFI, 1]
-mg039 = [0x26033c, "Space Fighter", A_SCIFI, 1]
-mg040 = [0x260452, "Stick & Move", A_SCIFI, 1]
-mg041 = [0x2603ae, "Classic Clash I", A_SCIFI, 1]
-mg042 = [0x2603b8, "Bubble Trouble", A_SCIFI, 1]
-mg043 = [0x2603f8, "Super Fly", A_SCIFI, 1]
-mg044 = [0x260342, "Arrow Space", A_SCIFI, 1]
-mg045 = [0x26034c, "Manic Mechanic", A_SCIFI, 1]
-mg046 = [0x260394, "UFO Assist", A_SCIFI, 1]
-mg047 = [0x2603c6, "Classic Clash II", A_SCIFI, 1]
-mg048 = [0x2603c0, "Mars Ball Destroy", A_SCIFI, 1]
-mg049 = [0x260360, "Hover for Cover", A_SCIFI, 1]
-mg050 = [0x2603de, "Scoot or Die", A_SCIFI, 1]
-mg051 = [0x2603fe, "Word Up", A_SCIFI, 1]
-mg052 = [0x26040a, "Ninja Pipe Cleaner", A_SCIFI, 1]
-mg053 = [0x2603d2, "Classic Clash III", A_SCIFI, 1]
-mg054 = [0x260348, "Zero to Hero", A_SCIFI, 1]
-mg055 = [0x2603e8, "Tidal Cave", A_SCIFI, 1]
-mg056 = [0x2603f6, "Mars Jars", A_SCIFI, 1]
-mg057 = [0x260330, "Space Escape", A_SCIFI, 1]
-mg058 = [0x26042c, "Ninja Vision", A_SCIFI, 1]
-mg059 = [0x2603ec, "Slick Wheelie", A_SCIFI, 1]
-mg060 = [0x260344, "Bam-Fu", A_SCIFI, 1]
-mg061 = [0x260358, "Dry Eye", A_STRANGE, 1]
-mg061 = [0x260366, "Paper Plane", A_STRANGE, 1]
-mg063 = [0x26037c, "Parking Prowess", A_STRANGE, 1]
-mg064 = [0x2603ac, "Butterfingers", A_STRANGE, 1]
-mg065 = [0x2603d4, "Gold Digger", A_STRANGE, 1]
-mg066 = [0x260352, "Terminal Velocity", A_STRANGE, 1]
-mg067 = [0x2603f0, "Chicken Pinch", A_STRANGE, 1]
-mg068 = [0x26042a, "Boom Box", A_STRANGE, 1]
-mg069 = [0x260346, "Sloppy Salon", A_STRANGE, 1]
-mg070 = [0x260374, "Page Panic", A_STRANGE, 1]
-mg071 = [0x2603fa, "Noodle-Rama", A_STRANGE, 1]
-mg072 = [0x260362, "Right in the Eye", A_STRANGE, 1]
-mg073 = [0x2603ea, "I Came, I Saw", A_STRANGE, 1]
-mg074 = [0x260410, "Douse the House", A_STRANGE, 1]
-mg075 = [0x260412, "Sole Man", A_STRANGE, 1]
-mg075 = [0x260420, "Nighttime Allergie", A_STRANGE, 1]
-mg077 = [0x2603da, "Air Supplies", A_STRANGE, 1]
+mg030 = [0x26038c, "Hurry Hurdles", A_SPORT, 10]
+mg031 = [0x26039e, "Gifted Goalie", A_SPORT, 10]
+mg032 = [0x260332, "Jumpin' Rope", A_SPORT, 15]
+mg033 = [0x26038a, "Ring My Bell", A_SPORT, 10]
+mg033 = [0x260434, "Set-n-Spike", A_SPORT, 30]
+mg035 = [0x260436, "City Surfer", A_SPORT, 15]
+mg036 = [0x26043c, "Snowboard Slalom", A_SPORT, 10]
+mg037 = [0x2603b2, "Alien Ambush", A_SCIFI, 15]
+mg038 = [0x2603d8, "Scooter Commuter", A_SCIFI, 30]
+mg039 = [0x26033c, "Space Fighter", A_SCIFI, 15]
+mg040 = [0x260452, "Stick & Move", A_SCIFI, 15]
+mg041 = [0x2603ae, "Classic Clash I", A_SCIFI, 20]
+mg042 = [0x2603b8, "Bubble Trouble", A_SCIFI, 15]
+mg043 = [0x2603f8, "Super Fly", A_SCIFI, 25]
+mg044 = [0x260342, "Arrow Space", A_SCIFI, 20]
+mg045 = [0x26034c, "Manic Mechanic", A_SCIFI, 10]
+mg046 = [0x260394, "UFO Assist", A_SCIFI, 15]
+mg047 = [0x2603c6, "Classic Clash II", A_SCIFI, 25]
+mg048 = [0x2603c0, "Mars Ball Destroy", A_SCIFI, 15]
+mg049 = [0x260360, "Hover for Cover", A_SCIFI, 15]
+mg050 = [0x2603de, "Scoot or Die", A_SCIFI, 15]
+mg051 = [0x2603fe, "Word Up", A_SCIFI, 20]
+mg052 = [0x26040a, "Ninja Pipe Cleaner", A_SCIFI, 20]
+mg053 = [0x2603d2, "Classic Clash III", A_SCIFI, 20]
+mg054 = [0x260348, "Zero to Hero", A_SCIFI, 20]
+mg055 = [0x2603e8, "Tidal Cave", A_SCIFI, 20]
+mg056 = [0x2603f6, "Mars Jars", A_SCIFI, 15]
+mg057 = [0x260330, "Space Escape", A_SCIFI, 10]
+mg058 = [0x26042c, "Ninja Vision", A_SCIFI, 15]
+mg059 = [0x2603ec, "Slick Wheelie", A_SCIFI, 25]
+mg060 = [0x260344, "Bam-Fu", A_SCIFI, 20]
+mg061 = [0x260366, "Paper Plane", A_STRANGE, 15]
+mg062 = [0x260358, "Dry Eye", A_STRANGE, 10]
+mg063 = [0x26037c, "Parking Prowess", A_STRANGE, 10]
+mg064 = [0x2603ac, "Butterfingers", A_STRANGE, 15]
+mg065 = [0x2603d4, "Gold Digger", A_STRANGE, 10]
+mg066 = [0x260352, "Terminal Velocity", A_STRANGE, 15]
+mg067 = [0x2603f0, "Chicken Pinch", A_STRANGE, 15]
+mg068 = [0x26042a, "Boom Box", A_STRANGE, 15]
+mg069 = [0x260346, "Sloppy Salon", A_STRANGE, 20]
+mg070 = [0x260374, "Page Panic", A_STRANGE, 10]
+mg071 = [0x2603fa, "Noodle-Rama", A_STRANGE, 25]
+mg072 = [0x260362, "Right in the Eye", A_STRANGE, 10]
+mg073 = [0x2603ea, "I Came, I Saw", A_STRANGE, 30]
+mg074 = [0x260410, "Douse the House", A_STRANGE, 15]
+mg075 = [0x260412, "Sole Man", A_STRANGE, 10]
+mg075 = [0x260420, "Nighttime Allergie", A_STRANGE, 20]
+mg077 = [0x2603da, "Air Supplies", A_STRANGE, 25]
 mg078 = [0x260430, "Toast the Ghosts", A_STRANGE, 10]
 mg079 = [0x2603e0, "Tilt-n-Tumble", A_STRANGE, 15]
 mg080 = [0x2603c8, "Pompeii Back", A_STRANGE, 10]
@@ -244,7 +270,7 @@ mg211 = [0x2604e8, "Alien Laser Hero", A_REAL, 5]
 mg212 = [0x2604e6, "The Frog Flap", A_NATURE, 5]
 mg213 = [0x2604ea, "Wario's Adventure", A_ANY, 5]
 
-minigames = [mg001, mg002, mg003, mg003, mg004, mg005, mg006, mg007, mg008, mg010, mg011, mg012, mg013, mg014, mg015, mg015, mg017, mg018, mg019, mg020, mg021, mg022, mg023, mg024, mg025, mg026, mg027, mg028, mg029, mg030, mg031, mg032, mg033, mg033, mg035, mg036, mg037, mg038, mg039, mg040, mg041, mg042, mg043, mg044, mg045, mg046, mg047, mg048, mg049, mg050, mg051, mg052, mg053, mg054, mg055, mg056, mg057, mg058, mg059, mg060, mg061, mg061, mg063, mg064, mg065, mg066, mg067, mg068, mg069, mg070, mg071, mg072, mg073, mg074, mg075, mg075, mg077, mg078, mg079, mg080, mg081, mg082, mg083, mg084, mg085, mg086, mg087, mg088, mg089, mg090, mg091, mg092, mg093, mg094, mg095, mg096, mg097, mg098, mg099, mg100, mg101, mg102, mg103, mg104, mg105, mg106, mg107, mg108, mg109, mg110, mg111, mg112, mg113, mg114, mg115, mg116, mg117, mg118, mg119, mg120, mg121, mg122, mg123, mg124, mg125, mg126, mg127, mg128, mg129, mg130, mg131, mg132, mg133, mg134, mg135, mg136, mg137, mg138, mg139, mg140, mg141, mg142, mg143, mg144, mg145, mg146, mg147, mg148, mg149, mg150, mg151, mg152, mg153, mg154, mg155, mg156, mg157, mg158, mg159, mg160, mg161, mg162, mg163, mg164, mg165, mg166, mg167, mg168, mg169, mg170, mg171, mg172, mg173, mg174, mg175, mg176, mg177, mg178, mg179, mg180, mg181, mg182, mg183, mg184, mg185, mg186, mg187, mg188, mg189, mg190, mg191, mg192, mg193, mg194, mg195, mg196, mg197, mg198, mg199, mg200, mg201, mg202, mg203, mg204, mg205, mg206, mg207, mg208, mg209, mg210, mg211, mg212, mg213]
+minigames = [mg001, mg002, mg003, mg004, mg004, mg005, mg006, mg007, mg008, mg010, mg011, mg012, mg013, mg014, mg015, mg015, mg017, mg018, mg019, mg020, mg021, mg022, mg023, mg024, mg025, mg026, mg027, mg028, mg029, mg030, mg031, mg032, mg033, mg033, mg035, mg036, mg037, mg038, mg039, mg040, mg041, mg042, mg043, mg044, mg045, mg046, mg047, mg048, mg049, mg050, mg051, mg052, mg053, mg054, mg055, mg056, mg057, mg058, mg059, mg060, mg061, mg062, mg063, mg064, mg065, mg066, mg067, mg068, mg069, mg070, mg071, mg072, mg073, mg074, mg075, mg075, mg077, mg078, mg079, mg080, mg081, mg082, mg083, mg084, mg085, mg086, mg087, mg088, mg089, mg090, mg091, mg092, mg093, mg094, mg095, mg096, mg097, mg098, mg099, mg100, mg101, mg102, mg103, mg104, mg105, mg106, mg107, mg108, mg109, mg110, mg111, mg112, mg113, mg114, mg115, mg116, mg117, mg118, mg119, mg120, mg121, mg122, mg123, mg124, mg125, mg126, mg127, mg128, mg129, mg130, mg131, mg132, mg133, mg134, mg135, mg136, mg137, mg138, mg139, mg140, mg141, mg142, mg143, mg144, mg145, mg146, mg147, mg148, mg149, mg150, mg151, mg152, mg153, mg154, mg155, mg156, mg157, mg158, mg159, mg160, mg161, mg162, mg163, mg164, mg165, mg166, mg167, mg168, mg169, mg170, mg171, mg172, mg173, mg174, mg175, mg176, mg177, mg178, mg179, mg180, mg181, mg182, mg183, mg184, mg185, mg186, mg187, mg188, mg189, mg190, mg191, mg192, mg193, mg194, mg195, mg196, mg197, mg198, mg199, mg200, mg201, mg202, mg203, mg204, mg205, mg206, mg207, mg208, mg209, mg210, mg211, mg212, mg213]
 
 // creates a dict of albums that will hold the minigames
 albums = {
@@ -267,20 +293,55 @@ for mg in minigames {
 
 // #endregion minigames
 
+stTiming = [S_TIMING, statTiming(), 0x214e]
+stInt = [S_INT, statInt(), 0xf81]
+stControl = [S_CONTROL, statControl(), 0x2989]
+stStamina = [S_STAM, statStamina(), 0xb1a]
+stSpeed = [S_SPEED, statSpeed(), 0x181e]
 
+stats = [ stTiming, stControl, stSpeed, stInt, stStamina ]
+
+statFullLookup = {
+    S_TIMING: "Punctual Hard Worker",
+    S_INT: "Mega-intellectual Nerd",
+    S_CONTROL: "Thread The Needle So So",
+    S_STAM: "Meat Lover Youngster",
+    S_SPEED: "Unnatentive Freshman"
+}
 // #endregion constants
 
 // #region functions
+function isFileSelected() => fileSelectedFlag()==1
+function minigame(address) => word_be(address + (fileSelected() * o_file))
 
 // trigger functions
 function albumComplete(listMg) {
     total = length(listMg)
-    mems = measured(tally_of(listMg, total, mg => word_be(mg[MG_ADDRESS]) >= mg[MG_CLEAR]))
-    deltas = tally_of(listMg, (total-1), mg => prev(word_be(mg[MG_ADDRESS])) >= mg[MG_CLEAR])
-    deltaNevers = never(tally_of(listMg, total, mg => prev(word_be(mg[MG_ADDRESS])) >= mg[MG_CLEAR]))
-    trigger = mems && deltas && deltaNevers
+    mems = measured(tally_of(listMg, total, mg => once(minigame(mg[MG_ADDRESS]) >= mg[MG_CLEAR])))
+    deltas = tally_of(listMg, (total-1), mg => once(prev(minigame(mg[MG_ADDRESS])) >= mg[MG_CLEAR]))
+    deltaNevers = never(tally_of(listMg, total, mg => once(prev(minigame(mg[MG_ADDRESS])) >= mg[MG_CLEAR])))
+    trigger = never(!isFileSelected()) && mems && deltas && deltaNevers
     
     return trigger
+}
+function fullStat(stat) {
+    statMax = stat[ST_LV50]
+    statAddress = stat[ST_ADDRESS]
+    trigger = isFileSelected() &&
+        prev(statAddress) < statMax &&
+        statAddress >= statMax
+    
+    return trigger
+}
+function halfAllStats() {
+    total = length(stats)
+    mems = measured(tally_of(stats, total, s => once(s[ST_ADDRESS] >= s[ST_LV50]/2))) // TODO: Look into this, may not be the real value
+    deltas = tally_of(stats, (total-1), s => once(prev(s[ST_ADDRESS]) >= s[ST_LV50]/2))
+    deltaNevers = never(tally_of(stats, total, s => once(prev(s[ST_ADDRESS]) >= s[ST_LV50]/2)))
+    trigger = never(!isFileSelected()) && mems && deltas && deltaNevers
+    
+    return trigger
+    
 }
 // trigger functions
 
@@ -312,8 +373,35 @@ function cheevoAllComplete() {
     
     cheevoIdPlus()
 }
+
+function cheevoStat50(stat) {
+    statName = stat[ST_NAME]
+    achievement(
+        format("{0}", statFullLookup[statName]),
+        format("Reach level 50 in the {0} stat", statName),
+        25,
+        fullStat(stat),
+        id= cheevoId
+    )
+    
+    cheevoIdPlus()
+}
+function cheevoStats25() {
+    achievement(
+        "Faultless Pro Assistant",
+        "Reach at least level 25 in all stats",
+        25,
+        halfAllStats(),
+        id= cheevoId
+    )
+    
+    cheevoIdPlus()
+}
 // cheevo functions
 
 // generate achievements
 for album in albums cheevoAlbumComplete(album)
 cheevoAllComplete()
+
+for stat in stats cheevoStat50(stat)
+cheevoStats25()
