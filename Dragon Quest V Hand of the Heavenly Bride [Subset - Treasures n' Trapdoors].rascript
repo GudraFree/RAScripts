@@ -741,9 +741,9 @@ function specialTotal(board, type, index) {
     return sum_of(boardTreasures, p => p)
 }
 
-noBoard = "Traveling between boards, dreaming about dies"
-fortunaBoard = "{0} the Fortuna Board{0}{1} | Board progress: {2}/{3}"
-ventunoBoard = "{0} the Ventuno Board{0}{1} | Board progress: {2}/{3}"
+noBoard = "Traveling between boards, dreaming about dice"
+fortunaBoard = "{0} the Fortuna Board{1} | Board progress: {2}/{3}"
+ventunoBoard = "{0} the Ventuno Board{1} | Board progress: {2}/{3}"
 springBoard = "{0} the Spring Board{1} | Board progress: {2}/{3} | Dungeon 1: {4}/{5} | Dungeon 2: {6}/{7} | Dungeon 3: {8}/{9} | Trove 1: {10}/{11} | Trove 2: {12}/{13} | Trove 3: {14}/{15}"
 nadiriaBoard = "{0} the Nadiria Board{1} | Board progress: {2}/{3} | Dungeon 1: {4}/{5} | Dungeon 2: {6}/{7} | Dungeon 3: {8}/{9} | Trove 1: {10}/{11} | Trove 2: {12}/{13} | Trove 3: {14}/{15} | Trove 4: {16}/{17}"
 estarkBoard = "{0} the Estark Board{1} | Board progress: {2}/{3} | Dungeon 1: {4}/{5} | Dungeon 2: {6}/{7} | Dungeon 3: {8}/{9} | Trove 1: {10}/{11} | Trove 2: {12}/{13} | Trove 3: {14}/{15} | Trove 4: {16}/{17} | Trove 5: {18}/{19}"
@@ -798,7 +798,7 @@ rich_presence_conditional_display(isNadiria(), nadiriaBoard,
     rich_presence_value("Trove4Current", specialCurrent(NADIRIA, TROVE, 4)),
     rich_presence_value("Trove4Total", specialTotal(NADIRIA, TROVE, 4))
 )
-rich_presence_conditional_display(isSpring(), springBoard,
+rich_presence_conditional_display(isEstark(), estarkBoard,
     rich_presence_lookup("Goal", goalTreasures(ESTARK), goalLookup, "Replaying"),
     rich_presence_lookup("Addendum", mapId(), addendumLookup),
     rich_presence_value("BoardCurrent", boardCurrent(ESTARK)),
