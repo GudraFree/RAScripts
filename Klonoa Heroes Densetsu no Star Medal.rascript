@@ -1412,7 +1412,7 @@ function weaponType(char, weapon) => weaponEquipped(char) >= weapon && weaponEqu
 
 function noDamage() => disable_when(hp()<prev(hp()) && ingame(), until=!ingame())
 
-function noHealing() => disable_when(hp()>prev(hp()) && ingame(), until=worldId()==0)
+function noHealing() => disable_when(hp()>prev(hp()) && ingame(), until=!ingame())
 
 function noHealingEnemy(enemy, area) => disable_when(enemyHp(enemy)>prev(enemyHp(enemy)) && repeated(60,areaId()==area) && ingame(), until=!ingame())
 
@@ -1569,7 +1569,7 @@ function mamettReward(milestone) {
 function bestiaryEntry(index, listEntry) {
     total = length(listEntry) * index / 4
     prevTotal = length(listEntry) * (index-1) / 4
-    mems = sum_of(listEntry, p => p / p) == total
+    mems = sum_of(listEntry, p => p / p) >= total
     deltas = sum_of(listEntry, p => prev(p) / prev(p)) < total
     floors = sum_of(listEntry, p => prev(p) / prev(p)) > prevTotal
     // add a measured for the last one
