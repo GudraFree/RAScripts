@@ -291,27 +291,27 @@ quests = [
     ["Mosswine Arena", _4s, 4, gh, bit1(0x018554dc), 0, 0, "", ""],
     ["The Velociprey Lords", _4s, 4, gh, bit2(0x018554dc), 0, 0, "", ""],
     ["Queen of the Desert", _4s, 4, gh, bit3(0x018554dc), 0, 0, "", ""],
-    ["The Land Shark", _4s, 4, gh, bit4(0x018554dc), 0, 2, "(LR)", ""],
+    ["The Land Shark", _4s, 4, gh, bit4(0x018554dc), 0, 4, "(LR)", ""],
     ["Apceros Egg Hunt", _4s, 4, gh, bit5(0x018554dc), 0, 0, "", ""],
     ["Panning for Goldenfish", _4s, 4, gh, bit6(0x018554dc), 0, 0, "", ""],
-    ["Trouble in the Swamp", _4s, 4, gh, bit7(0x018554dc), 0, 2, "(LR)", ""],
+    ["Trouble in the Swamp", _4s, 4, gh, bit7(0x018554dc), 0, 4, "(LR)", ""],
     
     ["Quartz Ore Request", _4s, 4, gh, bit0(0x018554dd), 0, 0, "", ""],
-    ["Slay the Gendrome!", _4s, 4, gh, bit1(0x018554dd), 0, 2, "(LR)", ""],
+    ["Slay the Gendrome!", _4s, 4, gh, bit1(0x018554dd), 0, 4, "(LR)", ""],
     ["The Storm of Yian Kut-Ku", _4s, 4, gh, bit2(0x018554dd), 0, 0, "", ""],
     ["Attack of the Giant Bugs", _4s, 4, gh, bit3(0x018554dd), 0, 0, "", ""],
-    ["Jungle Menace", _4s, 4, gh, bit4(0x018554dd), 0, 2, "", ""],
-    ["Attack of the Yian Kut-Ku", _4s, 4, gh, bit5(0x018554dd), 0, 2, "(LR)", ""],
-    ["Catch a Yian Kut-Ku", _4s, 4, gh, bit6(0x018554dd), 0, 2, "(LR)", ""],
+    ["Jungle Menace", _4s, 4, gh, bit4(0x018554dd), 0, 4, "", ""],
+    ["Attack of the Yian Kut-Ku", _4s, 4, gh, bit5(0x018554dd), 0, 4, "(LR)", ""],
+    ["Catch a Yian Kut-Ku", _4s, 4, gh, bit6(0x018554dd), 0, 4, "(LR)", ""],
     ["Bring me a Plesioth", _4s, 4, gh, bit7(0x018554dd), 0, 0, "", ""],
     
-    ["Catch a Gypceros", _4s, 4, gh, bit0(0x018554de), 0, 2, "", ""],
+    ["Catch a Gypceros", _4s, 4, gh, bit0(0x018554de), 0, 4, "", ""],
     ["Gathering - Volcanic Belt", _5s, 5, gh, bit1(0x018554de), 0, 0, "", ""],
     ["Slay the Rathalos!", _5s, 5, gh, bit2(0x018554de), 0, 0, "", ""],
     ["Slay the Rathalos!", _5s, 5, gh, bit3(0x018554de), 0, 0, "", ""],
-    ["The Runaway Diablos", _5s, 5, gh, bit4(0x018554de), 0, 3, "(LR)", ""],
-    ["The Fearsome Gravios", _5s, 5, gh, bit5(0x018554de), 0, 3, "", ""],
-    ["Basarios: Unseen Peril", _5s, 5, gh, bit6(0x018554de), 0, 3, "(LR)", ""],
+    ["The Runaway Diablos", _5s, 5, gh, bit4(0x018554de), 0, 5, "(LR)", ""],
+    ["The Fearsome Gravios", _5s, 5, gh, bit5(0x018554de), 0, 5, "", ""],
+    ["Basarios: Unseen Peril", _5s, 5, gh, bit6(0x018554de), 0, 5, "(LR)", ""],
     ["Leaders of the Ioprey", _5s, 5, gh, bit7(0x018554de), 0, 0, "", ""],
     
     ["Catch a Rathalos", _5s, 5, gh, bit0(0x018554df), 0, 0, "", ""],
@@ -320,13 +320,13 @@ quests = [
     ["Bring us Powderstone!", _5s, 5, gh, bit3(0x018554df), 0, 0, "", ""],
     ["Volcanic Valor", _5s, 5, gh, bit4(0x018554df), 0, 0, "", ""],
     ["Nightmare Battle", _5s, 5, gh, bit5(0x018554df), 0, 0, "", ""],
-    ["Wyvern in the Darkness", _5s, 5, gh, bit6(0x018554df), 0, 3, "", ""],
-    ["Get me a Live Khezu!", _5s, 5, gh, bit7(0x018554df), 0, 3, "", ""],
+    ["Wyvern in the Darkness", _5s, 5, gh, bit6(0x018554df), 0, 5, "", ""],
+    ["Get me a Live Khezu!", _5s, 5, gh, bit7(0x018554df), 0, 5, "", ""],
     
-    ["Water Wyvern in the Jungle", _5s, 5, gh, bit0(0x018554e0), 0, 3, "", ""],
-    ["The Desert Plesioth", _5s, 5, gh, bit1(0x018554e0), 0, 3, "", ""],
-    ["A Troublesome Pair", _5s, 5, gh, bit2(0x018554e0), 0, 3, "(LR)", ""],
-    ["Four Horns", u, 5, gh, bit3(0x018554e0), 0, 3, "", ""],
+    ["Water Wyvern in the Jungle", _5s, 5, gh, bit0(0x018554e0), 0, 5, "", ""],
+    ["The Desert Plesioth", _5s, 5, gh, bit1(0x018554e0), 0, 5, "", ""],
+    ["A Troublesome Pair", _5s, 5, gh, bit2(0x018554e0), 0, 5, "(LR)", ""],
+    ["Four Horns", u, 5, gh, bit3(0x018554e0), 0, 10, "", ""],
     ["Two Rock Wyverns", _5s, 5, gh, bit4(0x018554e0), 0, 0, "", ""],
     ["On the Trail of the Beast!", _5s, 5, gh, bit5(0x018554e0), 0, 0, "", ""],
     ["Gathering - Forest", _6s, 6, gh, bit6(0x018554e0), 0, 0, "", ""],
@@ -334,55 +334,55 @@ quests = [
     
     ["Gathering - Swamp", _6s, 6, gh, bit0(0x018554e1), 0, 0, "", ""],
     ["Gathering - Jungle", _6s, 6, gh, bit1(0x018554e1), 0, 0, "", ""],
-    ["Attack of the Yian Kut-Ku", _6s, 6, gh, bit2(0x018554e1), 0x7d5, 4, "(HR)", ""],
+    ["Attack of the Yian Kut-Ku", _6s, 6, gh, bit2(0x018554e1), 0x7d5, 5, "(HR)", ""],
     ["Jungle Menace", _6s, 6, gh, bit3(0x018554e1), 0x7d6, 0, "", ""],
-    ["Trouble in the Swamp", _6s, 6, gh, bit4(0x018554e1), 0x7d7, 4, "(HR)", ""],
+    ["Trouble in the Swamp", _6s, 6, gh, bit4(0x018554e1), 0x7d7, 5, "(HR)", ""],
     ["The Vespoid Campaign", _6s, 6, gh, bit5(0x018554e1), 0, 0, "", ""],
     ["The Threat of Poison", _6s, 6, gh, bit6(0x018554e1), 0, 0, "", ""],
     ["Slay the Gypceros!", _6s, 6, gh, bit7(0x018554e1), 0x7da, 0, "", ""],
     
     ["The White Hunter", _6s, 6, gh, bit0(0x018554e2), 0, 0, "", ""],
     ["The Burrowing Monster", _6s, 6, gh, bit1(0x018554e2), 0x7dc, 0, "", ""],
-    ["Trapped by Yian Kut-Ku", _6s, 6, gh, bit2(0x018554e2), 0, 4, "", ""],
-    ["The Poison Siege", _6s, 6, gh, bit3(0x018554e2), 0, 4, "", ""],
-    ["The Two Sand Shadows", _6s, 6, gh, bit4(0x018554e2), 0, 4, "", ""],
+    ["Trapped by Yian Kut-Ku", _6s, 6, gh, bit2(0x018554e2), 0, 5, "", ""],
+    ["The Poison Siege", _6s, 6, gh, bit3(0x018554e2), 0, 5, "", ""],
+    ["The Two Sand Shadows", _6s, 6, gh, bit4(0x018554e2), 0, 5, "", ""],
     ["Gathering - Volcanic Belt", _7s, 7, gh, bit5(0x018554e2), 0, 0, "", ""],
     ["Wrath of the Yian Kut-Ku", _7s, 7, gh, bit6(0x018554e2), 0, 0, "", ""],
     ["Attack of the Rathian", _7s, 7, gh, bit7(0x018554e2), 0x837, 0, "", ""],
     
     ["Queen of the Desert", _7s, 7, gh, bit0(0x018554e3), 0x838, 0, "", ""],
-    ["The Shadow in the Cave", _7s, 7, gh, bit1(0x018554e3), 0x839, 4, "", ""],
+    ["The Shadow in the Cave", _7s, 7, gh, bit1(0x018554e3), 0x839, 10, "", ""],
     ["Wyvern in the Darkness", _7s, 7, gh, bit2(0x018554e3), 0x83a, 0, "", ""],
-    ["Basarios: Invisible Terror", _7s, 7, gh, bit3(0x018554e3), 0x83b, 4, "", ""],
-    ["Two Rock Wyverns", _7s, 7, gh, bit4(0x018554e3), 0, 4, "", ""],
-    ["The Thunderous Duo", u, 7, gh, bit5(0x018554e3), 0, 4, "", ""],
+    ["Basarios: Invisible Terror", _7s, 7, gh, bit3(0x018554e3), 0x83b, 10, "", ""],
+    ["Two Rock Wyverns", _7s, 7, gh, bit4(0x018554e3), 0, 10, "", ""],
+    ["The Thunderous Duo", u, 7, gh, bit5(0x018554e3), 0, 10, "", ""],
     ["The Thunderous Duo", _7s, 7, gh, bit6(0x018554e3), 0, 0, "", ""],
-    ["The Land and the Sky", _7s, 7, gh, bit7(0x018554e3), 0, 4, "", ""],
+    ["The Land and the Sky", _7s, 7, gh, bit7(0x018554e3), 0, 10, "", ""],
     
     ["Howl of Heaven & Earth", _7s, 7, gh, bit0(0x018554e4), 0, 0, "", ""],
     ["Powderstone Festival", _7s, 7, gh, bit1(0x018554e4), 0, 0, "", ""],
-    ["Queen of the Jungle", _8s, 8, gh, bit2(0x018554e4), 0x899, 5, "", ""],
+    ["Queen of the Jungle", _8s, 8, gh, bit2(0x018554e4), 0x899, 10, "", ""],
     ["Slay the Rathalos!", _8s, 8, gh, bit3(0x018554e4), 0x89a, 0, "", ""],
-    ["Slay the Rathalos!", _8s, 8, gh, bit4(0x018554e4), 0x89b, 5, "(Silver)", "(9700z)"],
+    ["Slay the Rathalos!", _8s, 8, gh, bit4(0x018554e4), 0x89b, 10, "(Silver)", "(9700z)"],
     ["The Smoke Clad King", _8s, 8, gh, bit5(0x018554e4), 0x89c, 0, "", ""],
     ["Water Wyvern in the Jungle", _8s, 8, gh, bit6(0x018554e4), 0x89d, 0, "", ""],
-    ["Water Wyvern in the Jungle", _8s, 8, gh, bit7(0x018554e4), 0x89e, 5, "(Green)", "(8700z)"],
+    ["Water Wyvern in the Jungle", _8s, 8, gh, bit7(0x018554e4), 0x89e, 10, "(Green)", "(8700z)"],
     
-    ["The Runaway Diablos", _8s, 8, gh, bit0(0x018554e5), 0x89f, 5, "(HR)", "(10000z)"],
-    ["The Runaway Diablos", _8s, 8, gh, bit1(0x018554e5), 0x8a0, 5, "(Black)", "(12500z)"],
-    ["Volcanic Valor", _8s, 8, gh, bit2(0x018554e5), 0x8a1, 5, "", "(9900z)"],
-    ["Volcanic Valor", _8s, 8, gh, bit3(0x018554e5), 0x8a2, 5, "(Black)", "(12000z)"],
+    ["The Runaway Diablos", _8s, 8, gh, bit0(0x018554e5), 0x89f, 10, "(HR)", "(10000z)"],
+    ["The Runaway Diablos", _8s, 8, gh, bit1(0x018554e5), 0x8a0, 10, "(Black)", "(12500z)"],
+    ["Volcanic Valor", _8s, 8, gh, bit2(0x018554e5), 0x8a1, 10, "", "(9900z)"],
+    ["Volcanic Valor", _8s, 8, gh, bit3(0x018554e5), 0x8a2, 10, "(Black)", "(12000z)"],
     ["Four Horns", _8s, 8, gh, bit4(0x018554e5), 0, 0, "", ""],
     ["Flaming Jewels", _8s, 8, gh, bit5(0x018554e5), 0, 0, "", ""],
     ["Dual Plesioth", _8s, 8, gh, bit6(0x018554e5), 0, 0, "", ""],
     ["Wyverns of the Land and Sky", _8s, 8, gh, bit7(0x018554e5), 0, 0, "", ""],
     
-    ["Wyverns of the Land and Sky", _8s, 8, gh, bit0(0x018554e6), 0, 5, "(HR)", "(19200z)"],
-    ["Pink and Azure", u, 8, gh, bit1(0x018554e6), 0, 5, "", ""],
+    ["Wyverns of the Land and Sky", _8s, 8, gh, bit0(0x018554e6), 0, 10, "(HR)", "(19200z)"],
+    ["Pink and Azure", u, 8, gh, bit1(0x018554e6), 0, 10, "", ""],
     ["Ultimate Ore Mining", _8s, 8, gh, bit2(0x018554e6), 0, 0, "", ""],
     ["A Giant Dragon Invades!", u, 3, gh, bit3(0x018554e6), 0, 0, "", ""],
-    ["A Giant Dragon Invades!", u, 5, gh, bit4(0x018554e6), 0, 10, "", ""],
-    ["A Giant Dragon Invades!", u, 9, gh, bit5(0x018554e6), 0, 10, "(Ashen)", ""],
+    ["A Giant Dragon Invades!", u, 5, gh, bit4(0x018554e6), 0, 25, "", ""],
+    ["A Giant Dragon Invades!", u, 9, gh, bit5(0x018554e6), 0, 25, "(Ashen)", ""],
     ["The Legendary Black Dragon", u, 9, gh, bit6(0x018554e6), 0, 0, "", ""],
     ["The Legendary Black Dragon", u, 9, gh, bit7(0x018554e6), 0, 0, "", ""],
     
@@ -399,54 +399,54 @@ quests = [
     ["Present for the Armorer", _1s, 1, v, bit6(0x018554e8), 0, 0, "", ""],
     ["Raid the Wyvern's Nest", _1s, 1, v, bit7(0x018554e8), 0, 0, "", ""],
     
-    ["The Great Jungle Kut-Ku", _2s, 2, v, bit0(0x018554e9), 0, 1, "", ""],
+    ["The Great Jungle Kut-Ku", _2s, 2, v, bit0(0x018554e9), 0, 2, "", ""],
     ["Slay the Velociprey!", _2s, 2, v, bit1(0x018554e9), 0, 0, "", ""],
-    ["Liver of Legend!", _2s, 2, v, bit2(0x018554e9), 0, 1, "", ""],
-    ["The Formidable Velocidrome!", u, 2, v, bit3(0x018554e9), 0, 1, "", ""],
+    ["Liver of Legend!", _2s, 2, v, bit2(0x018554e9), 0, 2, "", ""],
+    ["The Formidable Velocidrome!", u, 2, v, bit3(0x018554e9), 0, 2, "", ""],
     ["The Furball Arena", _2s, 2, v, bit4(0x018554e9), 0, 0, "", ""],
     ["Slay the Great Kut-Ku!", _2s, 2, v, bit5(0x018554e9), 0, 0, "", ""],
-    ["Trouble in the Forest", _2s, 2, v, bit6(0x018554e9), 0, 1, "", ""],
+    ["Trouble in the Forest", _2s, 2, v, bit6(0x018554e9), 0, 2, "", ""],
     ["Attack of the Giant Bugs!", _2s, 2, v, bit7(0x018554e9), 0, 0, "", ""],
     
     ["Crystal Hunting!", _2s, 2, v, bit0(0x018554ea), 0, 0, "", ""],
-    ["Catch a Yian Kut-Ku", _3s, 3, v, bit1(0x018554ea), 0, 1, "", ""],
+    ["Catch a Yian Kut-Ku", _3s, 3, v, bit1(0x018554ea), 0, 3, "", ""],
     ["Slay the Velociprey Pack!", _3s, 3, v, bit2(0x018554ea), 0, 0, "", ""],
-    ["Velocidrome Redux!", _3s, 3, v, bit3(0x018554ea), 0, 1, "", ""],
-    ["The Land Shark", u, 3, v, bit4(0x018554ea), 0, 1, "", ""],
+    ["Velocidrome Redux!", _3s, 3, v, bit3(0x018554ea), 0, 3, "", ""],
+    ["The Land Shark", u, 3, v, bit4(0x018554ea), 0, 3, "", ""],
     ["Bring me Eggs!", _3s, 3, v, bit5(0x018554ea), 0, 0, "", ""],
-    ["More Coal Please", _3s, 3, v, bit6(0x018554ea), 0, 1, "", ""],
+    ["More Coal Please", _3s, 3, v, bit6(0x018554ea), 0, 3, "", ""],
     ["Slay the Genprey!", _3s, 3, v, bit7(0x018554ea), 0, 0, "", ""],
     
-    ["Slay the Gendrome!", _3s, 3, v, bit0(0x018554eb), 0, 1, "", ""],
+    ["Slay the Gendrome!", _3s, 3, v, bit0(0x018554eb), 0, 3, "", ""],
     ["Ioprey Hunting", _3s, 3, v, bit1(0x018554eb), 0, 0, "", ""],
-    ["Slay the Gypceros!", _3s, 3, v, bit2(0x018554eb), 0, 1, "", ""],
+    ["Slay the Gypceros!", _3s, 3, v, bit2(0x018554eb), 0, 3, "", ""],
     ["Wyvern Egg Hunt", _3s, 3, v, bit3(0x018554eb), 0, 0, "", ""],
     ["Slay the Velociprey Pack!", _3s, 3, v, bit4(0x018554eb), 0, 0, "", ""],
-    ["The Plague of Yian Kut-Ku", _4s, 4, v, bit5(0x018554eb), 0, 2, "", ""],
+    ["The Plague of Yian Kut-Ku", _4s, 4, v, bit5(0x018554eb), 0, 4, "", ""],
     ["Fang of the Iodrome!", _4s, 4, v, bit6(0x018554eb), 0, 0, "", ""],
-    ["Attack of the Rathalos", u, 4, v, bit7(0x018554eb), 0, 2, "", ""],
+    ["Attack of the Rathalos", u, 4, v, bit7(0x018554eb), 0, 4, "", ""],
     
     ["The Smoke Clad King", _4s, 4, v, bit0(0x018554ec), 0, 0, "", ""],
-    ["Catch a Rathalos", _4s, 4, v, bit1(0x018554ec), 0, 2, "", ""],
+    ["Catch a Rathalos", _4s, 4, v, bit1(0x018554ec), 0, 4, "", ""],
     ["Deliver Three Wyvern Eggs", _4s, 4, v, bit2(0x018554ec), 0, 0, "", ""],
-    ["Basarios: Unseen Peril", _4s, 4, v, bit3(0x018554ec), 0, 2, "", ""],
+    ["Basarios: Unseen Peril", _4s, 4, v, bit3(0x018554ec), 0, 4, "", ""],
     ["Queen of the Desert", _4s, 4, v, bit4(0x018554ec), 0, 0, "", ""],
     ["Queen of the Jungle", _4s, 4, v, bit5(0x018554ec), 0, 0, "", ""],
-    ["The Fierce Flaming Rathian", _4s, 4, v, bit6(0x018554ec), 0, 2, "", ""],
+    ["The Fierce Flaming Rathian", _4s, 4, v, bit6(0x018554ec), 0, 4, "", ""],
     ["Slay the Rathian!", _4s, 4, v, bit7(0x018554ec), 0, 0, "", ""],
     
-    ["Water Wyvern in the Desert", _5s, 5, v, bit0(0x018554ed), 0, 2, "", ""],
+    ["Water Wyvern in the Desert", _5s, 5, v, bit0(0x018554ed), 0, 5, "", ""],
     ["Bring me a Plesioth!", _5s, 5, v, bit1(0x018554ed), 0, 0, "", ""],
     ["Water Wyvern in the Jungle", _5s, 5, v, bit2(0x018554ed), 0, 0, "", ""],
-    ["The Wyvern in the Dark", _5s, 5, v, bit3(0x018554ed), 0, 2, "", ""],
+    ["The Wyvern in the Dark", _5s, 5, v, bit3(0x018554ed), 0, 5, "", ""],
     ["Get me a Live Khezu!", _5s, 5, v, bit4(0x018554ed), 0, 0, "", ""],
-    ["Terror of the Gravios", u, 5, v, bit5(0x018554ed), 0, 2, "", ""],
+    ["Terror of the Gravios", u, 5, v, bit5(0x018554ed), 0, 5, "", ""],
     ["Danger! Fierce Gravios", _5s, 5, v, bit6(0x018554ed), 0, 0, "", ""],
-    ["Handle With Care!", _5s, 5, v, bit7(0x018554ed), 0, 2, "", ""],
+    ["Handle With Care!", _5s, 5, v, bit7(0x018554ed), 0, 5, "", ""],
     
-    ["A Troublesome Pair", _5s, 5, v, bit0(0x018554ee), 0, 2, "", ""],
+    ["A Troublesome Pair", _5s, 5, v, bit0(0x018554ee), 0, 5, "", ""],
     ["Ultimate Ore Mining?", _5s, 5, v, bit1(0x018554ee), 0, 0, "", ""],
-    ["Horn of the Monoblos", u, 6, v, bit2(0x018554ee), 0, 2, "", ""],
+    ["Horn of the Monoblos", u, 6, v, bit2(0x018554ee), 0, 5, "", ""],
     ["Horn of the Monoblos", u, 6, v, bit3(0x018554ee), 0, 0, "", ""],
     ["The Runaway Diablos", u, 6, v, bit4(0x018554ee), 0, 0, "", ""],
     ["A Troublesome Pair", u, 6, v, bit5(0x018554ee), 0, 0, "", ""],
@@ -1264,12 +1264,8 @@ for monGroup in monsterList {
         }
     } // by the end of the loop, the name is the one of the base species
     
-    pointsLow = 5
-    pointsHigh = 10
-    if(firstHunts==5) {
-        pointsLow = 10
-        pointsHigh = 25
-    }
+    pointsLow = 10
+    pointsHigh = 25
     
     titleFirst = format("{0} Hunter",name)
     if(name==lao[MON_NAME]) titleFirst = "Saviour"
@@ -1307,7 +1303,7 @@ for monGroup in monsterList {
         achievement(
             title = name+titleSilver,
             description = format("Obtain at least the {0} silver crown", name),
-            points = 5,
+            points = 10,
             trigger = questFinished() && isSilver,
             id = cheevoId
         )
@@ -1318,7 +1314,7 @@ for monGroup in monsterList {
         achievement(
             title = name+titleGold,
             description = format("Obtain the {0} gold crown", name),
-            points = 10,
+            points = 25,
             trigger = questFinished() && isGold,
             id = cheevoId
         )
@@ -1346,58 +1342,58 @@ for tq in trainingQuests {
     achievement(
         title = format("{0} Expert",name),
         description = format("Complete all the {0} training quests", name),
-        points = 5,
+        points = 10,
         trigger = monsterTQ(tq),
         id = cheevoId
     )
     
     cheevoId = cheevoId + 1
 }
-achievement(
-    title = "Sword Expert",
-    description = "Complete all the Sword training quests",
-    points = 10,
-    trigger = swordTQ(),
-    id = cheevoId
-)
-    
-cheevoId = cheevoId + 1
-achievement(
-    title = "Great Sword Expert",
-    description = "Complete all the Great Sword training quests",
-    points = 10,
-    trigger = gsTQ(),
-    id = cheevoId
-)
-    
-cheevoId = cheevoId + 1
-achievement(
-    title = "Hammer Expert",
-    description = "Complete all the Hammer training quests",
-    points = 10,
-    trigger = hammerTQ(),
-    id = cheevoId
-)
-    
-cheevoId = cheevoId + 1
-achievement(
-    title = "Lance Expert",
-    description = "Complete all the Lance training quests",
-    points = 10,
-    trigger = lanceTQ(),
-    id = cheevoId
-)
-    
-cheevoId = cheevoId + 1
-achievement(
-    title = "Bowgun Expert",
-    description = "Complete all the Bowgun training quests",
-    points = 10,
-    trigger = bowgunTQ(),
-    id = cheevoId
-)
-    
-cheevoId = cheevoId + 1
+//achievement(
+//    title = "Sword Expert",
+//    description = "Complete all the Sword training quests",
+//    points = 10,
+//    trigger = swordTQ(),
+//    id = cheevoId
+//)
+//    
+//cheevoId = cheevoId + 1
+//achievement(
+//    title = "Great Sword Expert",
+//    description = "Complete all the Great Sword training quests",
+//    points = 10,
+//    trigger = gsTQ(),
+//    id = cheevoId
+//)
+//    
+//cheevoId = cheevoId + 1
+//achievement(
+//    title = "Hammer Expert",
+//    description = "Complete all the Hammer training quests",
+//    points = 10,
+//    trigger = hammerTQ(),
+//    id = cheevoId
+//)
+//    
+//cheevoId = cheevoId + 1
+//achievement(
+//    title = "Lance Expert",
+//    description = "Complete all the Lance training quests",
+//    points = 10,
+//    trigger = lanceTQ(),
+//    id = cheevoId
+//)
+//    
+//cheevoId = cheevoId + 1
+//achievement(
+//    title = "Bowgun Expert",
+//    description = "Complete all the Bowgun training quests",
+//    points = 10,
+//    trigger = bowgunTQ(),
+//    id = cheevoId
+//)
+//    
+//cheevoId = cheevoId + 1
 
 // farm and misc
 achievement(
@@ -1533,7 +1529,7 @@ for map in maps {
     achievement(
         title = map+" Guide",
         description = format("Complete 20 quests in the {0}", map),
-        points = 3,
+        points = 5,
         trigger = questClear() && prev(byte(maps[map]))==19 && measured(byte(maps[map])==20) ,
     id = cheevoId
     )
@@ -1562,7 +1558,7 @@ for breakable in monsterBreakables {
     achievement(
         title = format("{0} Destroyer", breakable[BREAK_NAME]),
         description = format(description, breakable[BREAK_NAME]),
-        points = 5,
+        points = 10,
         trigger = breakConditions,
         id = cheevoId
     )
@@ -1593,7 +1589,7 @@ achievement(
 achievement(
     title = "Official Freedom Punching Bag",
     description = "Complete the 2 stars village quest \"Formidable Velocidrome!\" with all 7 weapons in a single session",
-    points = 5,
+    points = 10,
     trigger = punchingBag(),
     id = cheevoId
 )
@@ -1603,7 +1599,7 @@ achievement(
 achievement(
     title = "Leader of the Pack",
     description = "Defeat a Cephadrome, a Velocidrome, a Gendrome and an Iodrome in a row, in their respective quests, in the same session",
-    points = 5,
+    points = 10,
     trigger = dromeHunter(),
     id = cheevoId
 )
