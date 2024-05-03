@@ -2240,7 +2240,7 @@ function cheevoBossChallengeRematch6() {
 function cheevoBossChallengeStory7() {
     achievement(
         "Can't Touch This",
-        "Defeat Garlen's Bugpod in Lunar Base Vision 3 without being caugh by the Beetles using only Pango",
+        "Defeat Garlen's Bugpod in Lunar Base Vision 3 without being caught by the Beetles using only Pango",
         10,
         bossChallengeStory7(),
         id=cheevoId,
