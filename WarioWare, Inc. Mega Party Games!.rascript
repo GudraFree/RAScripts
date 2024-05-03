@@ -8,6 +8,11 @@ function cheevoIdPlus() {
 }
 
 // #region constants
+OBJECTIVE_TIME_ATTACK_20 = 10000
+OBJECTIVE_TIME_ATTACK_40 = 20000
+OBJECTIVE_TIME_ATTACK_60 = 30000
+OBJECTIVE_MASTER_MODE = 153
+
 A_INTRO = "Intro"
 A_SPORT = "Sports"
 A_SCIFI = "Sci-Fi"
@@ -32,6 +37,7 @@ MG_CLEAR = 3
 ST_NAME = 0
 ST_ADDRESS = 1
 ST_LV50 = 2
+ST_FACTOR = 3
 
 // #region addresses
 a_stat_timing = 0x00260588
@@ -44,6 +50,15 @@ a_fileSelected = 0x00295910
 o_file = 0x284
 a_fileSelectedFlag = 0x00295930
 
+a_timeAttack20 = 0x0026055c
+a_timeAttack40 = 0x0026055e
+a_timeAttack60 = 0x00260560
+a_masterMode = 0x00260558
+
+a_mode = 0x01706bc8
+a_mode_ingame = 0x01706be8
+a_mode_singleplayer = 0x01706be0
+
 // #region accessors
 function fileSelected() => dword_be(a_fileSelected)
 function fileSelectedFlag() => bit0(a_fileSelectedFlag)
@@ -52,8 +67,23 @@ function statInt() => dword_be(a_stat_int + (fileSelected() * o_file))
 function statControl() => dword_be(a_stat_control + (fileSelected() * o_file))
 function statStamina() => dword_be(a_stat_stamina + (fileSelected() * o_file))
 function statSpeed() => dword_be(a_stat_speed + (fileSelected() * o_file))
+
+function mode() => dword_be(a_mode)
+function modeIngame() => dword_be(a_mode_ingame)
+function modeSingleplayer() => dword_be(a_mode_singleplayer)
 // #endregion accessors
 // #endregion addresses
+
+MODE_DEFAULT = 0x260
+MODE_CREDITS = 0x200
+MODE_ALBUM = 0x2a0
+
+MODE_SP_STAGE = 0
+MODE_SP_MASTER = 1
+MODE_SP_MIXED = 2
+MODE_SP_TIME = 3
+MODE_SP_HARD = 4
+MODE_SP_THRILLING = 5
 
 // #region minigame scores file 1
 mg001 = [0x260328, "Crazy Cars", A_INTRO, 20]
@@ -292,12 +322,12 @@ for mg in minigames {
 }
 
 // #endregion minigames
-
-stTiming = [S_TIMING, statTiming(), 0x214e]
-stInt = [S_INT, statInt(), 0xf81]
-stControl = [S_CONTROL, statControl(), 0x2989]
-stStamina = [S_STAM, statStamina(), 0xb1a]
-stSpeed = [S_SPEED, statSpeed(), 0x181e]
+// ST_NAME, ST_ADDRESS, ST_L50, ST_FACTOR
+stTiming = [S_TIMING, statTiming(), 0x214e, 170.52]
+stInt = [S_INT, statInt(), 0xf81, 79.38]
+stControl = [S_CONTROL, statControl(), 0x2989, 212.66]
+stStamina = [S_STAM, statStamina(), 0xb1a, 56.84]
+stSpeed = [S_SPEED, statSpeed(), 0x181e, 123.48]
 
 stats = [ stTiming, stControl, stSpeed, stInt, stStamina ]
 
@@ -308,12 +338,35 @@ statFullLookup = {
     S_STAM: "Meat Lover Youngster",
     S_SPEED: "Unnatentive Freshman"
 }
+
+modeLookup = {
+    MODE_SP_STAGE: "Stage Clear",
+    MODE_SP_MASTER: "Master",
+    MODE_SP_MIXED: "All Mixed Up",
+    MODE_SP_TIME: "Time Attack",
+    MODE_SP_HARD: "Hard",
+    MODE_SP_THRILLING: "Thrilling",
+}
+
+// rp
+rpMenu = "Menu diving"
+// timing, int, control, stamina, speed
+statString = " | ⏱️ {0} ~ 🧠 {1} ~ 🕹️ {2} ~ 💪 {3} ~ 🏃 {4}"
+rpPlayingMode = "Playing {5} Mode"+statString
+rpPlayingCredits = "Playing Staff Roll Mode"+statString
+rpPlayingAlbum = "Beating scores in Album Mode"+statString
 // #endregion constants
 
 // #region functions
 function isFileSelected() => fileSelectedFlag()==1
 function minigame(address) => word_be(address + (fileSelected() * o_file))
-
+function readableTime(cs) {
+    mm = cs/6000
+    ss = (cs/100)%60
+    timeString  = "{0}:{1}"
+    if(ss<10) timeString  = "{0}:0{1}"
+    return format(timeString, mm, ss)
+}
 // trigger functions
 function albumComplete(listMg) {
     total = length(listMg)
@@ -342,6 +395,46 @@ function halfAllStats() {
     
     return trigger
     
+}
+function timeAttack20() {
+    trigger = isFileSelected() &&
+        minigame(a_timeAttack20) > 0 &&
+        minigame(a_timeAttack20) < OBJECTIVE_TIME_ATTACK_20 &&
+        (
+            prev(minigame(a_timeAttack20)) == 0 || 
+            prev(minigame(a_timeAttack20)) >= OBJECTIVE_TIME_ATTACK_20
+        )
+    
+    return trigger
+}
+function timeAttack40() {
+    trigger = isFileSelected() &&
+        minigame(a_timeAttack40) > 0 &&
+        minigame(a_timeAttack40) < OBJECTIVE_TIME_ATTACK_40 &&
+        (
+            prev(minigame(a_timeAttack40)) == 0 || 
+            prev(minigame(a_timeAttack40)) >= OBJECTIVE_TIME_ATTACK_40
+        )
+    
+    return trigger
+}
+function timeAttack60() {
+    trigger = isFileSelected() &&
+        minigame(a_timeAttack60) > 0 &&
+        minigame(a_timeAttack60) < OBJECTIVE_TIME_ATTACK_60 &&
+        (
+            prev(minigame(a_timeAttack60)) == 0 || 
+            prev(minigame(a_timeAttack60)) >= OBJECTIVE_TIME_ATTACK_60
+        )
+    
+    return trigger
+}
+function masterMode() {
+    trigger = isFileSelected() &&
+        minigame(a_masterMode) >= OBJECTIVE_MASTER_MODE &&
+        prev(minigame(a_masterMode)) < OBJECTIVE_MASTER_MODE
+    
+    return trigger
 }
 // trigger functions
 
@@ -397,7 +490,59 @@ function cheevoStats25() {
     
     cheevoIdPlus()
 }
+
+function cheevoTimeAttack20() {
+    achievement(
+        "Time Attack 20",
+        format("Get a time lower than {0} on Time Attack Mode (20 minigames)",readableTime(OBJECTIVE_TIME_ATTACK_20)),
+        10,
+        timeAttack20(),
+        id= cheevoId
+    )
+    
+    cheevoIdPlus()
+}
+function cheevoTimeAttack40() {
+    achievement(
+        "Time Attack 40",
+        format("Get a time lower than {0} on Time Attack Mode (40 minigames)",readableTime(OBJECTIVE_TIME_ATTACK_40)),
+        10,
+        timeAttack40(),
+        id= cheevoId
+    )
+    
+    cheevoIdPlus()
+}
+function cheevoTimeAttack60() {
+    achievement(
+        "Time Attack 60",
+        format("Get a time lower than {0} on Time Attack Mode (60 minigames)",readableTime(OBJECTIVE_TIME_ATTACK_60)),
+        10,
+        timeAttack60(),
+        id= cheevoId
+    )
+    
+    cheevoIdPlus()
+}
+function cheevoMasterMode() {
+    achievement(
+        "Master Mode",
+        format("Get a score of {0} or more on Master Mode", OBJECTIVE_MASTER_MODE),
+        25,
+        masterMode(),
+        id= cheevoId
+    )
+    
+    cheevoIdPlus()
+}
 // cheevo functions
+
+// rp functions
+function isCredits() => mode() == MODE_CREDITS
+function isAlbum() => mode() == MODE_ALBUM
+function isPlaying() => mode() == MODE_DEFAULT && modeIngame() > 0x80000000 // address sets to pointer when ingame
+function rpStat(stat) => stat[ST_ADDRESS] / stat[ST_FACTOR]
+// rp functions
 
 // generate achievements
 for album in albums cheevoAlbumComplete(album)
@@ -405,3 +550,39 @@ cheevoAllComplete()
 
 for stat in stats cheevoStat50(stat)
 cheevoStats25()
+
+cheevoTimeAttack20()
+cheevoTimeAttack40()
+cheevoTimeAttack60()
+cheevoMasterMode()
+
+// rp
+rich_presence_conditional_display(
+    isCredits(),
+    rpPlayingCredits,
+    rich_presence_value("Timing", rpStat(stTiming)),
+    rich_presence_value("Int", rpStat(stInt)),
+    rich_presence_value("Control", rpStat(stControl)),
+    rich_presence_value("Stamina", rpStat(stStamina)),
+    rich_presence_value("Speed", rpStat(stSpeed))
+)
+rich_presence_conditional_display(
+    isAlbum(),
+    rpPlayingAlbum,
+    rich_presence_value("Timing", rpStat(stTiming)),
+    rich_presence_value("Int", rpStat(stInt)),
+    rich_presence_value("Control", rpStat(stControl)),
+    rich_presence_value("Stamina", rpStat(stStamina)),
+    rich_presence_value("Speed", rpStat(stSpeed))
+)
+rich_presence_conditional_display(
+    isPlaying(),
+    rpPlayingMode,
+    rich_presence_value("Timing", rpStat(stTiming)),
+    rich_presence_value("Int", rpStat(stInt)),
+    rich_presence_value("Control", rpStat(stControl)),
+    rich_presence_value("Stamina", rpStat(stStamina)),
+    rich_presence_value("Speed", rpStat(stSpeed)),
+    rich_presence_lookup("Mode", modeSingleplayer(), modeLookup)
+)
+rich_presence_display(rpMenu)
