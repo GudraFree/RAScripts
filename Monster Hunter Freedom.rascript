@@ -1171,7 +1171,10 @@ for quest in quests {
         questName = quest[QUEST_NAME]
         questNameAppend = quest[QUEST_TITL_APPEND]
         if(questNameAppend!="") questName = questName+" "+questNameAppend
-        questDesc =format("Clear the {0} {1} quest \"{2}\"",quest[QUEST_TYPE_TEXT], quest[QUEST_LOCATION], quest[QUEST_NAME])
+        type= "progression"
+        typeText = quest[QUEST_TYPE_TEXT]
+        if(typeText=="final") type= ""
+        questDesc =format("Clear the {0} {1} quest \"{2}\"", typeText, quest[QUEST_LOCATION], quest[QUEST_NAME])
         questDescAppend = quest[QUEST_DESC_APPEND]
         if(questDescAppend!="") questDesc = questDesc+" "+questDescAppend
         achievement(
@@ -1179,8 +1182,8 @@ for quest in quests {
             description = questDesc,
             points = quest[QUEST_POINTS],
             trigger = singleQuest(quest),
-            id = cheevoId
-            //, type=progression
+            id = cheevoId,
+            type = type
         )
         cheevoId = cheevoId + 1
     }
@@ -1217,7 +1220,7 @@ for star in ghStars {
         description = format("Clear all {0} stars Guild Hall quests",star),
         points = 10,
         trigger = questClear() && sumQuests(star,gh),
-    id = cheevoId
+        id = cheevoId
     )
     
     cheevoId = cheevoId + 1
@@ -1357,7 +1360,7 @@ for tq in trainingQuests {
 //    id = cheevoId
 //)
 //    
-//cheevoId = cheevoId + 1
+cheevoId = cheevoId + 1
 //achievement(
 //    title = "Great Sword Expert",
 //    description = "Complete all the Great Sword training quests",
@@ -1366,7 +1369,7 @@ for tq in trainingQuests {
 //    id = cheevoId
 //)
 //    
-//cheevoId = cheevoId + 1
+cheevoId = cheevoId + 1
 //achievement(
 //    title = "Hammer Expert",
 //    description = "Complete all the Hammer training quests",
@@ -1375,7 +1378,7 @@ for tq in trainingQuests {
 //    id = cheevoId
 //)
 //    
-//cheevoId = cheevoId + 1
+cheevoId = cheevoId + 1
 //achievement(
 //    title = "Lance Expert",
 //    description = "Complete all the Lance training quests",
@@ -1384,7 +1387,7 @@ for tq in trainingQuests {
 //    id = cheevoId
 //)
 //    
-//cheevoId = cheevoId + 1
+cheevoId = cheevoId + 1
 //achievement(
 //    title = "Bowgun Expert",
 //    description = "Complete all the Bowgun training quests",
@@ -1393,7 +1396,7 @@ for tq in trainingQuests {
 //    id = cheevoId
 //)
 //    
-//cheevoId = cheevoId + 1
+cheevoId = cheevoId + 1
 
 // farm and misc
 achievement(
