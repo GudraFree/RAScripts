@@ -1,10 +1,16 @@
 // WarioWare, Inc.: Mega Party Games!
 // #ID = 6605
 cheevoIdBatch1 = 418292
-cheevoIdBatch1end = 418307
+cheevoIdBatch1end = 418308
+cheevoIdBatch2 = 423160
 cheevoId = cheevoIdBatch1
+leeboId = 101935
 function cheevoIdPlus() {
     cheevoId = cheevoId + 1
+    if(cheevoId==cheevoIdBatch1end) cheevoId = cheevoIdBatch2
+}
+function leeboIdPlus() {
+    leeboId = leeboId + 1
 }
 
 // #region constants
@@ -54,10 +60,19 @@ a_timeAttack20 = 0x0026055c
 a_timeAttack40 = 0x0026055e
 a_timeAttack60 = 0x00260560
 a_masterMode = 0x00260558
+a_mixedUp = 0x26055a
+a_hardMode = 0x260562
+a_thrilling = 0x260564
 
 a_mode = 0x01706bc8
 a_mode_ingame = 0x01706be8
 a_mode_singleplayer = 0x01706be0
+
+a_albumLives = 0xab96c5
+a_albumMinigameOffset = 0x00ab96ac
+a_albumRecordPractice = 0x00ab96a8
+a_albumState = 0x00ab96b0
+a_albumPaused = 0x00ab96bc
 
 // #region accessors
 function fileSelected() => dword_be(a_fileSelected)
@@ -71,6 +86,12 @@ function statSpeed() => dword_be(a_stat_speed + (fileSelected() * o_file))
 function mode() => dword_be(a_mode)
 function modeIngame() => dword_be(a_mode_ingame)
 function modeSingleplayer() => dword_be(a_mode_singleplayer)
+
+function albumLives() => byte(a_albumLives)
+function albumMinigameOffser() => dword_be(a_albumMinigameOffset)
+function albumRecordPractice() => dword_be(a_albumRecordPractice)
+function albumState() => dword_be(a_albumState)
+function albumPaused() => dword_be(a_albumPaused)
 // #endregion accessors
 // #endregion addresses
 
@@ -85,7 +106,14 @@ MODE_SP_TIME = 3
 MODE_SP_HARD = 4
 MODE_SP_THRILLING = 5
 
+ALB_STATE_START = 1
+ALB_STATE_END = 8
+ALB_STATE_SELECTION = 10
+ALB_RECORD = 0
+ALB_PAUSED = 1
+
 // #region minigame scores file 1
+MINIGAME_FIRST_ADDRESS = 0x260328
 mg001 = [0x260328, "Crazy Cars", A_INTRO, 20]
 mg002 = [0x26032c, "Wario Whirled", A_INTRO, 15]
 mg003 = [0x260340, "Saving Face", A_INTRO, 15]
@@ -101,7 +129,7 @@ mg012 = [0x2603be, "Mug Shot", A_INTRO, 20]
 mg013 = [0x26032e, "Log Chop", A_SPORT, 20]
 mg014 = [0x260368, "Fruit Shoot", A_SPORT, 30]
 mg015 = [0x26034e, "Heads Up", A_SPORT, 15]
-mg015 = [0x26036e, "Boing!", A_SPORT, 20]
+mg016 = [0x26036e, "Boing!", A_SPORT, 20]
 mg017 = [0x26037e, "Spare Me", A_SPORT, 15]
 mg018 = [0x260378, "Batter Up", A_SPORT, 20]
 mg019 = [0x26039a, "Baseline Bash", A_SPORT, 20]
@@ -119,7 +147,7 @@ mg030 = [0x26038c, "Hurry Hurdles", A_SPORT, 10]
 mg031 = [0x26039e, "Gifted Goalie", A_SPORT, 10]
 mg032 = [0x260332, "Jumpin' Rope", A_SPORT, 15]
 mg033 = [0x26038a, "Ring My Bell", A_SPORT, 10]
-mg033 = [0x260434, "Set-n-Spike", A_SPORT, 30]
+mg034 = [0x260434, "Set-n-Spike", A_SPORT, 30]
 mg035 = [0x260436, "City Surfer", A_SPORT, 15]
 mg036 = [0x26043c, "Snowboard Slalom", A_SPORT, 10]
 mg037 = [0x2603b2, "Alien Ambush", A_SCIFI, 15]
@@ -161,7 +189,7 @@ mg072 = [0x260362, "Right in the Eye", A_STRANGE, 10]
 mg073 = [0x2603ea, "I Came, I Saw", A_STRANGE, 30]
 mg074 = [0x260410, "Douse the House", A_STRANGE, 15]
 mg075 = [0x260412, "Sole Man", A_STRANGE, 10]
-mg075 = [0x260420, "Nighttime Allergie", A_STRANGE, 20]
+mg076 = [0x260420, "Nighttime Allergie", A_STRANGE, 20]
 mg077 = [0x2603da, "Air Supplies", A_STRANGE, 25]
 mg078 = [0x260430, "Toast the Ghosts", A_STRANGE, 10]
 mg079 = [0x2603e0, "Tilt-n-Tumble", A_STRANGE, 15]
@@ -300,7 +328,7 @@ mg211 = [0x2604e8, "Alien Laser Hero", A_REAL, 5]
 mg212 = [0x2604e6, "The Frog Flap", A_NATURE, 5]
 mg213 = [0x2604ea, "Wario's Adventure", A_ANY, 5]
 
-minigames = [mg001, mg002, mg003, mg004, mg004, mg005, mg006, mg007, mg008, mg010, mg011, mg012, mg013, mg014, mg015, mg015, mg017, mg018, mg019, mg020, mg021, mg022, mg023, mg024, mg025, mg026, mg027, mg028, mg029, mg030, mg031, mg032, mg033, mg033, mg035, mg036, mg037, mg038, mg039, mg040, mg041, mg042, mg043, mg044, mg045, mg046, mg047, mg048, mg049, mg050, mg051, mg052, mg053, mg054, mg055, mg056, mg057, mg058, mg059, mg060, mg061, mg062, mg063, mg064, mg065, mg066, mg067, mg068, mg069, mg070, mg071, mg072, mg073, mg074, mg075, mg075, mg077, mg078, mg079, mg080, mg081, mg082, mg083, mg084, mg085, mg086, mg087, mg088, mg089, mg090, mg091, mg092, mg093, mg094, mg095, mg096, mg097, mg098, mg099, mg100, mg101, mg102, mg103, mg104, mg105, mg106, mg107, mg108, mg109, mg110, mg111, mg112, mg113, mg114, mg115, mg116, mg117, mg118, mg119, mg120, mg121, mg122, mg123, mg124, mg125, mg126, mg127, mg128, mg129, mg130, mg131, mg132, mg133, mg134, mg135, mg136, mg137, mg138, mg139, mg140, mg141, mg142, mg143, mg144, mg145, mg146, mg147, mg148, mg149, mg150, mg151, mg152, mg153, mg154, mg155, mg156, mg157, mg158, mg159, mg160, mg161, mg162, mg163, mg164, mg165, mg166, mg167, mg168, mg169, mg170, mg171, mg172, mg173, mg174, mg175, mg176, mg177, mg178, mg179, mg180, mg181, mg182, mg183, mg184, mg185, mg186, mg187, mg188, mg189, mg190, mg191, mg192, mg193, mg194, mg195, mg196, mg197, mg198, mg199, mg200, mg201, mg202, mg203, mg204, mg205, mg206, mg207, mg208, mg209, mg210, mg211, mg212, mg213]
+minigames = [mg001, mg002, mg003, mg004, mg005, mg006, mg007, mg008, mg009, mg010, mg011, mg012, mg013, mg014, mg015, mg016, mg017, mg018, mg019, mg020, mg021, mg022, mg023, mg024, mg025, mg026, mg027, mg028, mg029, mg030, mg031, mg032, mg033, mg034, mg035, mg036, mg037, mg038, mg039, mg040, mg041, mg042, mg043, mg044, mg045, mg046, mg047, mg048, mg049, mg050, mg051, mg052, mg053, mg054, mg055, mg056, mg057, mg058, mg059, mg060, mg061, mg062, mg063, mg064, mg065, mg066, mg067, mg068, mg069, mg070, mg071, mg072, mg073, mg074, mg075, mg076, mg077, mg078, mg079, mg080, mg081, mg082, mg083, mg084, mg085, mg086, mg087, mg088, mg089, mg090, mg091, mg092, mg093, mg094, mg095, mg096, mg097, mg098, mg099, mg100, mg101, mg102, mg103, mg104, mg105, mg106, mg107, mg108, mg109, mg110, mg111, mg112, mg113, mg114, mg115, mg116, mg117, mg118, mg119, mg120, mg121, mg122, mg123, mg124, mg125, mg126, mg127, mg128, mg129, mg130, mg131, mg132, mg133, mg134, mg135, mg136, mg137, mg138, mg139, mg140, mg141, mg142, mg143, mg144, mg145, mg146, mg147, mg148, mg149, mg150, mg151, mg152, mg153, mg154, mg155, mg156, mg157, mg158, mg159, mg160, mg161, mg162, mg163, mg164, mg165, mg166, mg167, mg168, mg169, mg170, mg171, mg172, mg173, mg174, mg175, mg176, mg177, mg178, mg179, mg180, mg181, mg182, mg183, mg184, mg185, mg186, mg187, mg188, mg189, mg190, mg191, mg192, mg193, mg194, mg195, mg196, mg197, mg198, mg199, mg200, mg201, mg202, mg203, mg204, mg205, mg206, mg207, mg208, mg209, mg210, mg211, mg212, mg213]
 
 // creates a dict of albums that will hold the minigames
 albums = {
@@ -322,6 +350,18 @@ for mg in minigames {
 }
 
 // #endregion minigames
+modesScore = {
+    MODE_SP_HARD: a_hardMode, 
+    MODE_SP_MIXED: a_mixedUp, 
+    MODE_SP_THRILLING: a_thrilling, 
+    MODE_SP_MASTER: a_masterMode 
+}
+modesTime = {
+    20: a_timeAttack20, 
+    40: a_timeAttack40,
+    60: a_timeAttack60
+}
+
 // ST_NAME, ST_ADDRESS, ST_L50, ST_FACTOR
 stTiming = [S_TIMING, statTiming(), 0x214e, 170.52]
 stInt = [S_INT, statInt(), 0xf81, 79.38]
@@ -352,6 +392,7 @@ modeLookup = {
 rpMenu = "Menu diving"
 // timing, int, control, stamina, speed
 statString = " | ⏱️ {0} ~ 🧠 {1} ~ 🕹️ {2} ~ 💪 {3} ~ 🏃 {4}"
+rpFileSelected = rpMenu+statString
 rpPlayingMode = "Playing {5} Mode"+statString
 rpPlayingCredits = "Playing Staff Roll Mode"+statString
 rpPlayingAlbum = "Beating scores in Album Mode"+statString
@@ -431,8 +472,8 @@ function timeAttack60() {
 }
 function masterMode() {
     trigger = isFileSelected() &&
-        minigame(a_masterMode) >= OBJECTIVE_MASTER_MODE &&
-        prev(minigame(a_masterMode)) < OBJECTIVE_MASTER_MODE
+        minigame(a_masterMode) >= OBJECTIVE_MASTER_MODE-1 &&
+        prev(minigame(a_masterMode)) < OBJECTIVE_MASTER_MODE-1
     
     return trigger
 }
@@ -541,8 +582,90 @@ function cheevoMasterMode() {
 function isCredits() => mode() == MODE_CREDITS
 function isAlbum() => mode() == MODE_ALBUM
 function isPlaying() => mode() == MODE_DEFAULT && modeIngame() > 0x80000000 // address sets to pointer when ingame
+function isSelected() => mode() == MODE_DEFAULT && isFileSelected()
 function rpStat(stat) => stat[ST_ADDRESS] / stat[ST_FACTOR]
 // rp functions
+
+// lb functions
+function tripleDigit(i) => format("{0}{1}{2}", i/100, (i%100)/10, i%10)
+function leeboAlbum(i) {
+    mg = minigames[i]
+    mgAddress = mg[MG_ADDRESS]
+    mgAlbum = mg[MG_ALBUM]
+    mgName = mg[MG_NAME]
+    
+    endAlbumMinigame = albumState() == ALB_STATE_END && prev(albumState()) < ALB_STATE_END ||
+        albumState() == ALB_STATE_SELECTION && prev(albumState()) != ALB_STATE_SELECTION && prev(albumPaused()) == ALB_PAUSED
+
+    start =
+        isAlbum() &&
+        albumMinigameOffser() == (mgAddress-MINIGAME_FIRST_ADDRESS) &&
+        albumRecordPractice() == ALB_RECORD &&
+        once(minigame(mgAddress) > prev(minigame(mgAddress))) &&
+        never(repeated(2, albumState() == ALB_STATE_SELECTION)) && 
+        never(albumState()==ALB_STATE_START) &&
+        endAlbumMinigame
+        
+    submit = always_true()
+    cancel = always_false()
+    value = minigame(mgAddress)
+    
+    leaderboard(
+        format("{0} - {1} ({2})", tripleDigit(i+1), mgName, mgAlbum),
+        format("Best score for {0} in album mode", mgName),
+        start, cancel, submit, value,
+        format="VALUE",
+        lower_is_better=false,
+        id=leeboId
+    )
+    
+    leeboIdPlus()
+}
+function leeboScore(mode) {
+    mdName = modeLookup[mode]
+    mdScore = minigame(modesScore[mode])
+    
+    start = isFileSelected() &&
+        mdScore > prev(mdScore)
+    submit = always_true()
+    cancel = always_false()
+    value = mdScore - 1
+    
+    leaderboard(
+        format("{0} Mode", mdName),
+        format("Best score for {0} mode", mdName),
+        start, cancel, submit, value,
+        format="VALUE",
+        lower_is_better=false,
+        id=leeboId
+    )
+    
+    leeboIdPlus()
+}
+function leeboTime(mode) {
+    mdScore = minigame(modesTime[mode])
+    
+    start = isFileSelected() &&
+        (
+            mdScore < prev(mdScore) ||
+            (mdScore != 0 && prev(mdScore) == 0)
+        )
+    submit = always_true()
+    cancel = always_false()
+    value = mdScore
+    
+    leaderboard(
+        format("Time Attack Mode ({0})", mode),
+        format("Best time  for Time Attack mode ({0} minigames)", mode),
+        start, cancel, submit, value,
+        format="CENTISECS",
+        lower_is_better=true,
+        id=leeboId
+    )
+    
+    leeboIdPlus()
+}
+// lb functions
 
 // generate achievements
 for album in albums cheevoAlbumComplete(album)
@@ -555,6 +678,11 @@ cheevoTimeAttack20()
 cheevoTimeAttack40()
 cheevoTimeAttack60()
 cheevoMasterMode()
+
+// lb
+for mode in modesScore leeboScore(mode)
+for mode in modesTime leeboTime(mode)
+for i in range(0, length(minigames)-1) leeboAlbum(i)
 
 // rp
 rich_presence_conditional_display(
@@ -584,5 +712,14 @@ rich_presence_conditional_display(
     rich_presence_value("Stamina", rpStat(stStamina)),
     rich_presence_value("Speed", rpStat(stSpeed)),
     rich_presence_lookup("Mode", modeSingleplayer(), modeLookup)
+)
+rich_presence_conditional_display(
+    isFileSelected(),
+    rpFileSelected,
+    rich_presence_value("Timing", rpStat(stTiming)),
+    rich_presence_value("Int", rpStat(stInt)),
+    rich_presence_value("Control", rpStat(stControl)),
+    rich_presence_value("Stamina", rpStat(stStamina)),
+    rich_presence_value("Speed", rpStat(stSpeed))
 )
 rich_presence_display(rpMenu)
