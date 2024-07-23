@@ -907,10 +907,10 @@ boardGroups = [
 // #region lookups
 
 lookupPointsDiff = {
-    DIFF_NOVICE: 1,
-    DIFF_HARD: 3,
-    DIFF_EXPERT: 5,
-    DIFF_EXTREME: 10
+    DIFF_NOVICE: 3,
+    DIFF_HARD: 5,
+    DIFF_EXPERT: 10,
+    DIFF_EXTREME: 25
 }
 
 lookupGender = {
@@ -950,9 +950,9 @@ lookupBoardSpecialCheevoName = {
 function unlock(bit) {
     return bit==1 && prev(bit)==0
 }
-function unlockDelayed(bit) {
+function unlockDelayed(bit, endScreen=ENDSCREEN_SUCCESS) {
     return 
-        endScreen()==ENDSCREEN_SUCCESS && 
+        endScreen()==endScreen && 
         bit==1 && 
         once(prev(bit)==0) && 
         never(currentScreen()==SCREEN_TITLE)
@@ -1066,7 +1066,7 @@ function trickAttack(map) {
         modeId() == MODE_TRICK &&
         mapId() == mapId &&
         difficultyId() == mapDiff &&
-        endPoints() == points
+        endPoints() >= points
     
     return trigger
 }
@@ -1208,7 +1208,7 @@ function cheevoCharacterSkinUnlock(char) {
         cheevoName,
         format("Unlock the extra costume for {0} by beating the Expert Match Race with {1}", charName, lookupGender[charId]),
         5,
-        unlockDelayed(accessor),
+        unlockDelayed(accessor, ENDSCREEN_VICTORY),
         id = cheevoId
     )
     
@@ -1226,7 +1226,7 @@ function cheevoCharacterAltUnlock(char) {
         cheevoName,
         format("Unlock {1} by beating the Extreme Match Race with {0}", charName, altName),
         10,
-        unlockDelayed(accessor),
+        unlockDelayed(accessor, ENDSCREEN_VICTORY),
         id = cheevoId
     )
     
@@ -1335,7 +1335,7 @@ function cheevoChallenge1080() {
     achievement(
         "Title Drop",
         "Perform a 1080º",
-        5,
+        3,
         challenge1080(),
         id = cheevoId
     )
@@ -1346,7 +1346,7 @@ function cheevoChallengeRainbow() {
     achievement(
         "Rainbow Road",
         "Using Crystal with the Powder Painter, complete the Midnight City Gate Challenge while not being airborne for more than 1.5 seconds ever",
-        25,
+        50,
         challengeRainbow(),
         id = cheevoId
     )
@@ -1357,7 +1357,7 @@ function cheevoChallengeNature() {
     achievement(
         "Nature is Healing",
         "Using Mimi the Moose with Mr. Beaks, use a full power gauge to tackle down a skier in the last forest section of Tenderfoot Pass",
-        5,
+        3,
         challengeNature(),
         id = cheevoId
     )
@@ -1430,10 +1430,14 @@ cheevoChallengeAvalanche()
 lbId = 91716
 function lbMatchRace(map) {
     start = 
-        repeated(60, endScreen() == ENDSCREEN_VICTORY) &&
-        modeId() == MODE_MATCH &&
-        mapId() == map[MAP_ID] &&
-        difficultyId() == map[MAP_DIFF]
+        repeated(60, 
+            endScreen() == ENDSCREEN_VICTORY &&
+            modeId() == MODE_MATCH &&
+            mapId() == map[MAP_ID] &&
+            difficultyId() == map[MAP_DIFF]
+        ) && 
+        never(voiceType()==VOICE_STARTGAME && voiceId()==VOICE_GO) && //tracks that the game has started, need to reset the 60 hits when starting again
+        never(currentScreen()==SCREEN_MENU) 
     cancel = always_false()
     submit = always_true()
     value = endTime() * 100
@@ -1450,11 +1454,15 @@ function lbMatchRace(map) {
 }
 function lbTimeTrial(map) {
     start = 
-        repeated(60, endScreen() == ENDSCREEN_SUCCESS) &&
-        modeId() == MODE_TIME &&
-        mapId() == map[MAP_ID] &&
-        difficultyId() == map[MAP_DIFF] &&
-        endCoins() == FULL_COINS
+        repeated(60, 
+            endScreen() == ENDSCREEN_SUCCESS &&
+            modeId() == MODE_TIME &&
+            mapId() == map[MAP_ID] &&
+            difficultyId() == map[MAP_DIFF] &&
+            endCoins() == FULL_COINS
+        ) && 
+        never(voiceType()==VOICE_STARTGAME && voiceId()==VOICE_GO) && //tracks that the game has started, need to reset the 60 hits when starting again
+        never(currentScreen()==SCREEN_MENU)
     cancel = always_false()
     submit = always_true()
     value = endTime() * 100
@@ -1471,10 +1479,14 @@ function lbTimeTrial(map) {
 }
 function lbGateChallenge(map) {
     start = 
-        repeated(60, endScreen() == ENDSCREEN_SUCCESS) &&
-        modeId() == MODE_GATE &&
-        mapId() == map[MAP_ID] &&
-        difficultyId() == map[MAP_DIFF]
+        repeated(60, 
+            endScreen() == ENDSCREEN_SUCCESS &&
+            modeId() == MODE_GATE &&
+            mapId() == map[MAP_ID] &&
+            difficultyId() == map[MAP_DIFF]
+        ) && 
+        never(voiceType()==VOICE_STARTGAME && voiceId()==VOICE_GO) && //tracks that the game has started, need to reset the 60 hits when starting again
+        never(currentScreen()==SCREEN_MENU)
     cancel = always_false()
     submit = always_true()
     value = endPoints() + (endTimeBonus()*500)
@@ -1491,10 +1503,14 @@ function lbGateChallenge(map) {
 }
 function lbTrickAttack(map) {
     start = 
-        repeated(60, endScreen() == ENDSCREEN_SUCCESS) &&
-        modeId() == MODE_TRICK &&
-        mapId() == map[MAP_ID] &&
-        difficultyId() == map[MAP_DIFF]
+        repeated(60, 
+            endScreen() == ENDSCREEN_SUCCESS &&
+            modeId() == MODE_TRICK &&
+            mapId() == map[MAP_ID] &&
+            difficultyId() == map[MAP_DIFF]
+        ) && 
+        never(voiceType()==VOICE_STARTGAME && voiceId()==VOICE_GO) && //tracks that the game has started, need to reset the 60 hits when starting again
+        never(currentScreen()==SCREEN_MENU)
     cancel = always_false()
     submit = always_true()
     value = endPoints()
