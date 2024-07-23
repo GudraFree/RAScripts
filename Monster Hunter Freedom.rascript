@@ -334,9 +334,9 @@ quests = [
     
     ["Gathering - Swamp", _6s, 6, gh, bit0(0x018554e1), 0, 0, "", ""],
     ["Gathering - Jungle", _6s, 6, gh, bit1(0x018554e1), 0, 0, "", ""],
-    ["Attack of the Yian Kut-Ku", _6s, 6, gh, bit2(0x018554e1), 0x7d5, 5, "(HR)", ""],
+    ["Attack of the Yian Kut-Ku", _6s, 6, gh, bit2(0x018554e1), 0x7d5, 5, "(GR)", ""],
     ["Jungle Menace", _6s, 6, gh, bit3(0x018554e1), 0x7d6, 0, "", ""],
-    ["Trouble in the Swamp", _6s, 6, gh, bit4(0x018554e1), 0x7d7, 5, "(HR)", ""],
+    ["Trouble in the Swamp", _6s, 6, gh, bit4(0x018554e1), 0x7d7, 5, "(GR)", ""],
     ["The Vespoid Campaign", _6s, 6, gh, bit5(0x018554e1), 0, 0, "", ""],
     ["The Threat of Poison", _6s, 6, gh, bit6(0x018554e1), 0, 0, "", ""],
     ["Slay the Gypceros!", _6s, 6, gh, bit7(0x018554e1), 0x7da, 0, "", ""],
@@ -368,7 +368,7 @@ quests = [
     ["Water Wyvern in the Jungle", _8s, 8, gh, bit6(0x018554e4), 0x89d, 0, "", ""],
     ["Water Wyvern in the Jungle", _8s, 8, gh, bit7(0x018554e4), 0x89e, 10, "(Green)", "(8700z)"],
     
-    ["The Runaway Diablos", _8s, 8, gh, bit0(0x018554e5), 0x89f, 10, "(HR)", "(10000z)"],
+    ["The Runaway Diablos", _8s, 8, gh, bit0(0x018554e5), 0x89f, 10, "(GR)", "(10000z)"],
     ["The Runaway Diablos", _8s, 8, gh, bit1(0x018554e5), 0x8a0, 10, "(Black)", "(12500z)"],
     ["Volcanic Valor", _8s, 8, gh, bit2(0x018554e5), 0x8a1, 10, "", "(9900z)"],
     ["Volcanic Valor", _8s, 8, gh, bit3(0x018554e5), 0x8a2, 10, "(Black)", "(12000z)"],
@@ -377,7 +377,7 @@ quests = [
     ["Dual Plesioth", _8s, 8, gh, bit6(0x018554e5), 0, 0, "", ""],
     ["Wyverns of the Land and Sky", _8s, 8, gh, bit7(0x018554e5), 0, 0, "", ""],
     
-    ["Wyverns of the Land and Sky", _8s, 8, gh, bit0(0x018554e6), 0, 10, "(HR)", "(19200z)"],
+    ["Wyverns of the Land and Sky", _8s, 8, gh, bit0(0x018554e6), 0, 10, "(GR)", "(19200z)"],
     ["Pink and Azure", u, 8, gh, bit1(0x018554e6), 0, 10, "", ""],
     ["Ultimate Ore Mining", _8s, 8, gh, bit2(0x018554e6), 0, 0, "", ""],
     ["A Giant Dragon Invades!", u, 3, gh, bit3(0x018554e6), 0, 0, "", ""],
@@ -1192,12 +1192,16 @@ for quest in quests {
 
 // village stars
 for star in vStars {
+    type = ""
+    if(star == 3) type = "missable"
+    
     achievement(
         title = format("Village {0} stars",star),
         description = format("Clear all {0} stars village quests",star),
         points = 10,
         trigger = questClear() && sumQuests(star,v),
-    id = cheevoId
+        type = type,
+        id = cheevoId
     )
     
     cheevoId = cheevoId + 1
@@ -1208,6 +1212,7 @@ achievement(
     description = "Clear all the village quests",
     points = 25,
     trigger = questClear() && allQuests(v),
+    type = "missable",
     id = cheevoId
 )
     
@@ -1555,8 +1560,8 @@ for breakable in monsterBreakables {
     for id in breakable[BREAK_IDS] {
         breakConditions = breakConditions || breakArray(breakable[BREAK_INDEX], id)
     }
-    description = "Break all breakable parts of a {0} in a single hunt"
-    if(breakable[BREAK_NAME] != monoblos[MON_NAME]) description = description + " (High Rank only)"
+    description = "Break all breakable parts of a {0} in a single quest where it is the main objective"
+    if(breakable[BREAK_NAME] != monoblos[MON_NAME]) description = description + " (G Rank only)"
     
     achievement(
         title = format("{0} Destroyer", breakable[BREAK_NAME]),
@@ -1571,7 +1576,7 @@ for breakable in monsterBreakables {
 
 achievement(
     title = "Unshocking Event",
-    description = "Defeat any Khezu in their own quest without using healing items (High Rank only)",
+    description = "Defeat any Khezu in a quest where it is the main objective without using healing items (G Rank only)",
     points = 10,
     trigger = unshockingEvent(),
     id = cheevoId
@@ -1601,7 +1606,7 @@ achievement(
 
 achievement(
     title = "Leader of the Pack",
-    description = "Defeat a Cephadrome, a Velocidrome, a Gendrome and an Iodrome in a row, in their respective quests, in the same session",
+    description = "Defeat a Cephadrome, a Velocidrome, a Gendrome and an Iodrome in a row, in quests where they are the main objective, in the same session",
     points = 10,
     trigger = dromeHunter(),
     id = cheevoId
@@ -1611,7 +1616,7 @@ achievement(
 
 achievement(
     title = "Already Tracked You Down",
-    description = "Kill a monster in less than a minute after the paint effect wears off (High Rank only)",
+    description = "Kill a monster in a quest where it is the main objective in less than a minute after the paint effect wears off (G Rank only)",
     points = 10,
     trigger = paintChallenge() && highRank(),
     id = cheevoId
