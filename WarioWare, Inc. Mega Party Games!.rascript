@@ -88,7 +88,7 @@ function modeIngame() => dword_be(a_mode_ingame)
 function modeSingleplayer() => dword_be(a_mode_singleplayer)
 
 function albumLives() => byte(a_albumLives)
-function albumMinigameOffser() => dword_be(a_albumMinigameOffset)
+function albumMinigameOffset() => dword_be(a_albumMinigameOffset)
 function albumRecordPractice() => dword_be(a_albumRecordPractice)
 function albumState() => dword_be(a_albumState)
 function albumPaused() => dword_be(a_albumPaused)
@@ -105,6 +105,7 @@ MODE_SP_MIXED = 2
 MODE_SP_TIME = 3
 MODE_SP_HARD = 4
 MODE_SP_THRILLING = 5
+MODE_SP_CREDITS = 0x80bd1d80
 
 ALB_STATE_START = 1
 ALB_STATE_END = 8
@@ -374,7 +375,7 @@ stats = [ stTiming, stControl, stSpeed, stInt, stStamina ]
 statFullLookup = {
     S_TIMING: "Punctual Hard Worker",
     S_INT: "Mega-intellectual Nerd",
-    S_CONTROL: "Thread The Needle So So",
+    S_CONTROL: "Thread the Needle So So",
     S_STAM: "Meat Lover Youngster",
     S_SPEED: "Unnatentive Freshman"
 }
@@ -388,6 +389,29 @@ modeLookup = {
     MODE_SP_THRILLING: "Thrilling",
 }
 
+albumNameLookup = {
+    A_INTRO: "C'Mon, Ya Wimp!",
+    A_SPORT: "Work up a Sweat",
+    A_SCIFI: "Taxi on Water, on Land, and In Space!",
+    A_STRANGE: "Ordinary Life's Strange Appeel",
+    A_NINT: "As Seen on the Power Show",
+    A_IQ: "Master of Disguise",
+    A_REAL: "Breaking the Fourth Wall",
+    A_NATURE: "Live Ninjutsu",
+    A_ANY: "I'm-a Real Boss!"
+}
+albumCharLookup = {
+    A_INTRO: "Wario",
+    A_SPORT: "Jimmy T.",
+    A_SCIFI: "Dribble & Spitz",
+    A_STRANGE: "Mona",
+    A_NINT: "9-Volt",
+    A_IQ: "Orbulon",
+    A_REAL: "Dr. Crygor",
+    A_NATURE: "Kat & Ana",
+    A_ANY: "Wario"
+}
+
 // rp
 rpMenu = "Menu diving"
 // timing, int, control, stamina, speed
@@ -396,17 +420,24 @@ rpFileSelected = rpMenu+statString
 rpPlayingMode = "Playing {5} Mode"+statString
 rpPlayingCredits = "Playing Staff Roll Mode"+statString
 rpPlayingAlbum = "Beating scores in Album Mode"+statString
+rpPlayingMulti = "It's a MEGA microgame PARTY!"
 // #endregion constants
 
 // #region functions
 function isFileSelected() => fileSelectedFlag()==1
 function minigame(address) => word_be(address + (fileSelected() * o_file))
-function readableTime(cs) {
-    mm = cs/6000
-    ss = (cs/100)%60
-    timeString  = "{0}:{1}"
-    if(ss<10) timeString  = "{0}:0{1}"
-    return format(timeString, mm, ss)
+function readableTime(csTotal) {
+    mm = csTotal/6000
+    ss = (csTotal/100)%60
+    cs = csTotal%100
+    mmStr = "{0}'"
+    ssStr = "{1}\""
+    csStr = "{2}"
+    if(mm<10) mmStr = "0" + mmStr
+    if(ss<10) ssStr = "0" + ssStr
+    if(cs<10) csStr = "0" + csStr
+    timeString = mmStr+ssStr+csStr
+    return format(timeString, mm, ss, cs)
 }
 // trigger functions
 function albumComplete(listMg) {
@@ -439,8 +470,8 @@ function halfAllStats() {
 }
 function timeAttack20() {
     trigger = isFileSelected() &&
-        minigame(a_timeAttack20) > 0 &&
         minigame(a_timeAttack20) < OBJECTIVE_TIME_ATTACK_20 &&
+        minigame(a_timeAttack20) > 0 &&
         (
             prev(minigame(a_timeAttack20)) == 0 || 
             prev(minigame(a_timeAttack20)) >= OBJECTIVE_TIME_ATTACK_20
@@ -450,8 +481,8 @@ function timeAttack20() {
 }
 function timeAttack40() {
     trigger = isFileSelected() &&
-        minigame(a_timeAttack40) > 0 &&
         minigame(a_timeAttack40) < OBJECTIVE_TIME_ATTACK_40 &&
+        minigame(a_timeAttack40) > 0 &&
         (
             prev(minigame(a_timeAttack40)) == 0 || 
             prev(minigame(a_timeAttack40)) >= OBJECTIVE_TIME_ATTACK_40
@@ -461,8 +492,8 @@ function timeAttack40() {
 }
 function timeAttack60() {
     trigger = isFileSelected() &&
-        minigame(a_timeAttack60) > 0 &&
         minigame(a_timeAttack60) < OBJECTIVE_TIME_ATTACK_60 &&
+        minigame(a_timeAttack60) > 0 &&
         (
             prev(minigame(a_timeAttack60)) == 0 || 
             prev(minigame(a_timeAttack60)) >= OBJECTIVE_TIME_ATTACK_60
@@ -485,8 +516,8 @@ function cheevoAlbumComplete(album) {
     if(album==A_INTRO) points = 5
     
     achievement(
-        format("{0} Cleared", album),
-        format("Clear all minigames in the {0} album", album),
+        format("{0}", albumNameLookup[album]),
+        format("Clear all microgames in {1}'s \"{0}\" album", album, albumCharLookup[album]),
         points,
         albumComplete(albums[album]),
         id= cheevoId
@@ -534,8 +565,8 @@ function cheevoStats25() {
 
 function cheevoTimeAttack20() {
     achievement(
-        "Time Attack 20",
-        format("Get a time lower than {0} on Time Attack Mode (20 minigames)",readableTime(OBJECTIVE_TIME_ATTACK_20)),
+        "Speedy Microgamer",
+        format("Get a time lower than {0} on Time Attack mode with 20 microgames selected",readableTime(OBJECTIVE_TIME_ATTACK_20)),
         10,
         timeAttack20(),
         id= cheevoId
@@ -545,8 +576,8 @@ function cheevoTimeAttack20() {
 }
 function cheevoTimeAttack40() {
     achievement(
-        "Time Attack 40",
-        format("Get a time lower than {0} on Time Attack Mode (40 minigames)",readableTime(OBJECTIVE_TIME_ATTACK_40)),
+        "Quicker Microgamer",
+        format("Get a time lower than {0} on Time Attack mode with 40 microgames selected",readableTime(OBJECTIVE_TIME_ATTACK_40)),
         10,
         timeAttack40(),
         id= cheevoId
@@ -556,8 +587,8 @@ function cheevoTimeAttack40() {
 }
 function cheevoTimeAttack60() {
     achievement(
-        "Time Attack 60",
-        format("Get a time lower than {0} on Time Attack Mode (60 minigames)",readableTime(OBJECTIVE_TIME_ATTACK_60)),
+        "Fastest Microgamer",
+        format("Get a time lower than {0} on Time Attack mode with 60 microgames selected",readableTime(OBJECTIVE_TIME_ATTACK_60)),
         10,
         timeAttack60(),
         id= cheevoId
@@ -567,8 +598,8 @@ function cheevoTimeAttack60() {
 }
 function cheevoMasterMode() {
     achievement(
-        "Master Mode",
-        format("Get a score of {0} or more on Master Mode", OBJECTIVE_MASTER_MODE),
+        "Master of All Microgames",
+        format("Get a score of {0} or more on \"Master Mode\"", OBJECTIVE_MASTER_MODE),
         25,
         masterMode(),
         id= cheevoId
@@ -579,7 +610,8 @@ function cheevoMasterMode() {
 // cheevo functions
 
 // rp functions
-function isCredits() => mode() == MODE_CREDITS
+function isMulti() => mode() == MODE_CREDITS
+function isCredits() => mode() == MODE_CREDITS && modeSingleplayer() == MODE_SP_CREDITS
 function isAlbum() => mode() == MODE_ALBUM
 function isPlaying() => mode() == MODE_DEFAULT && modeIngame() > 0x80000000 // address sets to pointer when ingame
 function isSelected() => mode() == MODE_DEFAULT && isFileSelected()
@@ -599,7 +631,7 @@ function leeboAlbum(i) {
 
     start =
         isAlbum() &&
-        albumMinigameOffser() == (mgAddress-MINIGAME_FIRST_ADDRESS) &&
+        albumMinigameOffset() == (mgAddress-MINIGAME_FIRST_ADDRESS)/2 &&
         albumRecordPractice() == ALB_RECORD &&
         once(minigame(mgAddress) > prev(minigame(mgAddress))) &&
         never(repeated(2, albumState() == ALB_STATE_SELECTION)) && 
@@ -693,6 +725,10 @@ rich_presence_conditional_display(
     rich_presence_value("Control", rpStat(stControl)),
     rich_presence_value("Stamina", rpStat(stStamina)),
     rich_presence_value("Speed", rpStat(stSpeed))
+)
+rich_presence_conditional_display(
+    isMulti(),
+    rpPlayingMulti
 )
 rich_presence_conditional_display(
     isAlbum(),
