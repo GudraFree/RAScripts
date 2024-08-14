@@ -9,6 +9,8 @@ MAP_ID = "mapId"
 MAP_DIFF = "mapDiff"
 TIME = "time"
 TIME_ROCKET = "timeRocket"
+LEEWAY_REGULAR = 4
+LEEWAY_ROCKET = 2
 
 a_characterSelected = 0x26ddf4
 a_boardSelected = 0x26de04
@@ -190,29 +192,29 @@ mapSki = {
     MAP_NAME: "Ski School",
     MAP_ID: MAP_SKI,
     MAP_DIFF: DIFF_NOVICE,
-    TIME: 50,
-    TIME_ROCKET: 35,
+    TIME: 45,
+    TIME_ROCKET: 30,
 }
 mapTenderfoot = {
     MAP_NAME: "Tenderfoot Pass",
     MAP_ID: MAP_TENDERFOOT,
     MAP_DIFF: DIFF_NOVICE,
-    TIME: 45,
-    TIME_ROCKET: 34,
+    TIME: 40,
+    TIME_ROCKET: 29,
 }
 mapFrosty = {
     MAP_NAME: "Frosty Shadows",
     MAP_ID: MAP_FROSTY,
     MAP_DIFF: DIFF_NOVICE,
-    TIME: 48,
-    TIME_ROCKET: 38,
+    TIME: 43,
+    TIME_ROCKET: 33,
 }
 mapSpinal = {
     MAP_NAME: "Spinal Damage",
     MAP_ID: MAP_SPINAL,
     MAP_DIFF: DIFF_NOVICE,
-    TIME: 90,
-    TIME_ROCKET: 75,
+    TIME: 85,
+    TIME_ROCKET: 70,
 }
 
 // Hard
@@ -220,36 +222,36 @@ mapPowder = {
     MAP_NAME: "Powder Threat",
     MAP_ID: MAP_POWDER,
     MAP_DIFF: DIFF_HARD,
-    TIME: 47,
-    TIME_ROCKET: 35,
+    TIME: 42,
+    TIME_ROCKET: 30,
 }
 mapTreeTop = {
     MAP_NAME: "Tree Top Trauma",
     MAP_ID: MAP_TREE_TOP,
     MAP_DIFF: DIFF_HARD,
-    TIME: 64,
-    TIME_ROCKET: 52,
+    TIME: 59,
+    TIME_ROCKET: 47,
 }
 mapGrits = {
     MAP_NAME: "Grits N' Gravy",
     MAP_ID: MAP_GRITS,
     MAP_DIFF: DIFF_HARD,
-    TIME: 54,
-    TIME_ROCKET: 44,
+    TIME: 49,
+    TIME_ROCKET: 39,
 }
 mapTrestle = {
     MAP_NAME: "Trestle Trouble",
     MAP_ID: MAP_TRESTLE,
     MAP_DIFF: DIFF_HARD,
-    TIME: 80,
-    TIME_ROCKET: 65,
+    TIME: 75,
+    TIME_ROCKET: 60,
 }
 mapBallistic = {
     MAP_NAME: "Ballistic",
     MAP_ID: MAP_BALLISTIC,
     MAP_DIFF: DIFF_HARD,
-    TIME: 97,
-    TIME_ROCKET: 87,
+    TIME: 92,
+    TIME_ROCKET: 82,
 }
 
 // Expert
@@ -257,43 +259,43 @@ mapRevolution = {
     MAP_NAME: "Revolution Cliff",
     MAP_ID: MAP_REVOLUTION,
     MAP_DIFF: DIFF_EXPERT,
-    TIME: 67,
-    TIME_ROCKET: 56,
+    TIME: 62,
+    TIME_ROCKET: 51,
 }
 mapMidnight = {
     MAP_NAME: "Midnight City",
     MAP_ID: MAP_MIDNIGHT,
     MAP_DIFF: DIFF_EXPERT,
-    TIME: 89,
-    TIME_ROCKET: 73,
+    TIME: 84,
+    TIME_ROCKET: 68,
 }
 mapRotted = {
     MAP_NAME: "Rotted Ridge",
     MAP_ID: MAP_ROTTED,
     MAP_DIFF: DIFF_EXPERT,
-    TIME: 64,
-    TIME_ROCKET: 55,
+    TIME: 59,
+    TIME_ROCKET: 50,
 }
 mapDiesel = {
     MAP_NAME: "Diesel Disaster",
     MAP_ID: MAP_DIESEL,
     MAP_DIFF: DIFF_EXPERT,
-    TIME: 71,
-    TIME_ROCKET: 63,
+    TIME: 66,
+    TIME_ROCKET: 58,
 }
 mapSick = {
     MAP_NAME: "Sick With It",
     MAP_ID: MAP_SICK,
     MAP_DIFF: DIFF_EXPERT,
-    TIME: 84,
-    TIME_ROCKET: 69,
+    TIME: 79,
+    TIME_ROCKET: 64,
 }
 mapNoWay = {
     MAP_NAME: "No Way Out",
     MAP_ID: MAP_NO_WAY,
     MAP_DIFF: DIFF_EXPERT,
-    TIME: 88,
-    TIME_ROCKET: 72,
+    TIME: 83,
+    TIME_ROCKET: 67,
 }
 
 // Extreme
@@ -301,56 +303,68 @@ mapTopTree = {
     MAP_NAME: "Top Tree Mama",
     MAP_ID: MAP_TOP_TREE,
     MAP_DIFF: DIFF_EXTREME,
-    TIME: 65,
-    TIME_ROCKET: 53,
+    TIME: 60,
+    TIME_ROCKET: 48,
 }
 mapTreble = {
     MAP_NAME: "Treble Tussle",
     MAP_ID: MAP_TREBLE,
     MAP_DIFF: DIFF_EXTREME,
-    TIME: 83,
-    TIME_ROCKET: 65,
+    TIME: 78,
+    TIME_ROCKET: 60,
 }
 mapEvolution = {
     MAP_NAME: "Evolution Riff",
     MAP_ID: MAP_EVOLUTION,
     MAP_DIFF: DIFF_EXTREME,
-    TIME: 67,
-    TIME_ROCKET: 58,
+    TIME: 62,
+    TIME_ROCKET: 53,
 }
 mapSidNight = {
     MAP_NAME: "Sid's Night MIDI",
     MAP_ID: MAP_SID_NIGHT,
     MAP_DIFF: DIFF_EXTREME,
-    TIME: 90,
-    TIME_ROCKET: 74,
+    TIME: 85,
+    TIME_ROCKET: 69,
 }
 mapDazzlin = {
     MAP_NAME: "Dazzlin' Teaser",
     MAP_ID: MAP_DAZZLIN,
     MAP_DIFF: DIFF_EXTREME,
-    TIME: 74,
-    TIME_ROCKET: 63,
+    TIME: 69,
+    TIME_ROCKET: 58,
 }
 mapWit = {
     MAP_NAME: "Wit's Thicket",
     MAP_ID: MAP_WIT,
     MAP_DIFF: DIFF_EXTREME,
-    TIME: 83,
-    TIME_ROCKET: 71,
+    TIME: 78,
+    TIME_ROCKET: 66,
 }
 mapOutway = {
     MAP_NAME: "Outway Knoll",
     MAP_ID: MAP_OUTWAY,
     MAP_DIFF: DIFF_EXTREME,
-    TIME: 89,
-    TIME_ROCKET: 70
+    TIME: 84,
+    TIME_ROCKET: 65
 }
 
 maps = [ mapSki, mapTenderfoot, mapFrosty, mapSpinal, mapPowder, mapTreeTop, mapGrits, mapTrestle, mapBallistic, mapRevolution, mapMidnight, mapRotted, mapDiesel, mapSick, mapNoWay, mapTopTree, mapTreble, mapEvolution, mapSidNight, mapDazzlin, mapWit, mapOutway ]
 
 
 // #endregion maps
+
+scoreLookup = {
+    0: 10,
+    1: 25,
+    2: 50,
+    3: 100
+}
+
+function scoreTime(time) {
+    i = (time-10)/25
+    return scoreLookup[i]
+}
 
 function readableTime(csTotal) {
     mm = csTotal/6000
@@ -359,7 +373,6 @@ function readableTime(csTotal) {
     mmStr = "{0}'"
     ssStr = "{1}\""
     csStr = "{2}"
-    //if(mm<10) mmStr = "0" + mmStr
     if(ss<10) ssStr = "0" + ssStr
     if(cs<10) csStr = "0" + csStr
     timeString = mmStr+ssStr+csStr
@@ -374,6 +387,7 @@ function timeRun(map) {
     mapId = map[MAP_ID]
     endScreen = ENDSCREEN_SUCCESS
     modeId = MODE_TIME
+    time = map[TIME] + LEEWAY_REGULAR
     
     // for the avalanche maps
     if(mapId==2) {
@@ -388,7 +402,7 @@ function timeRun(map) {
         mapId() == mapId &&
         difficultyId() == map[MAP_DIFF] &&
         boardSelected() < BOARD_PENGUIN && // regular boards have ids < penguin
-        endTime() <= map[TIME] &&
+        endTime() <= time &&
         endTime() > 0
     
     return trigger
@@ -397,6 +411,7 @@ function rocketRun(map) {
     mapId = map[MAP_ID]
     endScreen = ENDSCREEN_SUCCESS
     modeId = MODE_TIME
+    time = map[TIME_ROCKET] + LEEWAY_ROCKET
     
     // for the avalanche maps
     if(mapId==2) {
@@ -411,7 +426,7 @@ function rocketRun(map) {
         mapId() == mapId &&
         difficultyId() == map[MAP_DIFF] &&
         boardSelected() == BOARD_ROCKET && 
-        endTime() <= map[TIME_ROCKET] &&
+        endTime() <= time &&
         endTime() > 0
     
     return trigger
@@ -420,6 +435,7 @@ function rocketRun(map) {
 function cheevoTime(map) {
     mapName = map[MAP_NAME]
     mapNameDesc = mapName
+    time = map[TIME] + LEEWAY_REGULAR
     // for non avalanche maps
     if(map[MAP_ID] != 2) {
         mapNameDesc = "the " + mapName + " Time Trial"
@@ -427,8 +443,8 @@ function cheevoTime(map) {
     
     achievement(
         format("{0} - Snow Slider", mapName),
-        format("Get a time of {0} or better using a regular board in {1}", readableTime(map[TIME]*100), mapNameDesc),
-        25,
+        format("Get a time of {0} or better using a regular board in {1}", readableTime(time*100), mapNameDesc),
+        scoreTime(time),
         timeRun(map),
         id=cheevoId
     )
@@ -437,6 +453,7 @@ function cheevoTime(map) {
 function cheevoRocket(map) {
     mapName = map[MAP_NAME]
     mapNameDesc = mapName
+    time = map[TIME_ROCKET] + LEEWAY_ROCKET
     // for non avalanche maps
     if(map[MAP_ID] != 2) {
         mapNameDesc = "the " + mapName + " Time Trial"
@@ -444,9 +461,9 @@ function cheevoRocket(map) {
     
     achievement(
         format("{0} - Rocket Man", mapName),
-        format("Get a time of {0} or better using the NST 1080-A board in {1}", readableTime(map[TIME_ROCKET]*100), mapNameDesc),
-        25,
-        timeRun(map),
+        format("Get a time of {0} or better using the NST 1080-A board in {1}", readableTime(time*100), mapNameDesc),
+        scoreTime(time),
+        rocketRun(map),
         id=cheevoId
     )
     cheevoId = cheevoId+1
