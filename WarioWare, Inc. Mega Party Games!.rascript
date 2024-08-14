@@ -503,8 +503,8 @@ function timeAttack60() {
 }
 function masterMode() {
     trigger = isFileSelected() &&
-        minigame(a_masterMode) >= OBJECTIVE_MASTER_MODE-1 &&
-        prev(minigame(a_masterMode)) < OBJECTIVE_MASTER_MODE-1
+        minigame(a_masterMode) >= OBJECTIVE_MASTER_MODE+1 &&
+        prev(minigame(a_masterMode)) < OBJECTIVE_MASTER_MODE+1
     
     return trigger
 }
