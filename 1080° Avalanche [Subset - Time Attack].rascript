@@ -361,14 +361,19 @@ scoreLookup = {
     3: 100
 }
 
-function scoreTime(time) {
-    i = (time-10)/25
+function scoreTime(time, rocket=false) {
+    i = (time)/29
+    if(rocket) i = i+1
     return scoreLookup[i]
 }
 
+function timeProportional(time) {
+    return time + (time/20.0)
+}
+
 function readableTime(csTotal) {
-    mm = csTotal/6000
-    ss = (csTotal/100)%60
+    mm = csTotal-6000
+    ss = (csTotal-100)%60
     cs = csTotal%100
     mmStr = "{0}'"
     ssStr = "{1}\""
@@ -387,7 +392,7 @@ function timeRun(map) {
     mapId = map[MAP_ID]
     endScreen = ENDSCREEN_SUCCESS
     modeId = MODE_TIME
-    time = map[TIME] + LEEWAY_REGULAR
+    time = timeProportional(map[TIME])
     
     // for the avalanche maps
     if(mapId==2) {
@@ -397,6 +402,7 @@ function timeRun(map) {
     
     trigger = 
         mapLoaded() &&
+        prev(endScreen()) == 0 &&
         endScreen() == endScreen &&
         modeId() == modeId &&
         mapId() == mapId &&
@@ -411,7 +417,7 @@ function rocketRun(map) {
     mapId = map[MAP_ID]
     endScreen = ENDSCREEN_SUCCESS
     modeId = MODE_TIME
-    time = map[TIME_ROCKET] + LEEWAY_ROCKET
+    time = timeProportional(map[TIME_ROCKET])
     
     // for the avalanche maps
     if(mapId==2) {
@@ -421,6 +427,7 @@ function rocketRun(map) {
     
     trigger = 
         mapLoaded() &&
+        prev(endScreen()) == 0 &&
         endScreen() == endScreen &&
         modeId() == modeId &&
         mapId() == mapId &&
@@ -435,7 +442,8 @@ function rocketRun(map) {
 function cheevoTime(map) {
     mapName = map[MAP_NAME]
     mapNameDesc = mapName
-    time = map[TIME] + LEEWAY_REGULAR
+    baseTime = map[TIME]
+    time = timeProportional(baseTime)
     // for non avalanche maps
     if(map[MAP_ID] != 2) {
         mapNameDesc = "the " + mapName + " Time Trial"
@@ -443,8 +451,8 @@ function cheevoTime(map) {
     
     achievement(
         format("{0} - Snow Slider", mapName),
-        format("Get a time of {0} or better using a regular board in {1}", readableTime(time*100), mapNameDesc),
-        scoreTime(time),
+        format("Get a time of {0} seconds or better using a regular board in {1}", time, mapNameDesc),
+        scoreTime(baseTime),
         timeRun(map),
         id=cheevoId
     )
@@ -453,7 +461,8 @@ function cheevoTime(map) {
 function cheevoRocket(map) {
     mapName = map[MAP_NAME]
     mapNameDesc = mapName
-    time = map[TIME_ROCKET] + LEEWAY_ROCKET
+    baseTime = map[TIME_ROCKET]
+    time = timeProportional(baseTime)
     // for non avalanche maps
     if(map[MAP_ID] != 2) {
         mapNameDesc = "the " + mapName + " Time Trial"
@@ -461,8 +470,8 @@ function cheevoRocket(map) {
     
     achievement(
         format("{0} - Rocket Man", mapName),
-        format("Get a time of {0} or better using the NST 1080-A board in {1}", readableTime(time*100), mapNameDesc),
-        scoreTime(time),
+        format("Get a time of {0} seconds or better using the NST 1080-A board in {1}", time, mapNameDesc),
+        scoreTime(baseTime, true),
         rocketRun(map),
         id=cheevoId
     )
