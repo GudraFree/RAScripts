@@ -127,6 +127,7 @@ a_weaponEquipped = 0x0069f2
 a_firstWeapon = 0x0069f6
 o_characterEquipBlock = 0xa4
 a_hp = 0x003830
+a_hpMax = 0x003834
 a_level_klonoa = 0x003114
 o_characterStatBlock = 0x48
 o_characterOtherStatBlock = 0x6c
@@ -362,6 +363,7 @@ function character() => byte(a_character)
 function weaponSlot(char) => word(a_weaponEquipped + (char * o_characterEquipBlock))
 function weaponEquipped(char) => word(a_firstWeapon + (char * o_characterEquipBlock) + (weaponSlot(char) * 2))
 function hp() => word(a_hp + (character() * o_characterStatBlock))
+function hpMax() => word(a_hpMax + (character() * o_characterStatBlock))
 function enemyHp(enemy) => word(a_hp + ((2+enemy) * o_characterStatBlock))
 function enemyHpMax(enemy) => word(a_hp + ((2+enemy) * o_characterStatBlock) + 2)
 function level(char) => word(a_level_klonoa + (char * o_characterOtherStatBlock))
@@ -1410,13 +1412,13 @@ function characterLock(char) => disable_when(char!=character() && ingame(), unti
 
 function weaponType(char, weapon) => weaponEquipped(char) >= weapon && weaponEquipped(char) < weaponTypes[weapon]
 
-function noDamage() => disable_when(hp()<prev(hp()) && ingame(), until=!ingame())
+function noDamage() => disable_when(hp()<prev(hp()) && hpMax()==prev(hpMax()) && ingame(), until=!ingame())
 
-function noHealing() => disable_when(hp()>prev(hp()) && ingame(), until=!ingame())
+function noHealing() => disable_when(hp()>prev(hp()) && hpMax()==prev(hpMax()) && ingame(), until=!ingame())
 
 function noHealingEnemy(enemy, area) => disable_when(enemyHp(enemy)>prev(enemyHp(enemy)) && repeated(60,areaId()==area) && ingame(), until=!ingame())
 
-function triggerBoss(i=1) => prev(enemyHp(i))>0 && trigger_when(enemyHp(i)==0)
+function triggerBoss(i=1) => prev(enemyHp(i))>0 && trigger_when(enemyHp(i)==0) && enemyHpMax(i)==prev(enemyHpMax(i))
 
 function noItems() {
     mems = sum_of(items, i => byte(i))
@@ -1804,6 +1806,7 @@ function bossChallengeStory8_1() {
     trigger =
         areaCheck(8, 1, 1) &&
         characterLock(PANGO) &&
+        //enemyHpMax(1) == 23000
         triggerBoss()
         
     return trigger
@@ -1837,10 +1840,11 @@ function beatEnemyDyn(i) {
 }
 
 function bossChallengeRematch8_1() {
-    counter = measured(tally_of(range(1,29), 100, i => beatEnemyDyn(i)), when=areaCheck(WORLD_MOMETT, 8, 1))
+    counter = measured(tally_of(range(1,29), 100, i => beatEnemyDyn(i) && areaCheck(WORLD_MOMETT, 8, 1)), when=areaCheck(WORLD_MOMETT, 8, 1))
     
     trigger =
         counter &&
+        never(!ingame()) &&
         triggerBoss()
         
     return trigger
@@ -2507,7 +2511,8 @@ function lbBoss(boss) {
     time = timeBosses[boss]
     start = 
         screen() == SCREEN_MOMETT &&
-        time != prev(time)
+        time != prev(time) &&
+        time < 0x80000000
     cancel = always_false()
     submit = always_true()
     value = time
