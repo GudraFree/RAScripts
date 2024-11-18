@@ -377,7 +377,7 @@ statFullLookup = {
     S_INT: "Mega-intellectual Nerd",
     S_CONTROL: "Thread the Needle So So",
     S_STAM: "Meat Lover Youngster",
-    S_SPEED: "Unnatentive Freshman"
+    S_SPEED: "Unattentive Freshman"
 }
 
 modeLookup = {
