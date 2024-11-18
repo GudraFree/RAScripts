@@ -1110,10 +1110,12 @@ function unshockingEvent() {
         monsterHP()==0 && prev(monsterHP())>0
     )
     
+    conditions = (monsterId()==idKhezu || monsterId()==idRedKhezu) && highRank()
+    
     // 
     never = disable_when((hunterHP()-prev(hunterHP()))>1, questTerminated()||questStarted()) // allows natural red bar healing (1HP at a time)
     
-    return (monsterId()==idKhezu || monsterId()==idRedKhezu) && trigger && never && pointerSanityCheck(questPointer)
+    return conditions && trigger && never && pointerSanityCheck(questPointer)
 }
 
 function punchingBag() {
