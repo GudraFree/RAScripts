@@ -1048,6 +1048,7 @@ function timeTrial(map) {
     mapId = map[MAP_ID]
     mapDiff = map[MAP_DIFF]
     trigger =
+        prev(endScreen()) == 0 &&
         endScreen() == ENDSCREEN_SUCCESS &&
         modeId() == MODE_TIME &&
         mapId() == mapId &&
@@ -1062,6 +1063,7 @@ function trickAttack(map) {
     mapId = map[MAP_ID]
     mapDiff = map[MAP_DIFF]
     trigger =
+        prev(endScreen()) == 0 &&
         endScreen() == ENDSCREEN_SUCCESS &&
         modeId() == MODE_TRICK &&
         mapId() == mapId &&
@@ -1073,6 +1075,7 @@ function trickAttack(map) {
 
 function challengeRocket() {
     trigger =
+        prev(endScreen()) == 0 &&
         endScreen() == ENDSCREEN_SUCCESS &&
         modeId() == MODE_TIME &&
         mapId() == MAP_SKI &&
@@ -1105,7 +1108,7 @@ function challengeRainbow() {
     
     reset =
         never(
-            repeated(60, airborne()==AIRBORNE && 
+            repeated(60, notPaused() && airborne()==AIRBORNE &&
                 never(airborne()!=AIRBORNE)
             )
         ) &&
