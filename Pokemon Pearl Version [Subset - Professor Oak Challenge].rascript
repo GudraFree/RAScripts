@@ -2,6 +2,16 @@
 // #ID = 29666
 // Guide: https://docs.google.com/document/d/1Edz1FjpUKoHiryD00rjHvvGTkirJaH6vb68vLRySYoI
 
+// common functions
+cheevoId = 0
+function cheevoIdPlus() {
+    cheevoId = cheevoId + 1
+}
+function myAchievement(title, description, points, trigger, type="") {
+    achievement(title, description, points, trigger, cheevoId, type)
+    //cheevoIdPlus()
+}
+
 PK_NUMBER = 0
 PK_NAME = 1
 PK_PHASE = 2
@@ -536,23 +546,24 @@ phaseDesc = {
     8: "Defeat your rival with {0} Pokémon caught"
 }
 
-a_pointer = 0x106fac
+a_pointer_regional = 0x000b70
+o_pointer_game = 0xc
 o_tid = 0x00d288
 o_sid = 0x00d28a
 o_badges = 0x00d292
-o_league = 0x00
+o_league = 0xe206
 o_barry = 0x00
-o_dexStart = 0x00e4f5
+o_dexStart = 0x00e4f4
 
-function gamePointer() => tbyte(a_pointer)
+function gamePointer() => tbyte(tbyte(a_pointer_regional) + o_pointer_game)
 function sid1() => byte(gamePointer() + o_sid + 1)
 function sid2() => byte(gamePointer() + o_sid)
 function tid1() => byte(gamePointer() + o_tid + 1)
 function tid2() => byte(gamePointer() + o_tid)
 function badges() => bitcount(gamePointer() + o_badges) // add bit for league and a bit for Barry
-function league() => bit0(gamePointer() + o_league)
+function league() => bit4(gamePointer() + o_league)
 function barry() => bit0(gamePointer() + o_barry)
-function checkpoint() => badges() + league() + barry()
+function checkpoint() => badges() + league()// + barry()
 function dexFlag(dexNumber) {
     dexIndex = dexNumber - 1
     if(dexIndex%8==0) return bit0(gamePointer() + o_dexStart + (dexIndex/8))
@@ -594,7 +605,7 @@ function captureMon(mon) {
     phase = mon[PK_PHASE]
     
     trigger =
-        badges() == phaseBadges[phase] &&
+        checkpoint() == phaseBadges[phase] &&
         prev(dexFlag(dexNumber)) == 0 &&
         dexFlag(dexNumber) == 1
     
@@ -616,21 +627,21 @@ function getStarter(stage) {
     
 }
 
-function getBadges(phase) {
+function getCheckpoint(phase) {
     badges = phaseBadges[phase]
     phaseMons = []
     for mon in dex if(mon[PK_PHASE]<=phase) array_push(phaseMons, mon)
     
     trigger =
-        badges() == badges + 1 &&
-        prev(badges()) == badges &&
-        all_of(phaseMons, mon => dexFlag(mon[PK_NUMBER]) == 1)
+        trigger_when(checkpoint() == badges + 1) &&
+        prev(checkpoint()) == badges &&
+        measured(sum_of(phaseMons, mon => dexFlag(mon[PK_NUMBER])) == length(phaseMons))
     
     return trigger
 }
 
 function cheevoStarter1() {
-    achievement(
+    myAchievement(
         "Starter I",
         "Obtain your starter",
         1,
@@ -638,7 +649,7 @@ function cheevoStarter1() {
     )
 }
 function cheevoStarter2() {
-    achievement(
+    myAchievement(
         "Starter II",
         "Evolve your starter",
         1,
@@ -646,7 +657,7 @@ function cheevoStarter2() {
     )
 }
 function cheevoStarter3() {
-    achievement(
+    myAchievement(
         "Starter III",
         "Evolve your starter for the last time",
         1,
@@ -655,7 +666,7 @@ function cheevoStarter3() {
 }
 function cheevoMon(mon) {
     name = mon[PK_NAME]
-    achievement(
+    myAchievement(
         name,
         format("Obtain a {0}", name),
         1,
@@ -663,11 +674,11 @@ function cheevoMon(mon) {
     )
 }
 function cheevoCheckpoint(phase) {
-    achievement(
+    myAchievement(
         phaseTitle[phase],
         format(phaseDesc[phase],countMons(phase)),
         5,
-        getBadges(phase)
+        getCheckpoint(phase)
     )
 }
 
