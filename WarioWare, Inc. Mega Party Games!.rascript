@@ -530,7 +530,7 @@ function cheevoAllComplete() {
     
     achievement(
         "Master of Clearing",
-        "Clear all minigames",
+        "Clear all microgames",
         points,
         albumComplete(minigames),
         id= cheevoId
