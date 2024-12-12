@@ -3,13 +3,13 @@
 // Guide: https://docs.google.com/document/d/1Edz1FjpUKoHiryD00rjHvvGTkirJaH6vb68vLRySYoI
 
 // common functions
-cheevoId = 0
+cheevoId = 485754
 function cheevoIdPlus() {
     cheevoId = cheevoId + 1
 }
 function myAchievement(title, description, points, trigger, type="") {
     achievement(title, description, points, trigger, cheevoId, type)
-    //cheevoIdPlus()
+    cheevoIdPlus()
 }
 
 PK_NUMBER = 0
@@ -502,7 +502,7 @@ dex = [
     [482, "Azelf", 6],
     [483, "Dialga", 99],
     [484, "Palkia", 6],
-    [485, "Heatran", 8],
+    [485, "Heatran", 99],
     [486, "Regigigas", 99],
     [487, "Giratina", 8],
     [488, "Cresselia", 8],
@@ -543,7 +543,18 @@ phaseDesc = {
     5: "Get the Icicle Badge with {0} Pokémon caught",
     6: "Get the Beacon Badge with {0} Pokémon caught",
     7: "Conquer the Pokémon League with {0} Pokémon caught",
-    8: "Defeat your rival with {0} Pokémon caught"
+    8: "Capture Heatran with {0} Pokémon caught"
+}
+
+phasePoints = {
+    1: 25,
+    2: 50,
+    3: 50,
+    4: 10,
+    5: 10,
+    6: 5,
+    7: 1,
+    8: 100 
 }
 
 a_pointer_regional = 0x000b70
@@ -551,49 +562,55 @@ o_pointer_game = 0xc
 o_tid = 0x00d288
 o_sid = 0x00d28a
 o_badges = 0x00d292
-o_league = 0xe206
-o_barry = 0x00
+o_league = 0x00e206
+o_heatran = 0x00e530
 o_dexStart = 0x00e4f4
+o_mom = 0x00e0f8
+o_tv = 0x00e1a2
+o_gamestate = 0x04f9e8
 
 function gamePointer() => tbyte(tbyte(a_pointer_regional) + o_pointer_game)
 function sid1() => byte(gamePointer() + o_sid + 1)
 function sid2() => byte(gamePointer() + o_sid)
 function tid1() => byte(gamePointer() + o_tid + 1)
 function tid2() => byte(gamePointer() + o_tid)
+function tv() => word(gamePointer() + o_tv)
+function mom() => word(gamePointer() + o_mom)
+function gamestate() => byte(gamePointer() + o_gamestate)
+function sanity(onlyOW=false) {
+    trigger = gamePointer()==prev(gamePointer())
+    if(onlyOW) trigger = trigger && trigger_when(gamestate()==0x4)
+    else trigger = trigger && (gamestate()==0x4 || gamestate()==0x49)
+    return trigger
+}
 function badges() => bitcount(gamePointer() + o_badges) // add bit for league and a bit for Barry
 function league() => bit4(gamePointer() + o_league)
-function barry() => bit0(gamePointer() + o_barry)
-function checkpoint() => badges() + league()// + barry()
+function heatran() => bit4(gamePointer() + o_heatran)
+function checkpoint() => badges() + league() + heatran()
 function dexFlag(dexNumber) {
     dexIndex = dexNumber - 1
-    if(dexIndex%8==0) return bit0(gamePointer() + o_dexStart + (dexIndex/8))
-    if(dexIndex%8==1) return bit1(gamePointer() + o_dexStart + (dexIndex/8))
-    if(dexIndex%8==2) return bit2(gamePointer() + o_dexStart + (dexIndex/8))
-    if(dexIndex%8==3) return bit3(gamePointer() + o_dexStart + (dexIndex/8))
-    if(dexIndex%8==4) return bit4(gamePointer() + o_dexStart + (dexIndex/8))
-    if(dexIndex%8==5) return bit5(gamePointer() + o_dexStart + (dexIndex/8))
-    if(dexIndex%8==6) return bit6(gamePointer() + o_dexStart + (dexIndex/8))
-    if(dexIndex%8==7) return bit7(gamePointer() + o_dexStart + (dexIndex/8))
+    return bit(dexIndex%8, gamePointer() + o_dexStart + (dexIndex/8))
 }
 function countMons(phase) {
     counter = 0
     for mon in dex if(mon[PK_PHASE]<=phase) counter = counter + 1
-    return counter
+    return counter+3 // starters
 }
 
 function munchlaxCalc() {
+    idSet = tv()==1
     validTrees = [
         // 17 needs all checks
-        tally(1, once(sid1()%21==17), once(sid2()%21==17), once(tid1()%21==17), once(tid2()%21==17)),
-        tally(2, once(sid1()%21==16), once(sid2()%21==16), once(tid1()%21==16), once(tid2()%21==16)),
-        tally(3, once(sid1()%21==15), once(sid2()%21==15), once(tid1()%21==15), once(tid2()%21==15)),
-        tally(4, once(sid1()%21==14), once(sid2()%21==14), once(tid1()%21==14), once(tid2()%21==14)),
+        tally(1, once(idSet && sid1()%21==17), once(idSet && sid2()%21==17), once(idSet && tid1()%21==17), once(idSet && tid2()%21==17)),
+        tally(2, once(idSet && sid1()%21==16), once(idSet && sid2()%21==16), once(idSet && tid1()%21==16), once(idSet && tid2()%21==16)),
+        tally(3, once(idSet && sid1()%21==15), once(idSet && sid2()%21==15), once(idSet && tid1()%21==15), once(idSet && tid2()%21==15)),
+        tally(4, once(idSet && sid1()%21==14), once(idSet && sid2()%21==14), once(idSet && tid1()%21==14), once(idSet && tid2()%21==14)),
         // 20, 0, 1 are consecutive so their checks overlap. 4 20 also overlaps with 17
-        tally(1, once(sid1()%21==1), once(sid2()%21==1), once(tid1()%21==1), once(tid2()%21==1)),
-        tally(1, once(sid1()%21==0), once(sid2()%21==0), once(tid1()%21==0), once(tid2()%21==0)),
-        tally(1, once(sid1()%21==20), once(sid2()%21==20), once(tid1()%21==20), once(tid2()%21==20)),
-        tally(2, once(sid1()%21==19), once(sid2()%21==19), once(tid1()%21==19), once(tid2()%21==19)),
-        tally(3, once(sid1()%21==18), once(sid2()%21==18), once(tid1()%21==18), once(tid2()%21==18))
+        tally(1, once(idSet && sid1()%21==1), once(idSet && sid2()%21==1), once(idSet && tid1()%21==1), once(idSet && tid2()%21==1)),
+        tally(1, once(idSet && sid1()%21==0), once(idSet && sid2()%21==0), once(idSet && tid1()%21==0), once(idSet && tid2()%21==0)),
+        tally(1, once(idSet && sid1()%21==20), once(idSet && sid2()%21==20), once(idSet && tid1()%21==20), once(idSet && tid2()%21==20)),
+        tally(2, once(idSet && sid1()%21==19), once(idSet && sid2()%21==19), once(idSet && tid1()%21==19), once(idSet && tid2()%21==19)),
+        tally(3, once(idSet && sid1()%21==18), once(idSet && sid2()%21==18), once(idSet && tid1()%21==18), once(idSet && tid2()%21==18))
     ]
     
     return any_of(validTrees, p=>p)
@@ -603,11 +620,29 @@ function captureMon(mon) {
     dexNumber = mon[PK_NUMBER]
     name = mon[PK_NAME]
     phase = mon[PK_PHASE]
+    previous = []
+    for mon in dex if(mon[PK_PHASE]<phase) array_push(previous, mon)
     
     trigger =
         checkpoint() == phaseBadges[phase] &&
         prev(dexFlag(dexNumber)) == 0 &&
         dexFlag(dexNumber) == 1
+        
+    if(length(previous)>0)
+        trigger = trigger && all_of(previous, pmon => dexFlag(mon[PK_NUMBER]) == 1)
+    
+    return sanity() && trigger
+}
+
+function starterCon(mon, stage, isTrigger=false) {
+    dexNumber = mon[PK_NUMBER]
+
+    trigger = dexFlag(dexNumber) == 1
+    if(isTrigger) trigger = trigger && prev(dexFlag(dexNumber)) == 0
+        
+    
+    if(stage>=2) trigger = trigger && dexFlag(dexNumber-1) == 1
+    if(stage==3) trigger = trigger && dexFlag(dexNumber-2) == 1
     
     return trigger
 }
@@ -618,33 +653,51 @@ function getStarter(stage) {
     
     trigger = 
         badges() == 0 &&
-        any_of(starters, mon => 
-            prev(dexFlag(mon[PK_NUMBER])) == 0 &&
-            dexFlag(mon[PK_NUMBER]) == 1
-        )
+        any_of(starters, mon => starterCon(mon, stage, true))
     
-    return trigger
+    return sanity() && trigger
+    
+}
+
+function haveStarters() {
+    starters = []
+    for mon in dex if(mon[PK_PHASE]==53) array_push(starters, mon)
+    
+    return any_of(starters, mon => starterCon(mon, 3))
     
 }
 
 function getCheckpoint(phase) {
     badges = phaseBadges[phase]
     phaseMons = []
+    starters = []
     for mon in dex if(mon[PK_PHASE]<=phase) array_push(phaseMons, mon)
+    for mon in dex if(mon[PK_PHASE]==51) array_push(starters, mon)
     
     trigger =
         trigger_when(checkpoint() == badges + 1) &&
         prev(checkpoint()) == badges &&
-        measured(sum_of(phaseMons, mon => dexFlag(mon[PK_NUMBER])) == length(phaseMons))
+        any_of(starters, starter =>
+            measured(sum_of(phaseMons, mon => dexFlag(mon[PK_NUMBER]))+dexFlag(starter[PK_NUMBER])+dexFlag(starter[PK_NUMBER]+1)+dexFlag(starter[PK_NUMBER]+2) == countMons(phase), gamestate()>0)
+        )
     
-    return trigger
+    return sanity(true) && trigger
 }
 
+function cheevoMunchlax() {
+    myAchievement(
+        "You Are Ready to Go!",
+        "Munchlax will appear before the second badge with your current Trainer and Secret IDs",
+        0,
+        sanity(true) && prev(mom())== 0 && trigger_when(mom()==1) && munchlaxCalc(),
+        type="missable"
+    )
+}
 function cheevoStarter1() {
     myAchievement(
         "Starter I",
         "Obtain your starter",
-        1,
+        0,
         getStarter(1)
     )
 }
@@ -652,7 +705,7 @@ function cheevoStarter2() {
     myAchievement(
         "Starter II",
         "Evolve your starter",
-        1,
+        0,
         getStarter(2)
     )
 }
@@ -660,7 +713,7 @@ function cheevoStarter3() {
     myAchievement(
         "Starter III",
         "Evolve your starter for the last time",
-        1,
+        0,
         getStarter(3)
     )
 }
@@ -669,7 +722,7 @@ function cheevoMon(mon) {
     myAchievement(
         name,
         format("Obtain a {0}", name),
-        1,
+        0,
         captureMon(mon)
     )
 }
@@ -677,11 +730,12 @@ function cheevoCheckpoint(phase) {
     myAchievement(
         phaseTitle[phase],
         format(phaseDesc[phase],countMons(phase)),
-        5,
+        phasePoints[phase],
         getCheckpoint(phase)
     )
 }
 
+cheevoMunchlax()
 cheevoStarter1()
 cheevoStarter2()
 cheevoStarter3()
@@ -689,3 +743,36 @@ for phase in phaseBadges {
     for mon in dex if(mon[PK_PHASE]==phase) cheevoMon(mon)
     cheevoCheckpoint(phase)
 }
+
+// RP
+lookupBadgesTotal = {
+    0: ""+countMons(1),
+    1: ""+countMons(2),
+    2: ""+countMons(3),
+    3: ""+countMons(3),
+    4: ""+countMons(3),
+    5: ""+countMons(4),
+    6: ""+countMons(5),
+    7: ""+countMons(6),
+    8: ""+countMons(7),
+    9: ""+countMons(8),
+}
+lookupBadgesText = {
+    0: "warming up for a fun adventure!",
+    1: "kicking ass and honeying trees",
+    2: "contemplating the vastness of Sinnoh",
+    3: "going from gym to gym",
+    4: "wrapping up the worst checkpoint",
+    5: "feeling the wind in their faces with some high-speed surfing",
+    6: "very cold. Very freaking cold",
+    7: "catching some legendaries",
+    8: "evolving their Sneasel",
+    9: "wondering why this is part of the Lord's wishes"
+}
+function countCaptured() => sum_of(dex, mon => dexFlag(mon[PK_NUMBER]))
+
+rich_presence_display("Oak's strongest soldier is {0} | {1}/{2}",
+    rich_presence_lookup("text", badges()+league(), lookupBadgesText, "vibing"),
+    rich_presence_value("caught", countCaptured()),
+    rich_presence_lookup("objective", badges()+league(), lookupBadgesTotal, "0")
+)
