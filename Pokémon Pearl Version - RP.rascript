@@ -1,6 +1,7 @@
 // Pokémon Pearl Version
 // #ID = 25369
 
+// #region constants and literals
 L_CITY = "At {0}"
 L_ROUTE = "Travelling through Route {0}"
 L_DUNGEON = "Exploring {0}"
@@ -118,33 +119,11 @@ L_S_LEAG_CYNTHIA = ", against Cynthia, the reigning Champion!"
 L_S_LEAG_HOF = ", recording their achievements in the Hall of Fame"
 L_S_R228 = ", seeking refuge from the sandstorm"
 
-a_pointer_regional = 0x0b70
-o_pointer_game = 0x000c
-o_mapId = 0xe44c 
-o_badges = 0xd292
-o_hof = 0xe320
-o_gamestate = 0x04f9e8
-
-function pointer() => tbyte( tbyte(a_pointer_regional) + o_pointer_game )
-function mapId() => word( pointer() + o_mapId )
-function gamestate() => word( pointer() + o_gamestate )
-
 function rp_city(i) => format(L_CITY, i)
 function rp_route(i) => format(L_ROUTE, i)
 function rp_dungeon(i) => format(L_DUNGEON, i)
 function rp_landmark(i) => format(L_LANDMARK, i)
 function rp_passage(i) => format(L_PASSAGE, i)
-
-function badge1() => bit0( pointer() + o_badges )
-function badge2() => bit1( pointer() + o_badges )
-function badge3() => bit2( pointer() + o_badges )
-function badge4() => bit3( pointer() + o_badges )
-function badge5() => bit4( pointer() + o_badges )
-function badge6() => bit5( pointer() + o_badges )
-function badge7() => bit6( pointer() + o_badges )
-function badge8() => bit7( pointer() + o_badges )
-function hof() => bit2( pointer() + o_hof )
-
 
 rpPrimary = {
     0x0003: rp_city(L_JUBILIFE),
@@ -580,6 +559,7 @@ rpPrimary = {
     0x01c2: rp_city(L_SURVIVALA),
     0x01c3: rp_city(L_SURVIVALA),
     0x01c4: rp_city(L_SURVIVALA),
+    0x01c5: rp_city(L_SURVIVALA),
     0x01c6: rp_city(L_SURVIVALA),
     0x01e9: rp_city(L_SURVIVALA),
     0x01c7: rp_city(L_SURVIVALA),
@@ -632,7 +612,7 @@ rpSecondary = {
     0x001e: "",
     0x0021: "",
     0x0022: "",
-    0x0023: "",
+    0x0023: L_S_GYM,
     0x0024: "",
     0x0025: "",
     0x0026: "",
@@ -658,8 +638,8 @@ rpSecondary = {
     0x0040: "",
     0x0041: "",
     0x0042: "",
-    0x0043: "",
-    0x0044: "",
+    0x0043: L_S_GYM,
+    0x0044: L_S_GYM,
     0x0045: "",
     0x0046: "",
     0x0047: "",
@@ -1041,6 +1021,7 @@ rpSecondary = {
     0x01c2: "",
     0x01c3: "",
     0x01c4: "",
+    0x01c5: "",
     0x01e9: "",
     0x01c6: "",
     0x01c7: "",
@@ -1066,57 +1047,578 @@ rpSecondary = {
     0x01d1: "",
     0x01cd: "",
     0x01d7: "",
+    0x0137: "",
 }
 
+PK_NUMBER = 0
+PK_NAME = 1
+PK_PHASE = 2
+
+dex = [
+    [1, "Bulbasaur", 99],
+    [2, "Ivysaur", 99],
+    [3, "Venusaur", 99],
+    [4, "Charmander", 99],
+    [5, "Charmeleon", 99],
+    [6, "Charizard", 99],
+    [7, "Squirtle", 99],
+    [8, "Wartortle", 99],
+    [9, "Blastoise", 99],
+    [10, "Caterpie", 99],
+    [11, "Metapod", 99],
+    [12, "Butterfree", 99],
+    [13, "Weedle", 99],
+    [14, "Kakuna", 99],
+    [15, "Beedrill", 99],
+    [16, "Pidgey", 8],
+    [17, "Pidgeotto", 8],
+    [18, "Pidgeot", 8],
+    [19, "Rattata", 8],
+    [20, "Raticate", 8],
+    [21, "Spearow", 8],
+    [22, "Fearow", 8],
+    [23, "Ekans", 99],
+    [24, "Arbok", 99],
+    [25, "Pikachu", 3],
+    [26, "Raichu", 3],
+    [27, "Sandshrew", 99],
+    [28, "Sandslash", 99],
+    [29, "Nidoran F", 8],
+    [30, "Nidorina", 8],
+    [31, "Nidoqueen", 8],
+    [32, "Nidoran M", 8],
+    [33, "Nidorino", 8],
+    [34, "Nidoking", 8],
+    [35, "Clefairy", 2],
+    [36, "Clefable", 2],
+    [37, "Vulpix", 99],
+    [38, "Ninetales", 99],
+    [39, "Jigglypuff", 8],
+    [40, "Wigglytuff", 8],
+    [41, "Zubat", 1],
+    [42, "Golbat", 1],
+    [43, "Oddish", 8],
+    [44, "Gloom", 8],
+    [45, "Vileplume", 8],
+    [46, "Paras", 8],
+    [47, "Parasect", 8],
+    [48, "Venonat", 8],
+    [49, "Venomoth", 8],
+    [50, "Diglett", 8],
+    [51, "Dugtrio", 8],
+    [52, "Meowth", 8],
+    [53, "Persian", 8],
+    [54, "Psyduck", 1],
+    [55, "Golduck", 1],
+    [56, "Mankey", 8],
+    [57, "Primeape", 8],
+    [58, "Growlithe", 99],
+    [59, "Arcanine", 99],
+    [60, "Poliwag", 8],
+    [61, "Poliwhirl", 8],
+    [62, "Poliwrath", 8],
+    [63, "Abra", 1],
+    [64, "Kadabra", 1],
+    [65, "Alakazam", 99],
+    [66, "Machop", 1],
+    [67, "Machoke", 1],
+    [68, "Machamp", 99],
+    [69, "Bellsprout", 8],
+    [70, "Weepinbell", 8],
+    [71, "Victreebel", 8],
+    [72, "Tentacool", 4],
+    [73, "Tentacruel", 4],
+    [74, "Geodude", 1],
+    [75, "Graveler", 1],
+    [76, "Golem", 99],
+    [77, "Ponyta", 2],
+    [78, "Rapidash", 2],
+    [79, "Slowpoke", 8],
+    [80, "Slowbro", 8],
+    [81, "Magnemite", 8],
+    [82, "Magneton", 8],
+    [83, "Farfetchd", 8],
+    [84, "Doduo", 8],
+    [85, "Dodrio", 8],
+    [86, "Seel", 99],
+    [87, "Dewgong", 99],
+    [88, "Grimer", 8],
+    [89, "Muk", 8],
+    [90, "Shellder", 8],
+    [91, "Cloyster", 8],
+    [92, "Gastly", 3],
+    [93, "Haunter", 3],
+    [94, "Gengar", 99],
+    [95, "Onix", 1],
+    [96, "Drowzee", 8],
+    [97, "Hypno", 8],
+    [98, "Krabby", 8],
+    [99, "Kingler", 8],
+    [100, "Voltorb", 8],
+    [101, "Electrode", 8],
+    [102, "Exeggcute", 8],
+    [103, "Exeggutor", 8],
+    [104, "Cubone", 8],
+    [105, "Marowak", 8],
+    [106, "Hitmonlee", 8],
+    [107, "Hitmonchan", 8],
+    [108, "Lickitung", 8],
+    [109, "Koffing", 8],
+    [110, "Weezing", 8],
+    [111, "Rhyhorn", 8],
+    [112, "Rhydon", 8],
+    [113, "Chansey", 3],
+    [114, "Tangela", 99],
+    [115, "Kangaskhan", 8],
+    [116, "Horsea", 8],
+    [117, "Seadra", 8],
+    [118, "Goldeen", 3],
+    [119, "Seaking", 3],
+    [120, "Staryu", 8],
+    [121, "Starmie", 8],
+    [122, "Mr Mime", 8],
+    [123, "Scyther", 99],
+    [124, "Jynx", 8],
+    [125, "Electabuzz", 99],
+    [126, "Magmar", 99],
+    [127, "Pinsir", 8],
+    [128, "Tauros", 8],
+    [129, "Magikarp", 1],
+    [130, "Gyarados", 1],
+    [131, "Lapras", 8],
+    [132, "Ditto", 8],
+    [133, "Eevee", 8],
+    [134, "Vaporeon", 8],
+    [135, "Jolteon", 8],
+    [136, "Flareon", 8],
+    [137, "Porygon", 8],
+    [138, "Omanyte", 8],
+    [139, "Omastar", 8],
+    [140, "Kabuto", 8],
+    [141, "Kabutops", 8],
+    [142, "Aerodactyl", 8],
+    [143, "Snorlax", 2],
+    [144, "Articuno", 99],
+    [145, "Zapdos", 99],
+    [146, "Moltres", 99],
+    [147, "Dratini", 8],
+    [148, "Dragonair", 8],
+    [149, "Dragonite", 8],
+    [150, "Mewtwo", 99],
+    [151, "Mew", 99],
+    [152, "Chikorita", 99],
+    [153, "Bayleef", 99],
+    [154, "Meganium", 99],
+    [155, "Cyndaquil", 99],
+    [156, "Quilava", 99],
+    [157, "Typhlosion", 99],
+    [158, "Totodile", 99],
+    [159, "Croconaw", 99],
+    [160, "Feraligatr", 99],
+    [161, "Sentret", 8],
+    [162, "Furret", 8],
+    [163, "Hoothoot", 2],
+    [164, "Noctowl", 2],
+    [165, "Ledyba", 8],
+    [166, "Ledian", 8],
+    [167, "Spinarak", 8],
+    [168, "Ariados", 8],
+    [169, "Crobat", 1],
+    [170, "Chinchou", 8],
+    [171, "Lanturn", 8],
+    [172, "Pichu", 3],
+    [173, "Cleffa", 2],
+    [174, "Igglybuff", 8],
+    [175, "Togepi", 8],
+    [176, "Togetic", 8],
+    [177, "Natu", 8],
+    [178, "Xatu", 8],
+    [179, "Mareep", 8],
+    [180, "Flaaffy", 8],
+    [181, "Ampharos", 8],
+    [182, "Bellossom", 8],
+    [183, "Marill", 3],
+    [184, "Azumarill", 3],
+    [185, "Sudowoodo", 3],
+    [186, "Politoed", 99],
+    [187, "Hoppip", 8],
+    [188, "Skiploom", 8],
+    [189, "Jumpluff", 8],
+    [190, "Aipom", 2],
+    [191, "Sunkern", 8],
+    [192, "Sunflora", 8],
+    [193, "Yanma", 8],
+    [194, "Wooper", 3],
+    [195, "Quagsire", 3],
+    [196, "Espeon", 8],
+    [197, "Umbreon", 8],
+    [198, "Murkrow", 99],
+    [199, "Slowking", 99],
+    [200, "Misdreavus", 2],
+    [201, "Unown", 3],
+    [202, "Wobbuffet", 8],
+    [203, "Girafarig", 3],
+    [204, "Pineco", 99],
+    [205, "Forretress", 99],
+    [206, "Dunsparce", 8],
+    [207, "Gligar", 99],
+    [208, "Steelix", 4],
+    [209, "Snubbull", 8],
+    [210, "Granbull", 8],
+    [211, "Qwilfish", 8],
+    [212, "Scizor", 99],
+    [213, "Shuckle", 99],
+    [214, "Heracross", 2],
+    [215, "Sneasel", 5],
+    [216, "Teddiursa", 99],
+    [217, "Ursaring", 99],
+    [218, "Slugma", 8],
+    [219, "Magcargo", 8],
+    [220, "Swinub", 8],
+    [221, "Piloswine", 8],
+    [222, "Corsola", 8],
+    [223, "Remoraid", 3],
+    [224, "Octillery", 3],
+    [225, "Delibird", 8],
+    [226, "Mantine", 6],
+    [227, "Skarmory", 8],
+    [228, "Houndour", 8],
+    [229, "Houndoom", 8],
+    [230, "Kingdra", 99],
+    [231, "Phanpy", 8],
+    [232, "Donphan", 8],
+    [233, "Porygon2", 99],
+    [234, "Stantler", 8],
+    [235, "Smeargle", 8],
+    [236, "Tyrogue", 8],
+    [237, "Hitmontop", 8],
+    [238, "Smoochum", 8],
+    [239, "Elekid", 99],
+    [240, "Magby", 99],
+    [241, "Miltank", 8],
+    [242, "Blissey", 3],
+    [243, "Raikou", 99],
+    [244, "Entei", 99],
+    [245, "Suicune", 99],
+    [246, "Larvitar", 99],
+    [247, "Pupitar", 99],
+    [248, "Tyranitar", 99],
+    [249, "Lugia", 99],
+    [250, "Ho Oh", 99],
+    [251, "Celebi", 99],
+    [252, "Treecko", 99],
+    [253, "Grovyle", 99],
+    [254, "Sceptile", 99],
+    [255, "Torchic", 99],
+    [256, "Combusken", 99],
+    [257, "Blaziken", 99],
+    [258, "Mudkip", 99],
+    [259, "Marshtomp", 99],
+    [260, "Swampert", 99],
+    [261, "Poochyena", 99],
+    [262, "Mightyena", 99],
+    [263, "Zigzagoon", 8],
+    [264, "Linoone", 8],
+    [265, "Wurmple", 2],
+    [266, "Silcoon", 2],
+    [267, "Beautifly", 2],
+    [268, "Cascoon", 2],
+    [269, "Dustox", 2],
+    [270, "Lotad", 99],
+    [271, "Lombre", 99],
+    [272, "Ludicolo", 99],
+    [273, "Seedot", 99],
+    [274, "Nuzleaf", 99],
+    [275, "Shiftry", 99],
+    [276, "Taillow", 8],
+    [277, "Swellow", 8],
+    [278, "Wingull", 3],
+    [279, "Pelipper", 3],
+    [280, "Ralts", 8],
+    [281, "Kirlia", 8],
+    [282, "Gardevoir", 8],
+    [283, "Surskit", 8],
+    [284, "Masquerain", 8],
+    [285, "Shroomish", 8],
+    [286, "Breloom", 8],
+    [287, "Slakoth", 8],
+    [288, "Vigoroth", 8],
+    [289, "Slaking", 8],
+    [290, "Nincada", 8],
+    [291, "Ninjask", 8],
+    [292, "Shedinja", 8],
+    [293, "Whismur", 8],
+    [294, "Loudred", 8],
+    [295, "Exploud", 8],
+    [296, "Makuhita", 8],
+    [297, "Hariyama", 8],
+    [298, "Azurill", 3],
+    [299, "Nosepass", 8],
+    [300, "Skitty", 8],
+    [301, "Delcatty", 8],
+    [302, "Sableye", 99],
+    [303, "Mawile", 99],
+    [304, "Aron", 99],
+    [305, "Lairon", 99],
+    [306, "Aggron", 99],
+    [307, "Meditite", 2],
+    [308, "Medicham", 2],
+    [309, "Electrike", 8],
+    [310, "Manectric", 8],
+    [311, "Plusle", 8],
+    [312, "Minun", 8],
+    [313, "Volbeat", 8],
+    [314, "Illumise", 8],
+    [315, "Roselia", 1],
+    [316, "Gulpin", 8],
+    [317, "Swalot", 8],
+    [318, "Carvanha", 8],
+    [319, "Sharpedo", 8],
+    [320, "Wailmer", 8],
+    [321, "Wailord", 8],
+    [322, "Numel", 8],
+    [323, "Camerupt", 8],
+    [324, "Torkoal", 8],
+    [325, "Spoink", 8],
+    [326, "Grumpig",8],
+    [327, "Spinda", 8],
+    [328, "Trapinch", 8],
+    [329, "Vibrava", 8],
+    [330, "Flygon", 8],
+    [331, "Cacnea", 8],
+    [332, "Cacturne", 8],
+    [333, "Swablu", 8],
+    [334, "Altaria", 8],
+    [335, "Zangoose", 99],
+    [336, "Seviper", 99],
+    [337, "Lunatone", 99],
+    [338, "Solrock", 99],
+    [339, "Barboach", 3],
+    [340, "Whiscash", 3],
+    [341, "Corphish", 8],
+    [342, "Crawdaunt", 8],
+    [343, "Baltoy", 8],
+    [344, "Claydol", 8],
+    [345, "Lileep", 8],
+    [346, "Cradily", 8],
+    [347, "Anorith", 8],
+    [348, "Armaldo", 8],
+    [349, "Feebas", 5],
+    [350, "Milotic", 5],
+    [351, "Castform", 8],
+    [352, "Kecleon", 99],
+    [353, "Shuppet", 8],
+    [354, "Banette", 8],
+    [355, "Duskull", 8],
+    [356, "Dusclops",8],
+    [357, "Tropius", 99],
+    [358, "Chimecho", 2],
+    [359, "Absol", 8],
+    [360, "Wynaut", 8],
+    [361, "Snorunt", 8],
+    [362, "Glalie", 8],
+    [363, "Spheal", 8],
+    [364, "Sealeo", 8],
+    [365, "Walrein", 8],
+    [366, "Clamperl", 8],
+    [367, "Huntail", 99],
+    [368, "Gorebyss", 99],
+    [369, "Relicanth", 8],
+    [370, "Luvdisc", 8],
+    [371, "Bagon", 8],
+    [372, "Shelgon", 8],
+    [373, "Salamence", 8],
+    [374, "Beldum", 8],
+    [375, "Metang", 8],
+    [376, "Metagross", 8],
+    [377, "Regirock", 99],
+    [378, "Regice", 99],
+    [379, "Registeel", 99],
+    [380, "Latias", 99],
+    [381, "Latios", 99],
+    [382, "Kyogre", 99],
+    [383, "Groudon", 99],
+    [384, "Rayquaza", 99],
+    [385, "Jirachi", 99],
+    [386, "Deoxys", 99],
+    [387, "Turtwig", 51],
+    [388, "Grotle", 52],
+    [389, "Torterra", 53],
+    [390, "Chimchar", 51],
+    [391, "Monferno", 52],
+    [392, "Infernape", 53],
+    [393, "Piplup", 51],
+    [394, "Prinplup", 52],
+    [395, "Empoleon", 53],
+    [396, "Starly", 1],
+    [397, "Staravia", 1],
+    [398, "Staraptor", 1],
+    [399, "Bidoof", 1],
+    [400, "Bibarel", 1],
+    [401, "Kricketot", 1],
+    [402, "Kricketune", 1],
+    [403, "Shinx", 1],
+    [404, "Luxio", 1],
+    [405, "Luxray", 1],
+    [406, "Budew", 1],
+    [407, "Roserade", 2],
+    [408, "Cranidos", 99],
+    [409, "Rampardos", 99],
+    [410, "Shieldon", 2],
+    [411, "Bastiodon", 2],
+    [412, "Burmy", 2],
+    [413, "Wormadam", 2],
+    [414, "Mothim", 2],
+    [415, "Combee", 2],
+    [416, "Vespiquen", 2],
+    [417, "Pachirisu", 2],
+    [418, "Buizel", 2],
+    [419, "Floatzel", 2],
+    [420, "Cherubi", 2],
+    [421, "Cherrim", 2],
+    [422, "Shellos", 2],
+    [423, "Gastrodon", 2],
+    [424, "Ambipom", 2],
+    [425, "Drifloon", 2],
+    [426, "Drifblim", 2],
+    [427, "Buneary", 2],
+    [428, "Lopunny", 2],
+    [429, "Mismagius", 2],
+    [430, "Honchkrow", 99],
+    [431, "Glameow", 4],
+    [432, "Purugly", 4],
+    [433, "Chingling", 2],
+    [434, "Stunky", 99],
+    [435, "Skuntank", 99],
+    [436, "Bronzor", 3],
+    [437, "Bronzong", 3],
+    [438, "Bonsly", 3],
+    [439, "Mime Jr", 8],
+    [440, "Happiny", 3],
+    [441, "Chatot", 2],
+    [442, "Spiritomb", 99],
+    [443, "Gible", 5],
+    [444, "Gabite", 5],
+    [445, "Garchomp", 5],
+    [446, "Munchlax", 2],
+    [447, "Riolu", 4],
+    [448, "Lucario", 4],
+    [449, "Hippopotas", 3],
+    [450, "Hippowdon", 3],
+    [451, "Skorupi", 3],
+    [452, "Drapion", 3],
+    [453, "Croagunk", 3],
+    [454, "Toxicroak", 3],
+    [455, "Carnivine", 3],
+    [456, "Finneon", 3],
+    [457, "Lumineon", 3],
+    [458, "Mantyke", 6],
+    [459, "Snover", 5],
+    [460, "Abomasnow", 5],
+    [461, "Weavile", 7],
+    [462, "Magnezone", 8],
+    [463, "Lickilicky", 8],
+    [464, "Rhyperior", 99],
+    [465, "Tangrowth", 99],
+    [466, "Electivire", 99],
+    [467, "Magmortar", 99],
+    [468, "Togekiss", 8],
+    [469, "Yanmega", 8],
+    [470, "Leafeon", 8],
+    [471, "Glaceon", 8],
+    [472, "Gliscor", 99],
+    [473, "Mamoswine", 8],
+    [474, "Porygon Z", 99],
+    [475, "Gallade", 8],
+    [476, "Probopass", 8],
+    [477, "Dusknoir", 99],
+    [478, "Froslass", 8],
+    [479, "Rotom", 8],
+    [480, "Uxie", 6],
+    [481, "Mesprit", 6],
+    [482, "Azelf", 6],
+    [483, "Dialga", 99],
+    [484, "Palkia", 6],
+    [485, "Heatran", 99],
+    [486, "Regigigas", 99],
+    [487, "Giratina", 8],
+    [488, "Cresselia", 8],
+    [489, "Phione", 99],
+    [490, "Manaphy", 99],
+    [491, "Darkrai", 99],
+    [492, "Shaymin", 99],
+    [493, "Arceus", 99],
+]
+
 badge1 = {
-    0: "⬛",
-    1: "⚫️",
-    2: ""
+    1: "⚫️"
 }
 badge2 = {
-    0: "⬛",
-    1: "🌳",
-    2: ""
+    1: "🌳"
 }
 badge3 = {
-    0: "⬛",
-    1: "🧱",
-    2: ""
+    1: "🧱"
 }
 badge4 = {
-    0: "⬛",
-    1: "🌊",
-    2: ""
+    1: "🌊"
 }
 badge5 = {
-    0: "⬛",
-    1: "👻",
-    2: ""
+    1: "👻"
 }
 badge6 = {
-    0: "⬛",
-    1: "⛏️",
-    2: ""
+    1: "⛏️"
 }
 badge7 = {
-    0: "⬛",
-    1: "🧊",
-    2: ""
+    1: "🧊"
 }
 badge8 = {
-    0: "⬛",
-    1: "💡",
-    2: ""
+    1: "💡"
 }
 
 hof = {
-    0: "",
     1: "👑"
 }
 
-rpBase = "{0}{1} · {2}{3}{4}{5}{6}{7}{8}{9}{10}"
+separator = {
+    0: ""
+}
+// #endregion constants and literals
 
+a_pointer_regional = 0x0b70
+o_pointer_game = 0x000c
+o_mapId = 0xe44c 
+o_badges = 0xd292
+o_hof = 0xe320
+o_gamestate = 0x04f9e8
+o_dexStart = 0x00e4f4
+o_hours = 0x00d29a
+o_minutes = 0x00d29c
+o_money = 0x00d28c
+
+function pointer() => tbyte( tbyte(a_pointer_regional) + o_pointer_game )
+function mapId() => word( pointer() + o_mapId )
+function gamestate() => word( pointer() + o_gamestate )
 function rpSanity() => gamestate()==0 //&& pointer()==prev(pointer())
+function dexFlag(dexNumber) {
+    dexIndex = dexNumber - 1
+    return bit(dexIndex%8, pointer() + o_dexStart + (dexIndex/8))
+}
+
+function badge1() => bit0( pointer() + o_badges )
+function badge2() => bit1( pointer() + o_badges )
+function badge3() => bit2( pointer() + o_badges )
+function badge4() => bit3( pointer() + o_badges )
+function badge5() => bit4( pointer() + o_badges )
+function badge6() => bit5( pointer() + o_badges )
+function badge7() => bit6( pointer() + o_badges )
+function badge8() => bit7( pointer() + o_badges )
+function badges() => bitcount( pointer() + o_badges )
+function hof() => bit2( pointer() + o_hof )
+function countCaptured() => sum_of(dex, mon => dexFlag(mon[PK_NUMBER]))
+function minutes() => byte( pointer() + o_minutes ) + word( pointer() + o_hours )*60
+function money() => dword( pointer() + o_money )
+
+rpBase = "{0}{1}{12}{2}{3}{4}{5}{6}{7}{8}{9}{10} • {11}/493 • ¥{13} • {14}"
 
 rich_presence_conditional_display(rpSanity(), "Title screen")
 rich_presence_display(rpBase,
@@ -1130,6 +1632,9 @@ rich_presence_display(rpBase,
     rich_presence_lookup("BADGE6", badge6()+hof(), badge6),
     rich_presence_lookup("BADGE7", badge7()+hof(), badge7),
     rich_presence_lookup("BADGE8", badge8()+hof(), badge8),
-    rich_presence_lookup("HOF", hof(), hof)
-    
+    rich_presence_lookup("HOF", hof(), hof),
+    rich_presence_value("DEX", countCaptured()),
+    rich_presence_lookup("BADGE_SEP", badges(), separator,  " • "),
+    rich_presence_value("MONEY", money()),
+    rich_presence_value("minutes", minutes(), "MINUTES")
 )
