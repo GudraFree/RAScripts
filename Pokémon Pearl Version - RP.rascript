@@ -1598,7 +1598,7 @@ o_money = 0x00d28c
 function pointer() => tbyte( tbyte(a_pointer_regional) + o_pointer_game )
 function mapId() => word( pointer() + o_mapId )
 function gamestate() => word( pointer() + o_gamestate )
-function rpSanity() => gamestate()==0 //&& pointer()==prev(pointer())
+function rpSanity() => gamestate()==0 || pointer()==0
 function dexFlag(dexNumber) {
     dexIndex = dexNumber - 1
     return bit(dexIndex%8, pointer() + o_dexStart + (dexIndex/8))

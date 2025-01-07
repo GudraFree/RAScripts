@@ -770,7 +770,7 @@ lookupBadgesText = {
     9: "wondering why this is part of the Lord's wishes"
 }
 function countCaptured() => sum_of(dex, mon => dexFlag(mon[PK_NUMBER]))
-function rpSanity() => gamestate()==0 //&& pointer()==prev(pointer())
+function rpSanity() => gamestate()==0 || pointer()==0
 
 rich_presence_conditional_display(rpSanity(), "Oak calls for help. And RetroAchievements will answer!")
 rich_presence_display("Oak's strongest soldier is {0} | {1}/{2}",
