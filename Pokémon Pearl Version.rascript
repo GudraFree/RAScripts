@@ -6,8 +6,8 @@ cheevoId = 0
 function cheevoIdPlus() {
     cheevoId = cheevoId + 1
 }
-function myAchievement(title, description, points, trigger, type="") {
-    achievement(title, description, points, trigger, cheevoId, type)
+function myAchievement(title, description, points, trigger, mtype="") {
+    achievement(title, description, points, trigger, cheevoId, type=mtype)
     //cheevoIdPlus()
 }
 
@@ -18,6 +18,7 @@ o_gamePointer = 0xc
 o_MysteryGift = 0x00D25C
 o_PlayerTid = 0x00D288
 o_PlayerSid = 0x00D28A
+o_money = 0x00d28c
 o_Badges = 0x00D292
 o_CasinoCoins = 0x00D298
 o_PlaytimeHours = 0x00D29A
@@ -38,6 +39,97 @@ o_SwarmPokémonIdByLucasSister = 0x00DFB0
 o_SwarmLocationIdByLucasSister = 0x00DFB2
 o_LotteryId = 0x00E028
 o_BeltGuyLevelAskedFor = 0x00E032
+
+o_EventsTwinleafTown = 0x00E090
+o_EventsSandgemTown = 0x00E092
+o_EventsCelesticTown = 0x00E098
+o_EventsJubilifeCity = 0x00E09E
+o_EventsCanalaveCity = 0x00E0A0
+o_EventsOreburghCity = 0x00E0A2
+o_EventsEternaCity = 0x00E0A4
+o_EventsHearthomeCity = 0x00E0A6
+o_EventsSunnyshoreCity = 0x00E0Ac
+o_EventsSnowpointCity = 0x00E0Ae
+o_EventsVerityLakefront = 0x00E0B4
+o_EventsValorLakefront = 0x00E0B6
+o_EventsRoute201 = 0x00E0Bc
+o_EventsRoute202 = 0x00E0Be
+o_EventsRoute203 = 0x00E0C0
+o_EventsRoute205 = 0x00E0C2
+o_EventsRoute209 = 0x00E0C4
+o_EventsRoute227South = 0x00E0C6
+o_EventsMarley = 0x00E0D0
+o_EventsMira = 0x00E0D2
+o_EventsRiley = 0x00E0D4
+o_EventsOreburghGate = 0x00E0D6
+o_EventsBuck = 0x00E0D8
+o_EventsLakeVerityLowTide = 0x00E0Da
+o_EventsMtCoronet1F = 0x00E0Dc
+o_EventsLakeVerity = 0x00E0De
+o_EventsSpearPillar = 0x00E0E0
+o_EventsHeatran = 0x00E0Ec
+o_EventsBarrysHouse = 0x00E0F6
+o_EventsYourHouse = 0x00E0F8
+o_EventsRowanLab = 0x00E0Fc
+o_EventsRibbonSociety = 0x00E0Fe
+o_Gym2Battles = 0x00E10C
+o_EventsCheryl = 0x00E112
+o_EventsSunnyshoreAppDeveloperHome = 0x00E11A
+o_EventsUndergroundMan = 0x00E11C
+o_EventsPalPark = 0x00E13C
+o_EventsBarryDialogsWayToLake = 0x00E144
+o_EventsBarryDialogsBackFromLake = 0x00E146
+o_EventsContests = 0x00E148
+o_EventsValleyWindwork = 0x00E14E
+o_EventsHearthomeCityAfterGym = 0x00E152
+o_EventsWifiClub = 0x00E158
+o_EventsGalacticHqCyrus = 0x00e15c
+o_EventsGreatMarsh = 0x00E164
+o_EventsBuckDialog = 0x00E172
+o_EventsMiraDialog = 0x00E174
+o_EventsRileyDialog = 0x00E176
+o_EventsMarleyDialog = 0x00E178
+o_PokemonDexNumberWantedForTheNews = 0x00E17A
+o_EventsOutsideBarrysHome = 0x00E17C
+o_EventsJubilifePoketchCampaign = 0x00E17E
+o_EventsCherylDialog = 0x00E180
+o_EventsFloaromaMeadow = 0x00E182
+o_EventsContestHall = 0x00E186
+o_EventsEternaBycicle = 0x00E188
+o_EventsBarryLeague = 0x00E18E
+o_EventsCelesticTown2 = 0x00E192
+o_EventsWin = 0x00E198
+o_EventsVeilstone = 0x00E19A
+o_EventsHearthomeKeira = 0x00E19C
+o_EventsContestHallKeira = 0x00E19E
+o_EventsYourRoom = 0x00E1A2
+o_RandomizedDialogForTable1InRestaurantSevenStars = 0x00E1A6
+o_RandomizedDialogForTable2InRestaurantSevenStars = 0x00E1A8
+o_RandomizedDialogForTable3InRestaurantSevenStars = 0x00E1Aa
+o_RandomizedDialogForTable4InRestaurantSevenStars = 0x00E1Ac
+o_RandomizedDialogForTable5InRestaurantSevenStars = 0x00E1Ae
+o_RandomizedDialogForTable6InRestaurantSevenStars = 0x00E1B0
+o_RandomizedDialogForTable7InRestaurantSevenStars = 0x00E1B2
+o_RandomizedDialogForTable8InRestaurantSevenStars = 0x00E1B4
+o_RandomizedDialogForTable9InRestaurantSevenStars = 0x00E1B6
+o_EventsRoute218 = 0x00E1Ba
+o_EventsCanalaveEldritchQuest = 0x00E1Bc
+o_EventsStarterMask1 = 0x00E1Be
+o_EventsBeltMan = 0x00E1C0
+o_EventsStarterMask2 = 0x00E1C4
+o_TurnbackCavePillarsFound = 0x00E1C6
+o_TurnbackCaveRoomsPassed = 0x00E1C8
+o_EventsGalacticHq = 0x00E1Ca
+o_EventsBattlePark = 0x00E1Cc
+o_EventsYourHouseAsAChampion = 0x00E1Ce
+o_EventsOldChateauGhost1 = 0x00E1D0
+o_EventsOldChateauGhost2 = 0x00E1D2
+o_EventsBattlePark2 = 0x00E1D6
+o_Events = 0x00E1D8
+o_LastPlateInscriptionRead = 0x00E1Da
+o_EventsRoute227Mountain = 0x00E1E2
+o_EventsVeilstoneDexQuest = 0x00E1E4
+o_EventsBycicleGifts = 0x00E1E6
 
 o_HiddenItems1 = 0x00E24B
 o_HiddenItems2 = 0x00E24C
@@ -456,6 +548,10 @@ o_Slot1PokemonHp = 0x0555CC
 o_CatchRateStageInGreatMarsh = 0x05595C
 o_FleeRateStageInGreatMarsh = 0x05595D
 
+o_partyLeadPv = 0x0000d2ac
+o_partyLeadChecksum = 0x0000d2b2
+o_partyLeadBlock1 = 0x0000d2b4
+
 a_year = 0x1C4818
 a_month = 0x1C481C
 a_dayOfTheMonth = 0x1C4820
@@ -475,6 +571,10 @@ function mbit(i, offset) => bit(i, gamePointer()+offset)
 
 function mapId() => mword(o_MapId)
 function gameState() => mbyte(o_GameState)
+function partyLeadPv() => mdword(o_partyLeadPv)
+function partyLeadChecksum() => mdword(o_partyLeadChecksum)
+function partyLeadBlockData(i, offset) => mword(o_partyLeadBlock1 + 32*i + offset)
+
 // #endregion accessors
 // #endregion addresses
 
@@ -504,6 +604,478 @@ GS_HOF_PC = 0x3c // Hall of Fame viewing in PC
 GS_TUTOR = 0x43 // Move tutor
 GS_SAIL = 0x48 // Sailing loading screen
 GS_EVO = 0x49 // Evolution
+
+IT_NETBALL = 0x6
+IT_MASTERBALL = 0x1
+IT_MAXREVIVE = 0x1d
+IT_EXPSHARE = 0xd8
+IT_PPUP = 0x33
+IT_STARDUST = 0x5a
+IT_RAREBONE = 0x6a
+IT_REAPERCLOTH = 0x145
+
+MAP_JubilifeCity = 0x0003
+MAP_JubilifeStore = 0x0004
+MAP_JubilifePokecenter = 0x0006
+MAP_JubilifePokecenterMultiRoom = 0x0007
+MAP_JubilifePoketchCompany1F = 0x0008
+MAP_JubilifePoketchCompany2F = 0x0009
+MAP_JubilifePoketchCompany3F = 0x000a
+MAP_JubilifeTv1F = 0x000b
+MAP_JubilifeTv2F = 0x000c
+MAP_JubilifeTv3F = 0x000d
+MAP_JubilifeTv4F = 0x000e
+MAP_JubilifeTv2FPaintingRoom = 0x000f
+MAP_JubilifeTv3FGlobalRankingRoom = 0x0010
+MAP_JubilifeTv3FGroupRankingRoom = 0x0011
+MAP_JubilifeTvElevator = 0x0012
+MAP_JubilifeBuildingSouth1F = 0x0013
+MAP_JubilifeBuildingSouth2F = 0x0014
+MAP_JubilifeCondominums1F = 0x0018
+MAP_JubilifeCondominums2F = 0x0019
+MAP_JubilifeGts = 0x001c
+MAP_JubilifeTrainerSchool = 0x001d
+MAP_JubilifeBuildingByGts1F = 0x001e
+MAP_CanalaveCity = 0x0021
+MAP_CanalaveStore = 0x0022
+MAP_CanalaveGym = 0x0023
+MAP_CanalavePokecenter = 0x0024
+MAP_CanalavePokecenterMultiRoom = 0x0025
+MAP_CanalaveLibrary1F = 0x0026
+MAP_CanalaveLibrary2F = 0x0027
+MAP_CanalaveLibrary3F = 0x0028
+MAP_CanalaveHouseEast = 0x0029
+MAP_CanalaveHouseMoveDeleter = 0x002a
+MAP_CanalaveHouseSailor = 0x002c
+MAP_OreburghCity = 0x002d
+MAP_OreburghStore = 0x002e
+MAP_OreburghGym = 0x002f
+MAP_OreburghPokecenter = 0x0030
+MAP_OreburghPokecenterMultiRoom = 0x0031
+MAP_OreburghBuildingEast1F = 0x0032
+MAP_OreburghBuildingEast2F = 0x0033
+MAP_OreburghBuildingByStore1F = 0x0036
+MAP_OreburghBuildingByStore2F = 0x0037
+MAP_OreburghHouseCenter = 0x003a
+MAP_OreburghMuseum = 0x003b
+MAP_OreburghHouseEast = 0x003c
+MAP_OreburghBuildingWest1F = 0x003d
+MAP_OreburghBuildingWest2F = 0x003e
+MAP_OreburghHouseMines = 0x0040
+MAP_EternaCity = 0x0041
+MAP_EternaStore = 0x0042
+MAP_EternaGymEntrance = 0x0043
+MAP_EternaGymForest = 0x0044
+MAP_EternaPokecenter = 0x0045
+MAP_EternaPokecenterMultiRoom = 0x0046
+MAP_EternaBikeShop = 0x0047
+MAP_EternaGalacticBuilding1F = 0x0048
+MAP_EternaGalacticBuilding2F = 0x0049
+MAP_EternaGalacticBuilding3F = 0x004a
+MAP_EternaGalacticBuilding4F = 0x004b
+MAP_EternaCondominiums1F = 0x004c
+MAP_EternaCondominiums2F = 0x004d
+MAP_EternaCondominiums3F = 0x004e
+MAP_Eterna206Gate = 0x0050
+MAP_EternaHerbShop = 0x0051
+MAP_EternaHouseSouth = 0x0052
+MAP_EternaHouseByStatue = 0x0053
+MAP_EternaHouseUndergroundMan = 0x0054
+MAP_HearthomeCity = 0x0056
+MAP_HearthomeStore = 0x0057
+MAP_HearthomeGymQ1 = 0x0058
+MAP_HearthomeGymQ1A1 = 0x0059
+MAP_HearthomeGymQ1A2 = 0x005a
+MAP_HearthomeGymQ2 = 0x005b
+MAP_HearthomeGymQ2A1 = 0x005c
+MAP_HearthomeGymQ3 = 0x005d
+MAP_HearthomeGymQ2A3 = 0x005e
+MAP_HearthomeGymQ4 = 0x005f
+MAP_HearthomeGymQ3A2 = 0x0060
+MAP_HearthomeGymQ3A3 = 0x0061
+MAP_HearthomeGymQ4A1 = 0x0062
+MAP_HearthomeGymQ4A2 = 0x0063
+MAP_HearthomeGymFantina = 0x0064
+MAP_HearthomePokecenter = 0x0065
+MAP_HearthomePokecenterMultiRoom = 0x0066
+MAP_HearthomeApartmentsByFanClub1F = 0x0067
+MAP_HearthomeApartmentsByFanClub2F = 0x0068
+MAP_HearthomeApartmentsByFanClubElevator = 0x0069
+MAP_HearthomePokemonFanClub = 0x006a
+MAP_HearthomeAmitySquareWestGate = 0x006b
+MAP_HearthomeAmitySquareEastGate = 0x006c
+MAP_Hearthome208Gate = 0x006d
+MAP_Hearthome209Gate = 0x006e
+MAP_Hearthome212Gate = 0x006f
+MAP_HearthomeApartmentsNorth1F = 0x0070
+MAP_HearthomeApartmentsNorth2F = 0x0071
+MAP_HearthomeApartmentsNorthElevator = 0x0072
+MAP_HearthomeHouseBebe = 0x0073
+MAP_HearthomePoffinHouse = 0x0074
+MAP_HearthomeContestHallHub = 0x0075
+MAP_HearthomeContestHallScenario = 0x0076
+MAP_HearthomeCathedral = 0x0077
+MAP_PastoriaCity = 0x0078
+MAP_PastoriaStore = 0x0079
+MAP_PastoriaGym = 0x007a
+MAP_PastoriaPokecenter = 0x007b
+MAP_PastoriaPokecenterMultiRoom = 0x007c
+MAP_PastoriaGreatMarshHub = 0x007d
+MAP_PastoriaGreatMarshBinoculars = 0x007e
+MAP_PastoriaHouseBerryLady = 0x007f
+MAP_PastoriaHouseBurmyFan = 0x0080
+MAP_PastoriaHouseByLake = 0x0081
+MAP_PastoriaHouseByGym = 0x0082
+MAP_PastoriaHouseScarfGuy = 0x0083
+MAP_VeilstoneCity = 0x0084
+MAP_VeilstoneGym = 0x0085
+MAP_VeilstonePokecenter = 0x0086
+MAP_VeilstonePokecenterMultiRoom = 0x0087
+MAP_VeilstoneCasino = 0x0088
+MAP_VeilstoneDepartmentStore1F = 0x0089
+MAP_VeilstoneDepartmentStore2F = 0x008a
+MAP_VeilstoneDepartmentStore3F = 0x008b
+MAP_VeilstoneDepartmentStore4F = 0x008c
+MAP_VeilstoneDepartmentStore5F = 0x008d
+MAP_VeilstoneDepartmentStoreElevator = 0x008e
+MAP_GalacticWarehouseEntrance = 0x008f
+MAP_VeilstoneCasinoPrizeBoot = 0x0090
+MAP_VeilstoneHouseClown = 0x0091
+MAP_VeilstoneHouseByDepartmentStore = 0x0092
+MAP_VeilstoneHouseOverPokecenter = 0x0093
+MAP_VeilstoneHouseMassages = 0x0094
+MAP_Veilstone215Gate = 0x0095
+MAP_SunnyshoreCity = 0x0096
+MAP_SunnyshorePokecenter = 0x0097
+MAP_SunnyshorePokecenterMultiRoom = 0x0098
+MAP_SunnyshoreStore = 0x0099
+MAP_SunnyshoreGym1 = 0x009a
+MAP_SunnyshoreGym2 = 0x009b
+MAP_SunnyshoreGym3 = 0x009c
+MAP_SunnyshoreMarket = 0x009d
+MAP_SunnyshoreHouseLucie = 0x009e
+MAP_SunnyshoreHouseUndergroundFanclub = 0x009f
+MAP_SunnyshoreHouseOldPeople = 0x00a0
+MAP_SunnyshoreHouseNerd = 0x00a3
+MAP_SunnyshoreLighthouse = 0x00a4
+MAP_SnowpointCity = 0x00a5
+MAP_SnowpointStore = 0x00a6
+MAP_SnowpointGym = 0x00a7
+MAP_SnowpointPokecenter = 0x00a8
+MAP_SnowpointPokecenterMultiRoom = 0x00a9
+MAP_SnowpointHouseMindy = 0x00aa
+MAP_SnowpointHouseTrendy = 0x00ab
+MAP_LeagueOutside = 0x00ac
+MAP_LeagueStartPokecenter = 0x00ad
+MAP_LeagueStartPokecenterMultiRoom = 0x00ae
+MAP_LeagueHub = 0x00af
+MAP_LeagueAaronHall = 0x00b0
+MAP_LeagueAaronRoom = 0x00b1
+MAP_LeagueBerthaHall = 0x00b2
+MAP_LeagueBerthaRoom = 0x00b3
+MAP_LeagueFlintHall = 0x00b4
+MAP_LeagueFlintRoom = 0x00b5
+MAP_LeagueLucianHall = 0x00b6
+MAP_LeagueLucianRoom = 0x00b7
+MAP_LeagueCynthiaHall = 0x00b8
+MAP_LeagueCynthiaRoom = 0x00b9
+MAP_LeagueHofHall = 0x00ba
+MAP_LeagueHofRoom = 0x00bb
+MAP_OreburghMineEntrance = 0x00c6
+MAP_OreburghMineDeep = 0x00c7
+MAP_ValleyWindworksOutside = 0x00c8
+MAP_ValleyWindworks = 0x00c9
+MAP_EternaForestOutside = 0x00ca
+MAP_EternaForest = 0x00cb
+MAP_FuegoIronworksOutside = 0x00cc
+MAP_FuegoIronworks = 0x00cd
+MAP_MtCoronetSouth1F = 0x00cf
+MAP_MtCoronetSouth2F = 0x00d0
+MAP_MtCoronetSouth3F = 0x00d1
+MAP_MtCoronetSouthMountinside = 0x00d3
+MAP_MtCoronetSouth4Fr1 = 0x00d4
+MAP_MtCoronetSouth4Fr3 = 0x00d5
+MAP_MtCoronetSouth5F = 0x00d6
+MAP_MtCoronetSouth6F = 0x00d7
+MAP_MtCoronetSouthTunnelRoom = 0x00d8
+MAP_MtCoronetNorth1FNorthernExit = 0x00d9
+MAP_MtCoronetNorth1F = 0x00da
+MAP_MtCoronetNorthB1F = 0x00db
+MAP_SpearPillar = 0x00dc
+MAP_SolaceonRuinsH1 = 0x00e2
+MAP_SolaceonRuinsH2R1 = 0x00e3
+MAP_SolaceonRuinsH1R2 = 0x00e4
+MAP_SolaceonRuinsH2 = 0x00e5
+MAP_SolaceonRuinsH1R1 = 0x00e6
+MAP_SolaceonRuinsH3 = 0x00e7
+MAP_SolaceonRuinsH2R2 = 0x00e8
+MAP_SolaceonRuinsH6R2 = 0x00e9
+MAP_SolaceonRuinsH5R2 = 0x00ea
+MAP_SolaceonRuinsH3R2 = 0x00eb
+MAP_SolaceonRuinsH3R1 = 0x00ec
+MAP_SolaceonRuinsH4 = 0x00ed
+MAP_SolaceonRuinsH6 = 0x00ee
+MAP_SolaceonRuinsH5 = 0x00ef
+MAP_SolaceonRuinsTreasureRoom = 0x00f0
+MAP_SolaceonRuinsH4R1 = 0x00f1
+MAP_SolaceonRuinsH6R1 = 0x00f2
+MAP_VictoryRoad1F = 0x00f4
+MAP_VictoryRoad2F = 0x00f5
+MAP_VictoryRoadB1F = 0x00f6
+MAP_AmitySquare = 0x00fd
+MAP_RavagedPath = 0x00fe
+MAP_FloaromaMeadow = 0x0100
+MAP_FloaromaMeadowHouse = 0x0101
+MAP_OreburghGate1F = 0x0102
+MAP_OreburghGateB1F = 0x0103
+MAP_WaywardCave1F = 0x011c
+MAP_WaywardCaveB1F = 0x011d
+MAP_RuinManiacCaveStage1 = 0x011e
+MAP_PokemonMansionTrophyGarden = 0x011f
+MAP_IronIslandOutside = 0x0120
+MAP_IronIsland1F = 0x0121
+MAP_IronIslandB1FWest = 0x0122
+MAP_IronIslandB1FEast = 0x0123
+MAP_IronIslandB2FEast = 0x0124
+MAP_IronIslandB2FWest = 0x0125
+MAP_IronIslandB3F = 0x0126
+MAP_OldChateau = 0x0127
+MAP_OldChateauDinningHall = 0x0128
+MAP_OldChateauRoomsFromEntrance = 0x0129
+MAP_OldChateauHall = 0x012a
+MAP_OldChateauR1 = 0x012b
+MAP_OldChateauR2 = 0x012c
+MAP_OldChateauR3 = 0x012d
+MAP_OldChateauR4 = 0x012e
+MAP_OldChateauR5 = 0x012f
+MAP_GalacticHq1F = 0x0131
+MAP_GalacticHq2F = 0x0132
+MAP_GalacticHq3F = 0x0133
+MAP_GalacticHq4F = 0x0134
+MAP_GalacticWarehouseB1F = 0x0135
+MAP_GalacticWarehouseB2F = 0x0136
+MAP_LakeVerity = 0x0138
+MAP_VerityCavern = 0x0139
+MAP_LakeValorDriedUp = 0x013a
+MAP_LakeValor = 0x013b
+MAP_ValorCavern = 0x013c
+MAP_LakeAcuity = 0x013e
+MAP_AcuityCavern = 0x013f
+MAP_VerityLakefront = 0x014e
+MAP_ValorLakefront = 0x0150
+MAP_SevenStarsRestaurant = 0x0151
+MAP_ValorLakefrontSuiteKeySubquest = 0x0152
+MAP_ValorLakefrontSuiteGameDirector = 0x0153
+MAP_AcuityLakefront = 0x0154
+MAP_Route201 = 0x0156
+MAP_Route202 = 0x0157
+MAP_Route203 = 0x0158
+MAP_Route204South = 0x0159
+MAP_Route204North = 0x015a
+MAP_Route205 = 0x015b
+MAP_Route205House = 0x015c
+MAP_Route205North = 0x015d
+MAP_Route206 = 0x015e
+MAP_Route206BikePathGate = 0x015f
+MAP_Route207 = 0x0161
+MAP_Route208 = 0x0162
+MAP_Route208HouseBerryMaster = 0x0163
+MAP_Route209 = 0x0164
+MAP_Route209LostTower1F = 0x0165
+MAP_Route209LostTower2F = 0x0166
+MAP_Route209LostTower3F = 0x0167
+MAP_Route209LostTower4F = 0x0168
+MAP_Route209LostTower5F = 0x0169
+MAP_Route210Clear = 0x016a
+MAP_Route210Foggy = 0x016b
+MAP_Route210HouseGrandmaWilma = 0x016c
+MAP_Route211West = 0x016d
+MAP_Route211East = 0x016e
+MAP_Route212Sunny = 0x016f
+MAP_PokemonMansion = 0x0170
+MAP_PokemonMansionRooms = 0x0171
+MAP_PokemonMansionOwnerOffice = 0x0172
+MAP_Route212Rainy = 0x0173
+MAP_Route212HouseShards = 0x0174
+MAP_Route213 = 0x0175
+MAP_Pastoria213Gate = 0x0176
+MAP_Route213HouseMrFootstep = 0x0177
+MAP_HotelReception = 0x0178
+MAP_Route213SuiteRight = 0x0179
+MAP_Route213SuiteLeft = 0x017a
+MAP_Route213SuiteRockClimb = 0x017b
+MAP_Route214 = 0x017c
+MAP_Veilstone214Gate = 0x017d
+MAP_Route215 = 0x017e
+MAP_Route216 = 0x017f
+MAP_Route216Lodge = 0x0180
+MAP_Route217 = 0x0181
+MAP_Route217HouseHiker = 0x0182
+MAP_Route217HouseHaunted = 0x0183
+MAP_Route218 = 0x0184
+MAP_Jubilife218Gate = 0x0185
+MAP_Canalave218Gate = 0x0186
+MAP_Route219 = 0x0187
+MAP_Route221 = 0x0188
+MAP_Route221HouseBeltGuy = 0x018a
+MAP_Route222 = 0x018b
+MAP_Route222HousePikachus = 0x018c
+MAP_Route222HouseFishSize = 0x018d
+MAP_Sunnyshore222Gate = 0x018e
+MAP_TwinleafTown = 0x019b
+MAP_TwinleafHouseRival1F = 0x019c
+MAP_TwinleafHouseRival2F = 0x019d
+MAP_TwinleafHousePlayer1F = 0x019e
+MAP_TwinleafHousePlayer2F = 0x019f
+MAP_TwinleafHouseNorth = 0x01a0
+MAP_TwinleafHouseSouth = 0x01a1
+MAP_SandgemTown = 0x01a2
+MAP_SandgemStore = 0x01a3
+MAP_SandgemPokecenter = 0x01a4
+MAP_SandgemPokecenterMultiRoom = 0x01a5
+MAP_SandgemLabo = 0x01a6
+MAP_SandgemHouseAssistant1F = 0x01a7
+MAP_SandgemHouseAssistant2F = 0x01a8
+MAP_SandgemHouse = 0x01a9
+MAP_FloaromaTown = 0x01aa
+MAP_FloaromaStore = 0x01ab
+MAP_FloaromaPokecenter = 0x01ac
+MAP_FloaromaPokecenterMultiRoom = 0x01ad
+MAP_FloaromaFlowerShop = 0x01ae
+MAP_FloaromaHouseSouth = 0x01af
+MAP_FloaromaHouseNorth = 0x01b0
+MAP_SolaceonTown = 0x01b1
+MAP_SolaceonStore = 0x01b2
+MAP_SolaceonPokecenter = 0x01b3
+MAP_SolaceonPokecenterMultiRoom = 0x01b4
+MAP_SolaceonDaycare = 0x01b5
+MAP_SolaceonHouseForest = 0x01b6
+MAP_SolaceonHouseNews = 0x01b7
+MAP_SolaceonHouseNorth = 0x01b8
+MAP_SolaceonHouseSeals = 0x01b9
+MAP_CelesticTown = 0x01ba
+MAP_CelesticPokecenter = 0x01bb
+MAP_CelesticPokecenterMultiRoom = 0x01bc
+MAP_CelesticHouseElder = 0x01bd
+MAP_CelesticHouseStore = 0x01be
+MAP_CelesticHouseNorth = 0x01bf
+MAP_CelesticHouseSouth = 0x01c0
+MAP_CelesticRuins = 0x01c1
+MAP_Route220 = 0x01d3
+MAP_Route223 = 0x01d4
+MAP_JubilifePokecenterWifiRoom = 0x01da
+MAP_CanalavePokecenterWifiRoom = 0x01db
+MAP_OreburghPokecenterWifiRoom = 0x01dc
+MAP_EternaPokecenterWifiRoom = 0x01dd
+MAP_HearthomePokecenterWifiRoom = 0x01de
+MAP_PastoriaPokecenterWifiRoom = 0x01df
+MAP_VeilstonePokecenterWifiRoom = 0x01e0
+MAP_SunnyshorePokecenterWifiRoom = 0x01e1
+MAP_SnowpointPokecenterWifiRoom = 0x01e2
+MAP_LeagueStartPokecenterWifiRoom = 0x01e3
+MAP_SandgemPokecenterWifiRoom = 0x01e5
+MAP_FloaromaPokecenterWifiRoom = 0x01e6
+MAP_SolaceonPokecenterWifiRoom = 0x01e7
+MAP_CelesticPokecenterWifiRoom = 0x01e8
+MAP_CanalaveHouseWest = 0x01eb
+MAP_Route210CafeCabin = 0x01ec
+MAP_GalacticHq4FBackRoom = 0x01ee
+MAP_LeagueMultiRoom = 0x01ef
+MAP_LeagueWifiRoom = 0x01f0
+MAP_GalacticHq4FHall = 0x01f1
+MAP_GreatMarshArea1 = 0x01f8
+MAP_GreatMarshArea2 = 0x01f9
+MAP_GreatMarshArea3 = 0x01fa
+MAP_GreatMarshArea4 = 0x01fb
+MAP_GreatMarshArea5 = 0x01fc
+MAP_GreatMarshArea6 = 0x01fd
+MAP_IronIslandHouse = 0x0202
+MAP_SolaceonRuinsH5R1 = 0x0203
+MAP_SunnyshoreLighthouseElevator = 0x0204
+MAP_JubilifeBuildingByGts2F = 0x0205
+MAP_PalPark = 0x0189
+MAP_VictoryRoad1FBack1 = 0x00f8
+MAP_VictoryRoad1FBack2 = 0x00f7
+MAP_VictoryRoad1FBack3 = 0x00f9
+MAP_Route224 = 0x018f
+MAP_FullmoonIsland = 0x0104
+MAP_SpringPath = 0x0155
+MAP_SendoffSpring = 0x010b
+MAP_TurnbackCaveEntrance = 0x010c
+MAP_TurnbackCave = 0x0111
+MAP_TurnbackCave = 0x010f
+MAP_TurnbackCave = 0x0110
+MAP_TurnbackCave = 0x0214
+MAP_TurnbackCave = 0x0206
+MAP_TurnbackCavePillar = 0x010d
+MAP_TurnbackCave = 0x0212
+MAP_TurnbackCaveGiratinaRoom = 0x010e
+MAP_TurnbackCave = 0x0208
+MAP_TurnbackCave = 0x0207
+MAP_TurnbackCave = 0x0211
+MAP_TurnbackCave = 0x0210
+MAP_TurnbackCave = 0x0213
+MAP_TurnbackCave = 0x020c
+MAP_TurnbackCave = 0x020f
+MAP_TurnbackCave = 0x020a
+MAP_TurnbackCave = 0x020d
+MAP_SnowpointTemple1F = 0x0116
+MAP_SnowpointTempleB1F = 0x0117
+MAP_SnowpointTempleB2F = 0x0118
+MAP_SnowpointTempleB3F = 0x0119
+MAP_SnowpointTempleB4F = 0x011a
+MAP_SnowpointTempleB5F = 0x011b
+MAP_FightArea = 0x00bc
+MAP_FightAreaPokecenter = 0x00bd
+MAP_FightAreaPokecenterMultiRoom = 0x00be
+MAP_FightAreaPokecenterWifiRoom = 0x01e4
+MAP_FightAreaHouseWest = 0x00c3
+MAP_FightAreaHouseEast = 0x00c2
+MAP_FightAreaStore = 0x00bf
+MAP_FightAreaBattleParkEntrance = 0x00c0
+MAP_FightAreaBattlePark = 0x0142
+MAP_FightAreaBattleParkPrizeExchangeBuilding = 0x0143
+MAP_FightAreaBattleTowerHub = 0x0146
+MAP_FightAreaBattleTowerElevator = 0x0147
+MAP_FightAreaBattleTowerMultiBattlesWaitingRoom = 0x01ed
+MAP_FightAreaBattleTowerRoomBeforeStageMultiBattles = 0x0149
+MAP_FightAreaBattleTowerStage = 0x014b
+MAP_FightAreaBattleTowerRoomBeforeStageSolo = 0x0148
+MAP_FightArea225Gate = 0x00c1
+MAP_Route225 = 0x0190
+MAP_Route225House = 0x01f2
+MAP_SurvivalArea = 0x01c2
+MAP_SurvivalAreaStore = 0x01c3
+MAP_SurvivalAreaPokecenter = 0x01c4
+MAP_SurvivalAreaPokecenterMultiRoom = 0x01c6
+MAP_SurvivalAreaPokecenterWifiRoom = 0x01e9
+MAP_SurvivalAreaHouseMiddle = 0x01c6
+MAP_SurvivalAreaHouseSouth = 0x01c7
+MAP_SurvivalAreaHouseNorth = 0x01c8
+MAP_Route226 = 0x01d5
+MAP_Route226HouseMeister = 0x01f3
+MAP_Route227 = 0x0193
+MAP_Route227House = 0x01f4
+MAP_StarkMountainOutside = 0x0106
+MAP_StarkMountainEntrance = 0x0107
+MAP_StarkMountainMainCave = 0x0108
+MAP_StarkMountainBackRoom = 0x0109
+MAP_226_228Gate = 0x01f5
+MAP_Route228 = 0x0196
+MAP_Route228HouseUltimateMoves = 0x01f6
+MAP_Route228House = 0x01f7
+MAP_Route229 = 0x0197
+MAP_ResortArea = 0x01c9
+MAP_ResortAreaPokecenter = 0x01cb
+MAP_ResortAreaPokecenterMultiRoom = 0x01cc
+MAP_ResortAreaPokecenterWifiRoom = 0x01ea
+MAP_ResortAreaHouseWest = 0x01d0
+MAP_ResortAreaHouseEast = 0x01d1
+MAP_ResortAreaRibbonSociety = 0x01cd
+MAP_Route230 = 0x01d7
+MAP_LakeVerityLowTide = 0x0137
+MAP_ResortAreaRibbonSociety2F = 0x01ce
+MAP_ResortAreaRibbonSocietyElevator = 0x01cf
 // #endregion values
 
 // #region arrays
@@ -511,6 +1083,11 @@ GS_EVO = 0x49 // Evolution
 I_NAME = 0
 I_ZONE = 1
 I_ADDR = 2
+
+C_TITLE = 0
+C_DESC = 1
+C_POINTS = 2
+C_TRIGGER = 3
 
 BRAVE = "Brave Beginnings"
 ROCK = "Rock and Roll"
@@ -547,6 +1124,7 @@ MISS_GRUNT = "grunt"
 MISS_LAKE = "grunt and get the hidden item"
 // #endregion array constants
 
+
 // #region exploration
 zones = {
     BRAVE: "Twinleaf Town, Route 201, Verity Lakefront, Lake Verity, Sandgem Town and Route 202",
@@ -581,6 +1159,69 @@ missableZones = {
     GALACTIC_CORONET: MISS_GRUNT,
     GYM8: MISS_TRAINER
 }
+
+gifts = [
+    ["Potion", BRAVE, mbit(4, 0x0000e1fd)],
+    
+    ["Quick claw", ROCK, mbit(7, 0x0000e207)],
+    ["TM76 Stealth Rock", ROCK, mbit(5, 0x0000e1fe)],
+    ["Heal Ball", ROCK, mbit(0, 0x0000e208)],
+    ["Dusk Ball", ROCK, mbit(1, 0x0000e208)],
+    ["TM78 Captivate", ROCK, mbit(5, 0x0000e208)],
+    ["TM10 Hidden Power", ROCK, mbit(2, 0x0000e212)],
+    ["Super Potion", ROCK, mbit(1, 0x0000e211)],
+    ["Great Ball", ROCK, mbit(2, 0x0000e211)],
+    
+    ["TM88 Pluck", FLOWER, mbit(3, 0x0000e200)],
+    ["Fire Stone", FLOWER, mbit(0, 0x0000e217)],
+    ["Honey", FLOWER, mbit(1, 0x0000e321)],
+    
+    ["Up-Grade ", OLDNEW, mbit(1, 0x0000e213)],
+    ["TM67 Recycle", OLDNEW, mbit(2, 0x0000e208)],
+    ["Big Tree (accessory)", OLDNEW, mbit(2, 0x0000e215)],
+    ["Flag (accessory)", OLDNEW, mbit(3, 0x0000e215)],
+    ["Exp. Share", ROCK, mbit(3, 0x0000e211)],
+    
+    ["Odd Keystone", OUTSKIRTS, mbit(7, 0x0000e217)],
+    ["TM77 Psych Up", OUTSKIRTS, mbit(6, 0x0000e208)],
+    
+    ["Shell Bell", METRO, mbit(4, 0x0000e201)],
+    ["Cleanse Tag", METRO, mbit(6, 0x0000e212)],
+    ["Mild Poffin", METRO, mbit(2, 0x0000e21b)],
+    
+    ["TM51 Rest", FOG, mbit(7, 0x0000e208)],
+    ["TM66 Payback", FOG, mbit(5, 0x0000e209)],
+    ["Choice Specs", FOG, mbit(4, 0x0000e216)],
+    ["BlackGlasses", FOG, mbit(5, 0x0000e216)],
+    ["Wise Glasses", FOG, mbit(6, 0x0000e216)],
+    
+    ["TM63 Embargo", VERTICAL, mbit(4, 0x0000e209)],
+    ["Starter Mask 3 (accessory)", VERTICAL, mbit(1, 0x0000e215)],
+    ["20 coins", VERTICAL, mbit(6, 0x0000e215)],
+    ["50 coins", VERTICAL, mbit(7, 0x0000e215)],
+    ["Lava Cookie", VERTICAL, mbit(2, 0x0000e217)],
+    ["Sticky Barb", VERTICAL, mbit(5, 0x0000e210)],
+    
+    ["TM92 Trick Room", WET, mbit(2, 0x0000e209)],
+    ["Macho Brace", WET, mbit(4, 0x0000e213)],
+    ["Starter Mask 2 (accessory)", WET, mbit(0, 0x0000e215)],
+    ["Soothe Bell", WET, mbit(1, 0x0000e217)],
+    
+    ["TM48 Skill Swap", WATER, mbit(1, 0x0000e209)],
+    ["Metal Coat", WATER, mbit(5, 0x0000e213)],
+    
+    ["Icicle Plate", SNOWY, mbit(6, 0x0000e20b)],
+    ["Spell Tag", SNOWY, mbit(5, 0x0000e217)],
+    
+    ["TM56 Fling", SUNNY, mbit(6, 0x0000e209)],
+    
+    ["TM42 Facade", BATTLEZ, mbit(3, 0x0000e209)],
+    ["Scope Lens", BATTLEZ, mbit(5, 0x0000e20a)],
+    ["Fresh Water", BATTLEZ, mbit(1, 0x0000e20b)],
+    ["Nugget", BATTLEZ, mbit(2, 0x0000e20b)],
+    
+    
+]
 
 hiddenItems = [
     //["", "", mbit(, o_HiddenItems1)],
@@ -1142,6 +1783,25 @@ items = [
     //["", "", mbit(, o_Items33)],
     //["", "", mbit(, o_Items33)],
     //["", "", mbit(, o_Items33)],
+]
+
+plates = [
+    ["Icicle Plate", SNOWY, mbit(6, 0x0000e20b)],
+    ["Insect Plate", OLDNEW, mbit(3, o_HiddenItems1)],
+    ["Draco Plate", OLDNEW, mbit(4, o_HiddenItems1)],
+    ["Meadow Plate", FOG, mbit(6, o_HiddenItems6)],
+    ["Iron Plate", WATER, mbit(2, o_HiddenItems8)],
+    ["Stone Plate", MOUNT, mbit(5, o_HiddenItems13)],
+    ["Zap Plate", SUNNY, mbit(0, o_HiddenItems15)],
+    ["Sky Plate", LAST, mbit(2, o_HiddenItems16)],
+    ["Flame Plate", BATTLEZ, mbit(5, o_HiddenItems18)],
+    ["Toxic Plate", WET, mbit(5, o_HiddenItems27)],
+    ["Earth Plate", ROCK, mbit(0, o_Items2)],
+    ["Spooky Plate", METRO, mbit(7, o_Items7)],
+    ["Mind Plate", METRO, mbit(1, o_Items13)],
+    ["Fist Plate", FOG, mbit(2, o_Items14)],
+    ["Splash Plate", WATER, mbit(7, o_Items16)],
+    ["Dread Plate", OLDNEW, mbit(1, o_Items32)],
 ]
 
 trainers = [
@@ -1804,6 +2464,82 @@ trainers = [
 ]
 // #endregion exploration
 
+poketchApps = [
+    mbit(0, o_PoketchAppUnlockedClock),
+    mbit(0, o_PoketchAppUnlockedCalculator),
+    mbit(0, o_PoketchAppUnlockedMemoPad),
+    mbit(0, o_PoketchAppUnlockedPedometer),
+    mbit(0, o_PoketchAppUnlockedPartyStatus),
+    mbit(0, o_PoketchAppUnlockedFriendshipChecker),
+    mbit(0, o_PoketchAppUnlockedDowsingMachine),
+    mbit(0, o_PoketchAppUnlockedBerrySearcher),
+    mbit(0, o_PoketchAppUnlockedDayCareChecker),
+    mbit(0, o_PoketchAppUnlockedPokemonHistory),
+    mbit(0, o_PoketchAppUnlockedCounter),
+    mbit(0, o_PoketchAppUnlockedAnalogWatch),
+    mbit(0, o_PoketchAppUnlockedMarkingMap),
+    mbit(0, o_PoketchAppUnlockedLinkSearcher),
+    mbit(0, o_PoketchAppUnlockedCoinToss),
+    mbit(0, o_PoketchAppUnlockedMoveTester),
+    mbit(0, o_PoketchAppUnlockedCalendar),
+    mbit(0, o_PoketchAppUnlockedDotArtist),
+    mbit(0, o_PoketchAppUnlockedRoulette),
+    mbit(0, o_PoketchAppUnlockedTrainerCounter),
+    mbit(0, o_PoketchAppUnlockedKitchenTimer)
+]
+
+dailyEvents = [
+    mbit(0, o_DailyEvents1), // berry from Berry Master in Route 208
+    mbit(1, o_DailyEvents1), // Great Ball from bald man in Pokecenter (Celestic Town)
+    mbit(4, o_DailyEvents1), // berry from Lady in Pastoria City
+    mbit(5, o_DailyEvents1), // spa treatment in Ribbon Society, Resort Area
+    mbit(7, o_DailyEvents1), // ribbon from Julia in Sunnyshore
+    mbit(1, o_DailyEvents2), // draw at the lottery
+    mbit(2, o_DailyEvents2), // berry from lady in Floaroma Town
+    mbit(4, o_DailyEvents2), // massage from lady in Veilstone City
+    mbit(6, o_DailyEvents2), // daily belt from Belt Man in Route 221
+    mbit(7, o_DailyEvents2), // trainer in Jubilife TV
+    mbit(1, o_DailyEvents3), // Assignment for the Sinnoh News
+]
+
+trendyWords = [
+    mbit(0, o_TrendyWords1),
+    mbit(1, o_TrendyWords1),
+    mbit(2, o_TrendyWords1),
+    mbit(3, o_TrendyWords1),
+    mbit(4, o_TrendyWords1),
+    mbit(5, o_TrendyWords1),
+    mbit(6, o_TrendyWords1),
+    mbit(7, o_TrendyWords1),
+
+    mbit(0, o_TrendyWords2),
+    mbit(1, o_TrendyWords2),
+    mbit(2, o_TrendyWords2),
+    mbit(3, o_TrendyWords2),
+    mbit(4, o_TrendyWords2),
+    mbit(5, o_TrendyWords2),
+    mbit(6, o_TrendyWords2),
+    mbit(7, o_TrendyWords2),
+
+    mbit(0, o_TrendyWords3),
+    mbit(1, o_TrendyWords3),
+    mbit(2, o_TrendyWords3),
+    mbit(3, o_TrendyWords3),
+    mbit(4, o_TrendyWords3),
+    mbit(5, o_TrendyWords3),
+    mbit(6, o_TrendyWords3),
+    mbit(7, o_TrendyWords3),
+
+    mbit(0, o_TrendyWords4),
+    mbit(1, o_TrendyWords4),
+    mbit(2, o_TrendyWords4),
+    mbit(3, o_TrendyWords4),
+    mbit(4, o_TrendyWords4),
+    mbit(5, o_TrendyWords4),
+    mbit(6, o_TrendyWords4),
+    mbit(7, o_TrendyWords4),
+]
+
 // #endregion arrays
 
 
@@ -1820,7 +2556,8 @@ function concatArrays(array1, array2) {
 }
 function sanity(state=-1, map=-1) {
     trigger = regionalPointer() == prev(regionalPointer()) &&
-              gamePointer() == prev(gamePointer())
+              gamePointer() == prev(gamePointer()) &&
+              gamePointer() != 0
     
     if(state!=-1) trigger = trigger && gameState() == state
     if(map!=-1) trigger = trigger && mapId() == map
@@ -1831,56 +2568,167 @@ function eventFlag(addr, bit, inverted=false) {
     if(inverted) return prev(mbit(bit, addr))>mbit(bit, addr)
     else return mbit(bit, addr)>prev(mbit(bit, addr))
 }
-function eventCounter(addr, target) => mword(addr)==target && prev(mword(addr))==target-1
+function eventCounter(addrs, target, measured=false) {
+    trigger = sum_of(addrs, addr=>mword(addr))==target
+    if(measured) trigger = measured(trigger)
+    trigger = trigger && sum_of(addrs, addr=>prev(mword(addr)))==target-1
+    
+    return trigger
+}
+function countFlags(flags, total=-1) {
+    target = length(flags)
+    if(total>-1) target = total
+    
+    trigger = 
+        measured(sum_of(flags, p => p)==target) &&
+        sum_of(flags, p => prev(p))==target-1
+    
+    return trigger
+}
 
 function filterListByZone(list, zone) {
     filteredList = []
     for i in list {
-        if(i[I_ZONE]==zone) array_push(filteredList, i)
+        if(i[I_ZONE]==zone) array_push(filteredList, i[I_ADDR])
     }
     return filteredList
 }
 
 function completeZoneList(list, zone) {
     filteredList = filterListByZone(list, zone)
-    total = length(filteredList)
     
-    trigger = sum_of(filteredList, i => i[I_ADDR]) == total &&
-              sum_of(filteredList, i => prev(i[I_ADDR])) == total-1
-    
-    return sanity(state=GS_OW) && trigger
+    return sanity(state=GS_OW) && countFlags(filteredList)
 }
 
 function listHasElements(list, zone) => length(filterListByZone(list, zone)) > 0
 
+function getItemByDialog(id, ammount=1) {
+    itemId = mword(o_InDialogItemPickedId)
+    itemAmmount = mword(o_InDialogItemPickedAmmount)
+    
+    trigger =
+        itemId == id && itemAmmount == ammount &&
+        prev(itemId) == 0 && prev(itemAmmount) == 0
+    
+    return trigger
+}
+
+function beltReward(stage) {
+    beltReward = mword(o_EventsBeltMan)
+    trigger =
+        prev(beltReward) == (stage-1)%3 &&
+        beltReward == stage%3 &&
+        sanity(GS_OW, MAP_Route221HouseBeltGuy)
+    
+    return trigger
+}
+
+// for the sake of clarity, the inputs will be exactly as shown on Bulbapedia page
+// https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_data_structure_(Generation_IV)
+function decryptOffsetFlag(bulbaOffset, bulbaBit) { 
+    block = (bulbaOffset - 8) / 32 // which block, ABCD, does the offset passed lies on
+    A = 0
+    B = 1
+    C = 2
+    D = 3
+    offset = (bulbaOffset - 8) % 32 // correction to use the offset directly on the 32 byte block
+    // we will use the bit as an & operator to access a 2-byte word. Hence, since the offsets are passed a singular bytes,
+    // we need to adjust the bit to get the exact bit we need. 
+    // - If the offset is even: we will use it as is. E.g. 0x02
+    // - If the offset is odd: we will have to access the upper byte of the word, hence the multiplication. E.g. 0x0200
+    bit = bulbaBit * 0x100 * (bulbaOffset%2) + bulbaBit * ((bulbaOffset-1)%2)
+    
+    // the first step is to generate the PRNG for the offset we need. The value starts with the checksum, and advances per 2-byte word
+    // X[0] = checksum
+    // X[n+1] = 0x41C64E6D * X[n] + 0x6073
+    //
+    // Since we need the words and not the individual bytes, our range will just be divided by 2
+    prng = partyLeadChecksum()
+    for i in range(1, offset/2) {
+        prng = 0x41C64E6D * prng + 0x6073
+    }
+    // this will set the prng on the word we need. Next, we will have to decrypt the memory word
+    // D[n] = D[n] XOR (X[n+1] >> 16)
+    // A 16 bit right shift is equivalent to a division by 0x10000
+    //
+    // We can't know the suffling that is being used for this specific mon yet, so we will save an accessor for every possible block
+    blockAccessors = []
+    for i in range (0,3) {
+        array_push(blockAccessors, ((prng / 0x10000) ^ partyLeadBlockData(i, offset)) & bit)
+    }
+    
+    // next, we will calculate the shuffling. The shift value is calculated with the next formula
+    // ((pv & 0x3E000) >> 0xD) % 24
+    // A 0xD right shift is equivalent to a division by 0x2000
+    shuffle = ((partyLeadPv() & 0x3E000) / 0x2000) % 24
+    
+    // Then, depending on the result, the blocks are shuffled as seen on Bulbapedia's table.
+    // Here, I'll define a dict we will access with out block variable, and each entry will contain
+    // an array of 4 elements, representing the position the block is in after the shuffling; and 
+    // each element will be an array of the actual shifting value it would need to be in that position
+    shuffleTable = {
+        A: [ [00,01,02,03,04,05], [07,08,12,13,18,19], [08,10,14,16,20,22], [09,11,15,17,21,23] ],
+        B: [ [06,07,08,09,10,11], [00,01,14,15,20,21], [02,04,12,17,18,23], [03,05,13,16,19,22] ],
+        C: [ [12,13,14,15,16,17], [02,03,08,09,22,23], [00,05,06,11,19,21], [01,04,07,10,18,20] ],
+        D: [ [18,19,20,21,22,23], [04,05,10,11,16,17], [01,03,07,09,13,15], [00,02,06,08,12,14] ]
+    }
+    
+    // then, for our identified block, we will add the alts necessary depending on the result of the shuffle
+    trigger = always_false()
+    for position in range(0,3) {
+        trigger = trigger || (
+            any_of(shuffleTable[block][position], p => p == shuffle) &&
+            blockAccessors[position] == bit &&
+            prev(blockAccessors[position]) == 0
+        )
+    }
+    
+    return trigger
+    
+}
+
+function getFootRibbon() {
+    trigger =
+        sanity(GS_OW, MAP_Route213HouseMrFootstep) &&
+        decryptOffsetFlag(0x26, 0x02)
+    
+    return trigger
+}
+
 // #region cheevo functions
 function cheevoAllTreasures(zone) {
-    if(listHasElements(items, zone)) {
+    list = items
+    
+    if(listHasElements(list, zone)) {
         myAchievement(
             format("{0} - Treasures", zone),
             format("Get all grounded items in {0}", zones[zone]),
             10,
-            completeZoneList(items, zone)
+            completeZoneList(list, zone)
         )
     }
 }
 function cheevoAllTrainers(zone) {
-    if(listHasElements(trainers, zone)) {
+    list = trainers
+    
+    if(listHasElements(list, zone)) {
         myAchievement(
             format("{0} - Trainers", zone),
             format("Defeat all trainers in {0}", zones[zone]),
             10,
-            completeZoneList(trainers, zone)
+            completeZoneList(list, zone)
         )
     }
 }
 function cheevoAllSecrets(zone) {
-    if(listHasElements(hiddenItems, zone)) {
+    list = concatArrays(hiddenItems, gifts)
+    
+    if(listHasElements(list, zone)) {
         myAchievement(
             format("{0} - Secrets", zone),
             format("Get all hidden items and gifts in {0}", zones[zone]),
             10,
-            completeZoneList(hiddenItems, zone)
+            completeZoneList(list, zone)
         )
     }
 }
@@ -1892,15 +2740,160 @@ function cheevoMissableZone(zone) {
             format("Missable - {0}", zone),
             format("Defeat every {1} in {0}", zone, missableZones[zone]),
             10,
-            completeZoneList(list, zone)
+            completeZoneList(list, zone),
+            "missable"
         )
     }
+}
+function cheevoProgression(cheevo) {
+    myAchievement(
+        cheevo[C_TITLE],
+        cheevo[C_DESC],
+        cheevo[C_POINTS],
+        sanity(GS_OW) && cheevo[C_TRIGGER],
+        "progression"
+    )
+}
+function cheevoMissable(cheevo) {
+    myAchievement(
+        cheevo[C_TITLE],
+        cheevo[C_DESC],
+        cheevo[C_POINTS],
+        sanity(GS_OW) && cheevo[C_TRIGGER],
+        "missable"
+    )
+}
+function cheevoStandard(cheevo) {
+    myAchievement(
+        cheevo[C_TITLE],
+        cheevo[C_DESC],
+        cheevo[C_POINTS],
+        sanity(GS_OW) && cheevo[C_TRIGGER]
+    )
 }
 // #endregion cheevo functions
 
 // #endregion functions
 
+// #region cheevos
+progression = [
+    ["Journey Has Started", "Officially receive your starter", 1, eventFlag(0x0000e322,3)],
+    ["Uncharted Parcel Service", "Deliver the Parcel to your rival", 1, eventFlag(0x0000e20e, 1)],
+    ["Latest Tech", "Exchange your coupons and receive a Pokétch", 1, eventCounter([o_PoketchAppInUse], 1)],
+    ["Don't Get Cooked...", "Defeat your rival at Route 203", 3, eventCounter([o_EventsRoute203], 1)],
+    ["HULK SMASH", "Receive the HM06 Rock Smash", 1, eventFlag(0x0000e202, 3)],
+    ["Who Deserves More Credit than the Wife of a Coal Miner", "Earn the Coal Badge", 5, eventFlag(o_Badges, 0)],
+    ["Seriously? Right in Front of my Pokémon Professor?", "Join forces with Rowan's assistant and defeat the grunts annoying them", 3, eventCounter([o_EventsJubilifeCity], 4)],
+    ["Free Like the Wind", "Defeat Mars at Valley Windworks", 3, eventCounter([o_EventsRoute205], 2)],
+    ["Scary Walk Through the Forest", "Help Cheryl get through Eterna Forest", 2, eventCounter([o_EventsCheryl], 2)],
+    ["Aaaand... Cut!", "Meet Cynthia and receive the HM01 Cut", 1, eventCounter([o_EventsEternaCity], 1)],
+    ["I Speak For The Trees", "Earn the Forest Badge", 5, eventFlag(o_Badges, 1)],
+    ["Building Up Enemies", "Defeat Jupiter at Team Galactic Eterna Building", 3, eventFlag(0x0000e200, 1)],
+    ["All About Searching", "Receive the Vs Seeker and Dowsing Machine from Rowan's assistant", 1, eventCounter([o_EventsBycicleGifts], 2)],
+    ["Stay Off The Hook!", "Defeat your rival in Hearthome City", 4, eventCounter([o_EventsHearthomeCity], 2)],
+    ["Do Not Push Uphill", "Receive the HM04 Strength", 4, eventFlag(0x0000e202, 6)],
+    ["Training Required", "Earn the Cobble Badge", 5, eventFlag(o_Badges, 2)],
+    ["Outbully The Bully", "Help Rowan's assistant recover their Pokédex from the Galactic Grunts", 3, eventFlag(0x0000e210, 1)],
+    ["Fen Garden", "Earn the Fen Badge", 5, eventFlag(o_Badges, 3)],
+    ["Rawsome!", "Defeat your rival in Pastoria City", 5, eventFlag(0x0000e210, 3)],
+    ["Go Home, You're Drunk", "Get a secret remedy for Pokémon headaches from Cynthia", 2, eventFlag(0x0000e206, 7)],
+    ["Slow Advance", "Receive the HM05 Surf", 2, eventFlag(0x0000e321, 5)],
+    ["It Belongs in a Museum!", "Earn the Relic Badge", 10, eventFlag(o_Badges, 4)],
+    ["Bada Bada Bada Bada BLAM", "Beat your rival in Canalave City", 10, eventCounter([o_EventsCanalaveCity], 1)],
+    ["What's Yours is Mine", "Earn the Mine Badge", 10, eventFlag(o_Badges, 5)],
+    ["For All the Magikarp", "Defeat Saturn at the Valor Cavern", 5, eventFlag(0x0000e217, 6)],
+    ["Playing At Home", "Defeat Mars at Lake Verity", 5, eventFlag(0x0000e207, 2)], // CHECK
+    ["Faster Than Surfing", "Find the HM08 Rock Climb ", 2, eventFlag(o_Items21, 3)],
+    ["I See, Clever", "Earn the Icicle Badge", 10, eventFlag(o_Badges, 6)],
+    ["Good Guy Cyrus", "Defeat Cyrus at Galactic HQ and receive the Master Ball", 5, eventCounter([o_EventsGalacticHqCyrus], 1)],
+    ["Fly Free, Friends", "Free the Lake Guardians", 3, eventFlag(0x0000e23a, 4)],
+    ["Bad Guy Cyrus", "Defeat Cyrus at the Spear Pillar", 10, eventCounter([o_EventsSpearPillar], 3)],
+    ["Beacon of Hope", "Earn the Beacon Badge", 10, eventFlag(o_Badges, 7)],
+    ["Countercurrent", "Get the HM07 Waterfall from Jasmine", 2, eventFlag(0x0000e203, 2)],
+    ["Boo-YAAAAAAHHHHHH!", "Defeat Barry at the Pokémon League", 10, eventCounter([o_EventsBarryLeague], 1)],
+    ["Epic Piano Solo", "Defeat Cynthia, the Champion of Sinnoh", 25, eventFlag(0x0000e206, 4)],
+]
+
+missables = [
+    ["Chronicles of the Childhood Rival", "Listen to everything Barry has to say on your escapade from Twinleaf Town", 1, eventCounter([o_EventsBarryDialogsWayToLake, o_EventsBarryDialogsBackFromLake], 7, true)],
+    ["Chronicles of the Big Sister", "Listen to everything Cheryl has to say", 1, eventCounter([o_EventsCherylDialog], 2, true)],
+    ["Chronicles of the Lost Child", "Listen to everything Mira has to say", 1, eventCounter([o_EventsMiraDialog], 2, true)],
+    ["Chronicles of the Cool Guy", "Listen to everything Riley has to say", 1, eventCounter([o_EventsRileyDialog], 4, true)],
+    ["Space Lord", "Catch Palkia", 5, eventFlag(0x0000e530, 3)],
+    ["Being of Wisdom", "Catch Uxie", 5, eventFlag(0x0000e52f, 7)],
+    ["Being of Emotion", "Catch Mesprit", 5, eventFlag(0x0000e530, 0)],
+    ["Being of Courage", "Catch Azelf", 5, eventFlag(0x0000e530, 1)],
+    ["Chronicles of the Mysterious Maiden", "Listen to everything Marley has to say", 1, eventCounter([o_EventsMarleyDialog], 1)],
+    ["As Seen on TV!", "Catch Rotom", 3, eventFlag(0x0000e52f, 6)],
+    ["Sail to the Moon", "Catch Cresselia", 5, eventFlag(0x0000e530, 6)],
+    ["Chronicles of the Tough Boy", "Listen to everything Buck has to say", 1, eventCounter([o_EventsBuckDialog], 3, true)],
+    ["Looming Shadow", "Catch Giratina", 5, eventFlag(0x0000e530, 7)],
+    ["Eruption Incarnate", "Catch Heatran", 5, eventFlag(0x0000e530, 4)],
+]
+
+gifts = [
+    ["First One is on the House", "Receive a Potion sample in Route 201", 1, eventFlag(0x0000e1fd, 4)],
+    ["Top of the Class", "Defeat both students at the Trainer School and receive the TM10 Hidden Power", 5, eventFlag(0x0000e212, 2)],
+    ["Ol' Reliable", "Receive the Old Rod", 1, eventFlag(0x0000e200, 4)],
+    ["Making Friends", "Receive the Pal Pad", 1, eventFlag(0x0000e158, 0)],
+    ["Guaranteed Not to Flee", "Trade a Machop for an Abra in Oreburgh City", 3, eventFlag(0x0000e200, 5)],
+    ["Farming Sim", "Receive the Sprayduck", 1, eventFlag(0x0000e200, 0)],
+    ["Do Not Teach It to Slur", "Trade a Buizel for a Chatot in Eterna City", 3, eventFlag(0x0000e200, 6)],
+    ["Twinning With Roark", "Receive the Explorer Kit", 1, eventFlag(0x0000e1ff, 1)],
+    ["Love, Care, Lots of Steps", "Receive a Pokémon Egg from a hiker in Hearthome City", 1, eventFlag(0x0000e20f, 3)],
+    ["Cookie Box", "Receive the Poffin Case", 1, eventFlag(0x0000e201, 5)],
+    ["It's a Good One", "Receive the Good Rod", 2, eventFlag(0x0000e204, 2)],
+    ["Unseal the Style", "Receive the Seal Case", 2, eventFlag(0x0000e212, 7)],
+    ["Gambling Enabled", "Receive the Coin Case", 1, eventFlag(0x0000e207, 4)],
+    ["Mascot From Another Timeline", "Receive an Eevee from Bebe", 3, eventFlag(0x0000e216, 1)],
+    ["The Sky is the Limit", "Obtain the HM02 Fly", 2, eventFlag(o_Items30, 6)],
+    ["Actual Fetch Sidequest", "Help a woman find the lost key for her suite and receive a reward", 4, eventFlag(0x0000e217, 2)],
+    ["Macho Bug", "Receive the Macho Brace from a Burmy fan in Pastoria City", 5, eventFlag(0x0000e213, 4)],
+    ["Clear Skies", "Receive the HM05 Defog", 2, eventFlag(0x0000e21c, 0)],
+    ["Feel the Fuego", "Receive a gift from Mr. Fuego in Fuego Ironworks", 5, eventFlag(0x0000e217, 0)],
+    ["Senior Data Analist", "Get your Pokédex upgraded to show the different forms of Pokémon", 1, eventFlag(0x0000e1ba, 0)],
+    ["Pleasant Aura", "Receive a Pokémon Egg from Riley after helping him", 5, eventFlag(0x0000e20c, 5)],
+    ["Coat Up", "Receive a Metal Coat from Byron in Iron Island", 2, eventFlag(0x0000e213, 5)],
+    ["Good Samaritan", "Try to return the HM08 to its owner and receive a reward", 1, eventFlag(0x0000e20b, 6)],
+    ["Fuck Mindy", "Experience betrayal after trading a Medicham for a Haunter in Snowpoint City", 2, eventFlag(0x0000e20e, 4)],
+    ["Going National", "Obtain the National Mode for your Pokédex", 5, eventFlag(0x0000e246, 2)],
+    ["Not Included in POC", "Receive an Up-Grade from Professor Oak in Eterna City", 2, eventFlag(0x0000e213, 1)],
+    ["Graduated", "Obtain the Diploma for seeing all Pokémon in Sinnoh from the Game Director", 5, eventFlag(0x0000e205, 3)],
+    ["SUUUUUPEEEEEER", "Receive the Super Rod", 3, eventFlag(0x0000e1fd, 3)],
+    ["Magikarp Benz", "Trade a Finneon for a foreign Magikarp in Route 226", 3, eventFlag(0x0000e20e, 5)],
+    ["I Can See!", "Receive all types of glasses from the man in Celestic Town's shop", 3, countFlags([mbit(4, 0xe216), mbit(5, 0xe216), mbit(6, 0xe216)])],
+    ["Oh Lawd He Swimmin", "Break the record with a humongous Remoraid and receive a reward", 4, getItemByDialog(IT_NETBALL) && sanity(GS_OW, MAP_Route222HouseFishSize)],
+    ["Small Indie Company", "Get all the Poketch apps from the independent developer in Sunnyshore City", 3, countFlags([mbit(0, o_PoketchAppUnlockedCalendar), mbit(0, o_PoketchAppUnlockedDotArtist), mbit(0, o_PoketchAppUnlockedRoulette)])],
+    ["One for Strength", "Receive a Black Belt from the old man living in Route 221", 2, beltReward(1)],
+    ["One for Knowledge", "Receive a Expert Belt from the old man living in Route 221", 2, beltReward(2)],
+    ["One for Endurance", "Receive a Focus Sash from the old man living in Route 221", 2, beltReward(3)],
+    //["Certified Feet Lover", "Receive a ribbon from Mr. Footstep", 4, getFootRibbon()],
+]
+
+collectibles = [
+    ["Dress to Impress", "Get all the color scarves by showing incredible Pokémon to a certain trainer in Pastoria City", 10, countFlags([mbit(0, 0xe218), mbit(1, 0xe218), mbit(2, 0xe218), mbit(3, 0xe218), mbit(4, 0xe218)])],
+    ["Minesweeper", "Complete the first 5 tasks of the Underground Man", 10, eventCounter([0x0000e11c], 5, true)],
+    ["Fully Geared", "Get all obtainable Pokétch apps", 10, countFlags(poketchApps)],
+    ["Gotta Catch Some of 'em", "Register half the obtainable Pokémon in your Pokédex", 25, eventFlag(0x00000000, 0)],
+    ["Got to Catch 'em All", "Register all obtainable Pokémons in your Pokédex", 50, eventFlag(0x00000000, 0)],
+    ["Style and Substance", "Get all obtainable seals", 25, eventFlag(0x00000000, 0)],
+    ["Skiddo Toilet Fanum Tax", "Learn all the trendy words", 10, countFlags(trendyWords)],
+    ["The Legend of Sinnoh", "Collect all the type plates scattered across Sinnoh (not digging)", 10, countFlags(plates)],
+    ["I Wanna Be the Berry Best", "Plant a berry in every tile of soil in the same session", 10, eventFlag(0x00000000, 0)],
+    ["Do Your Dailies!", "Complete all daily activities in a single session", 10, countFlags(dailyEvents)],
+    ["Wallpaper Engine", "Obtain all PC box wallpapers", 5, eventFlag(0x00000000, 0)],
+]
+
+misc = [
+
+]
+// #endregion cheevos
+
+
 // achievement generation
+for prog in progression cheevoProgression(prog)
+for miss in missables cheevoMissable(miss)
+for gift in gifts cheevoStandard(gift)
 for zone in missableZones cheevoMissableZone(zone)
 for zone in zones {
     cheevoAllTreasures(zone)
