@@ -2,13 +2,13 @@
 // #ID = 25369
 
 // common functions
-cheevoId = 0
+cheevoId = 493533
 function cheevoIdPlus() {
     cheevoId = cheevoId + 1
 }
 function myAchievement(title, description, points, trigger, mtype="") {
     achievement(title, description, points, trigger, cheevoId, type=mtype)
-    //cheevoIdPlus()
+    cheevoIdPlus()
 }
 
 // #region addresses
@@ -22,8 +22,8 @@ o_money = 0x00d28c
 o_Badges = 0x00D292
 o_CasinoCoins = 0x00D298
 o_PlaytimeHours = 0x00D29A
-o_PlaytimeMinutes = 0x00D29C
-o_PlaytimeSeconds = 0x00D29D
+o_PlaytimeMinutes = 0x00D29C 
+o_PlaytimeSeconds = 0x00D29D 
 
 o_ItemsPocket = 0x00D838
 o_KeyItemsPocket = 0x00DACC
@@ -35,8 +35,9 @@ o_PokeBallsPocket = 0x00DEF4
 o_BattleItemsPocket = 0x00DF30
 o_AssignedKeyItem = 0x00DFA8
 
-o_SwarmPokémonIdByLucasSister = 0x00DFB0
+o_SwarmPokemonIdByLucasSister = 0x00DFB0
 o_SwarmLocationIdByLucasSister = 0x00DFB2
+o_StepsSinceLastAmitySquareGift = 0x00e024
 o_LotteryId = 0x00E028
 o_BeltGuyLevelAskedFor = 0x00E032
 
@@ -525,6 +526,7 @@ o_InDialogItemPickedId = 0x036588
 o_InDialogItemPickedAmmount = 0x03658A
 
 o_GameState = 0x04F9E8
+o_DialogIdInMoveTutor = 0x04fb6c
 
 o_CurrentHallOfFamePokemonSlotInUseSlot1 = 0x04FBD9
 o_CurrentHallOfFamePokemonSlotInUseSlot2 = 0x04FBDC
@@ -540,11 +542,14 @@ o_CurrentHallOfFamePokemonIdSlot5 = 0x04FC00
 o_CurrentHallOfFamePokemonIdSlot6 = 0x04FC04
 
 o_CurrentPokemonInBattleId = 0x055580
-o_Slot1PokemonMove1PpRemaining = 0x0555AC
-o_Slot1PokemonMove2PpRemaining = 0x0555AD
-o_Slot1PokemonMove3PpRemaining = 0x0555AE
-o_Slot1PokemonMove4PpRemaining = 0x0555AF
-o_Slot1PokemonHp = 0x0555CC
+o_CurrentPokemonMove1PpRemaining = 0x0555AC
+o_CurrentPokemonMove2PpRemaining = 0x0555AD
+o_CurrentPokemonMove3PpRemaining = 0x0555AE
+o_CurrentPokemonMove4PpRemaining = 0x0555AF
+o_CurrentPokemonHp = 0x0555CC
+o_OpponentPokemonInBattleId = 0x055640
+o_OpponentPokemonHp = 0x05568c
+o_OpponentPokemonDatablock = 512 // TODO: check this
 o_CatchRateStageInGreatMarsh = 0x05595C
 o_FleeRateStageInGreatMarsh = 0x05595D
 
@@ -552,6 +557,233 @@ o_partyLeadPv = 0x0000d2ac
 o_partyLeadChecksum = 0x0000d2b2
 o_partyLeadBlock1 = 0x0000d2b4
 
+o_BerryInfoFloaromaTown1 = 0x00F098
+o_BerryInfoFloaromaTown2 = 0x00F0A6
+o_BerryInfoRoute205South1 = 0x00F0B4
+o_BerryInfoRoute205South2 = 0x00F0C2
+o_BerryInfoRoute205Middle1 = 0x00F0D0
+o_BerryInfoRoute205Middle2 = 0x00F0De
+o_BerryInfoEternaForestOutside1 = 0x00F0Ec
+o_BerryInfoEternaForestOutside2 = 0x00F0Fa
+o_BerryInfoEternaForestOutside3 = 0x00F108
+o_BerryInfoEternaForestOutside4 = 0x00F116
+o_BerryInfoFuegoIronworks1 = 0x00F124
+o_BerryInfoFuegoIronworks2 = 0x00F132
+o_BerryInfoFuegoIronworks3 = 0x00F140
+o_BerryInfoFuegoIronworks4 = 0x00F14E
+o_BerryInfoRoute205North1 = 0x00F15C
+o_BerryInfoRoute205North2 = 0x00F16A
+o_BerryInfoRoute205North3 = 0x00F178
+o_BerryInfoRoute205North4 = 0x00F186
+o_BerryInfoRoute206North1 = 0x00F194
+o_BerryInfoRoute206North2 = 0x00F1A2
+o_BerryInfoRoute206South1 = 0x00F1B0
+o_BerryInfoRoute206South2 = 0x00F1Be
+o_BerryInfoRoute2072 = 0x00F1Cc
+o_BerryInfoRoute2071 = 0x00F1Da
+o_BerryInfoRoute2074 = 0x00F1E8
+o_BerryInfoRoute2073 = 0x00F1F6
+o_BerryInfoRoute2081 = 0x00F204
+o_BerryInfoRoute2082 = 0x00F212
+o_BerryInfoRoute2083 = 0x00F220
+o_BerryInfoRoute2084 = 0x00F22E
+o_BerryInfoRoute209West1 = 0x00F23C
+o_BerryInfoRoute209West2 = 0x00F24A
+o_BerryInfoRoute209East1 = 0x00F258
+o_BerryInfoRoute209East2 = 0x00F266
+o_BerryInfoSolaceonTown1 = 0x00F274
+o_BerryInfoSolaceonTown2 = 0x00F282
+o_BerryInfoSolaceonTown3 = 0x00F290
+o_BerryInfoSolaceonTown4 = 0x00F29E
+o_BerryInfoRoute210South1 = 0x00F2Ac
+o_BerryInfoRoute210South2 = 0x00F2Ba
+o_BerryInfoRoute210South3 = 0x00F2C8
+o_BerryInfoRoute210South4 = 0x00F2D6
+o_BerryInfoRoute210North1 = 0x00F2E4
+o_BerryInfoRoute210North2 = 0x00F2F2
+o_BerryInfoRoute210North3 = 0x00F300
+o_BerryInfoRoute210North4 = 0x00F30E
+o_BerryInfoRoute2111 = 0x00F31C
+o_BerryInfoRoute2112 = 0x00F32A
+o_BerryInfoRoute2113 = 0x00F338
+o_BerryInfoRoute2114 = 0x00F346
+o_BerryInfo212SunnyMansion2 = 0x00F354
+o_BerryInfo212SunnyMansion1 = 0x00F362
+o_BerryInfo212SunnySurf2 = 0x00F370
+o_BerryInfo212SunnySurf1 = 0x00F37E
+o_BerryInfoRoute212Rainy1 = 0x00F38C
+o_BerryInfoRoute212Rainy2 = 0x00F39A
+o_BerryInfoRoute212Rainy3 = 0x00F3A8
+o_BerryInfoRoute212Rainy4 = 0x00F3B6
+o_BerryInfoPastoriaCity1 = 0x00F3C4
+o_BerryInfoPastoriaCity4 = 0x00F3D2
+o_BerryInfoPastoriaCity2 = 0x00F3E0
+o_BerryInfoPastoriaCity3 = 0x00F3Ee
+o_BerryInfoRoute2131 = 0x00F3Fc
+o_BerryInfoRoute2134 = 0x00F40A
+o_BerryInfoRoute2132 = 0x00F418
+o_BerryInfoRoute2133 = 0x00F426
+o_BerryInfoRoute2141 = 0x00F434
+o_BerryInfoRoute2142 = 0x00F442
+o_BerryInfoRoute2143 = 0x00F450
+o_BerryInfoRoute2144 = 0x00F45E
+o_BerryInfoRoute215West1 = 0x00F46C
+o_BerryInfoRoute215West2 = 0x00F47A
+o_BerryInfoRoute215East1 = 0x00F488
+o_BerryInfoRoute215East2 = 0x00F496
+o_BerryInfoRoute2181 = 0x00F4A4
+o_BerryInfoRoute2182 = 0x00F4B2
+o_BerryInfoRoute2183 = 0x00F4C0
+o_BerryInfoRoute2184 = 0x00F4Ce
+o_BerryInfoRoute2211 = 0x00F4Dc
+o_BerryInfoRoute2212 = 0x00F4Ea
+o_BerryInfoRoute2213 = 0x00F4F8
+o_BerryInfoRoute2214 = 0x00F506
+o_BerryInfoRoute2221 = 0x00F514
+o_BerryInfoRoute2222 = 0x00F522
+o_BerryInfoRoute2223 = 0x00F530
+o_BerryInfoRoute2224 = 0x00F53E
+o_BerryInfoRoute2241 = 0x00F54C
+o_BerryInfoRoute2242 = 0x00F55A
+o_BerryInfoRoute2243 = 0x00F568
+o_BerryInfoRoute2244 = 0x00F576
+o_BerryInfoFightArea1 = 0x00F584
+o_BerryInfoFightArea2 = 0x00F592
+o_BerryInfoFightArea3 = 0x00F5A0
+o_BerryInfoFightArea4 = 0x00F5Ae
+o_BerryInfoRoute2253 = 0x00F5Bc
+o_BerryInfoRoute2252 = 0x00F5Ca
+o_BerryInfoRoute2254 = 0x00F5D8
+o_BerryInfoRoute2251 = 0x00F5E6
+o_BerryInfoRoute2261 = 0x00F5F4
+o_BerryInfoRoute2264 = 0x00F602
+o_BerryInfoRoute2262 = 0x00F610
+o_BerryInfoRoute2263 = 0x00F61E
+o_BerryInfoRoute2281 = 0x00F62C
+o_BerryInfoRoute2284 = 0x00F63A
+o_BerryInfoRoute2282 = 0x00F648
+o_BerryInfoRoute2283 = 0x00F656
+o_BerryInfoRoute2291 = 0x00F664
+o_BerryInfoRoute2292 = 0x00F672
+o_BerryInfoRoute2293 = 0x00F680
+o_BerryInfoRoute2294 = 0x00F68E
+o_BerryInfoResortAreaEast2 = 0x00F69C
+o_BerryInfoResortAreaWest1 = 0x00F6Aa
+o_BerryInfoResortAreaWest2 = 0x00F6B8
+o_BerryInfoResortAreaEast1 = 0x00F6C6
+o_BerryInfoRoute2301 = 0x00F6D4
+o_BerryInfoRoute2302 = 0x00F6E2
+o_BerryInfoRoute2303 = 0x00F6F0
+o_BerryInfoRoute2304 = 0x00F6Fe
+
+o_BerryInfoId = 0
+o_BerryInfoGrowth = 1
+o_BerryInfoAmmount = 8
+o_BerryInfoMulch = 12
+
+o_AmmountOfSealsHeartA = 0x01338c
+o_AmmountOfSealsHeartB = 0x01338d
+o_AmmountOfSealsHeartC = 0x01338e
+o_AmmountOfSealsHeartD = 0x01338f
+o_AmmountOfSealsHeartE = 0x013390
+o_AmmountOfSealsHeartF = 0x013391
+o_AmmountOfSealsStarA = 0x013392
+o_AmmountOfSealsStarB = 0x013393
+o_AmmountOfSealsStarC = 0x013394
+o_AmmountOfSealsStarD = 0x013395
+o_AmmountOfSealsStarE = 0x013396
+o_AmmountOfSealsStarF = 0x013397
+o_AmmountOfSealsLineA = 0x013398
+o_AmmountOfSealsLineB = 0x013399
+o_AmmountOfSealsLineC = 0x01339a
+o_AmmountOfSealsLineD = 0x01339b
+o_AmmountOfSealsSmokeA = 0x01339c
+o_AmmountOfSealsSmokeB = 0x01339d
+o_AmmountOfSealsSmokeC = 0x01339e
+o_AmmountOfSealsSmokeD = 0x01339f
+o_AmmountOfSealsEleA = 0x0133a0
+o_AmmountOfSealsEleB = 0x0133a1
+o_AmmountOfSealsEleC = 0x0133a2
+o_AmmountOfSealsEleD = 0x0133a3
+o_AmmountOfSealsFoamyA = 0x0133a4
+o_AmmountOfSealsFoamyB = 0x0133a5
+o_AmmountOfSealsFoamyC = 0x0133a6
+o_AmmountOfSealsFoamyD = 0x0133a7
+o_AmmountOfSealsFireA = 0x0133a8
+o_AmmountOfSealsFireB = 0x0133a9
+o_AmmountOfSealsFireC = 0x0133aa
+o_AmmountOfSealsFireD = 0x0133ab
+o_AmmountOfSealsPartyA = 0x0133ac
+o_AmmountOfSealsPartyB = 0x0133ad
+o_AmmountOfSealsPartyC = 0x0133ae
+o_AmmountOfSealsPartyD = 0x0133af
+o_AmmountOfSealsFloralA = 0x0133b0
+o_AmmountOfSealsFloralB = 0x0133b1
+o_AmmountOfSealsFloralC = 0x0133b2
+o_AmmountOfSealsFloralD = 0x0133b3
+o_AmmountOfSealsFloralE = 0x0133b4
+o_AmmountOfSealsFloralF = 0x0133b5
+o_AmmountOfSealsSongA = 0x0133b6
+o_AmmountOfSealsSongB = 0x0133b7
+o_AmmountOfSealsSongC = 0x0133b8
+o_AmmountOfSealsSongD = 0x0133b9
+o_AmmountOfSealsSongE = 0x0133ba
+o_AmmountOfSealsSongF = 0x0133bb
+o_AmmountOfSealsSongG = 0x0133bc
+o_AmmountOfSealsLetterA = 0x0133bd
+o_AmmountOfSealsLetterB = 0x0133be
+o_AmmountOfSealsLetterC = 0x0133bf
+o_AmmountOfSealsLetterD = 0x0133c0
+o_AmmountOfSealsLetterE = 0x0133c1
+o_AmmountOfSealsLetterF = 0x0133c2
+o_AmmountOfSealsLetterG = 0x0133c3
+o_AmmountOfSealsLetterH = 0x0133c4
+o_AmmountOfSealsLetterI = 0x0133c5
+o_AmmountOfSealsLetterJ = 0x0133c6
+o_AmmountOfSealsLetterK = 0x0133c7
+o_AmmountOfSealsLetterL = 0x0133c8
+o_AmmountOfSealsLetterM = 0x0133c9
+o_AmmountOfSealsLetterN = 0x0133ca
+o_AmmountOfSealsLetterO = 0x0133cb
+o_AmmountOfSealsLetterP = 0x0133cc
+o_AmmountOfSealsLetterQ = 0x0133cd
+o_AmmountOfSealsLetterR = 0x0133ce
+o_AmmountOfSealsLetterS = 0x0133cf
+o_AmmountOfSealsLetterT = 0x0133d0
+o_AmmountOfSealsLetterU = 0x0133d1
+o_AmmountOfSealsLetterV = 0x0133d2
+o_AmmountOfSealsLetterW = 0x0133d3
+o_AmmountOfSealsLetterX = 0x0133d4
+o_AmmountOfSealsLetterY = 0x0133d5
+o_AmmountOfSealsLetterZ = 0x0133d6
+o_AmmountOfSealsLetterExc = 0x0133d7
+o_AmmountOfSealsLetterInt = 0x0133d8
+
+o_TrendyWords1 = 0x0192f8
+o_TrendyWords2 = 0x0192f9
+o_TrendyWords3 = 0x0192fa
+o_TrendyWords4 = 0x0192fb
+o_PcBoxWallpapers = 0x02b4da
+
+o_ContestVisualStageConditionHearts = 0x04facf
+o_ContestVisualStageDressUpHearts = 0x04fad0
+o_ContestActingStageYourScore = 0x04fc2e
+o_ContestVoltageForJordan = 0x04fc3e
+o_ContestVoltageForDexter = 0x04fc3f
+o_ContestVoltageForKeira = 0x04fc40
+o_ContestDanceStageYourScore = 0x05094b
+
+o_PoffinResultScreenTimesSpilled = 0x054e80
+o_PoffinResultScreenTimesBurnt = 0x054e84
+o_PoffinResultScreenType = 0x054e8c
+o_PoffinResultScreenLevel = 0x054e8d
+o_PoffinResultScreenSeconds = 0x054e8f
+o_PoffinResultScreenCentiseconds = 0x054e90
+
+o_dexStart = 0x00e4f4
+o_unownStart = 0xe5fc
+
+a_musicId = 0x001c3d84
 a_year = 0x1C4818
 a_month = 0x1C481C
 a_dayOfTheMonth = 0x1C4820
@@ -569,16 +801,53 @@ function mtbyte(offset) => tbyte(gamePointer()+offset)
 function mdword(offset) => dword(gamePointer()+offset)
 function mbit(i, offset) => bit(i, gamePointer()+offset)
 
+function musicId() => word(a_musicId)
 function mapId() => mword(o_MapId)
 function gameState() => mbyte(o_GameState)
+function dialogIdInMoveTutor() => mbyte(o_DialogIdInMoveTutor)
+
 function partyLeadPv() => mdword(o_partyLeadPv)
 function partyLeadChecksum() => mdword(o_partyLeadChecksum)
 function partyLeadBlockData(i, offset) => mword(o_partyLeadBlock1 + 32*i + offset)
+
+function berryId(berry) => mbyte(berry + o_BerryInfoId)
+function berryGrowth(berry) => mbyte(berry + o_BerryInfoGrowth)
+function berryAmmount(berry) => mbyte(berry + o_BerryInfoAmmount)
+function berryMulch(berry) => mbyte(berry + o_BerryInfoMulch)
+
+function opponentMonId(place=1) => mword(o_OpponentPokemonInBattleId + (place-1)*o_OpponentPokemonDatablock)
+function opponentMonHp(place=1) => mword(o_OpponentPokemonInBattleId + (place-1)*o_OpponentPokemonDatablock)
+function catchRate() => mbyte(o_CatchRateStageInGreatMarsh)
+function fleeRate() => mbyte(o_FleeRateStageInGreatMarsh)
+
+function swarmMonId() => mword(o_SwarmPokemonIdByLucasSister)
+function swarmLocId() => mword(o_SwarmLocationIdByLucasSister)
+function stepsSinceLastAmitySquareGift() => mword(o_StepsSinceLastAmitySquareGift)
+
+function contestVisualStageConditionHearts() => mbyte(o_ContestVisualStageConditionHearts)
+function contestVisualStageDressUpHearts() => mbyte(o_ContestVisualStageDressUpHearts)
+function contestActingStageYourScore() => mbyte(o_ContestActingStageYourScore) / 10 // to count on hearts
+function contestDanceStageYourScore() => mbyte(o_ContestDanceStageYourScore)
+
+function poffinResultScreenTimesSpilled() => mbyte(o_PoffinResultScreenTimesSpilled)
+function poffinResultScreenTimesBurnt() => mbyte(o_PoffinResultScreenTimesBurnt)
+function poffinResultScreenType() => mbyte(o_PoffinResultScreenType)
+function poffinResultScreenLevel() => mbyte(o_PoffinResultScreenLevel)
+function poffinResultScreenSeconds() => mbyte(o_PoffinResultScreenSeconds)
+function poffinResultScreenCentiseconds() => mbyte(o_PoffinResultScreenCentiseconds)
 
 // #endregion accessors
 // #endregion addresses
 
 // #region values
+MUNCHLAX = 446
+DRIFLOON = 425
+FEEBAS = 349
+GIBLE = 443
+
+MUSIC_BATTLE = 0x45c
+MUSIC_BATTLE_WIN_WILD = 0x467
+
 GS_NOLOAD = 0x0 // not loaded
 GS_OW = 0x4 // overworld
 GS_BATTLE = 0x5 // battle
@@ -598,7 +867,9 @@ GS_DEX = 0x25 // Pokedex
 GS_OPTIONS = 0x26 // Options
 GS_SIGN = 0x27 // signing trainer card
 GS_DIARY = 0x2a // Diary
+GS_POFF_CASE = 0x2c // poffin case
 GS_STARTER = 0x2f // choosing starter
+GS_POFFIN = 0x37 // cooking poffin
 GS_TRADE = 0x39 // trade
 GS_HOF_PC = 0x3c // Hall of Fame viewing in PC
 GS_TUTOR = 0x43 // Move tutor
@@ -613,6 +884,8 @@ IT_PPUP = 0x33
 IT_STARDUST = 0x5a
 IT_RAREBONE = 0x6a
 IT_REAPERCLOTH = 0x145
+
+SC_MASTER_RANK = 0x3
 
 MAP_JubilifeCity = 0x0003
 MAP_JubilifeStore = 0x0004
@@ -1076,6 +1349,11 @@ MAP_Route230 = 0x01d7
 MAP_LakeVerityLowTide = 0x0137
 MAP_ResortAreaRibbonSociety2F = 0x01ce
 MAP_ResortAreaRibbonSocietyElevator = 0x01cf
+MAP_ManiacTunnelMiddlePhase = 0x0200
+MAP_ManiacTunnelFinalPhase = 0x0201
+MAP_SolaceonRuins1F = 0x00e1
+MAP_SeabreakPath = 0x01d8
+MAP_FlowerParadise = 0x0112
 // #endregion values
 
 // #region arrays
@@ -1088,6 +1366,10 @@ C_TITLE = 0
 C_DESC = 1
 C_POINTS = 2
 C_TRIGGER = 3
+
+PK_NUMBER = 0
+PK_NAME = 1
+PK_PHASE = 2
 
 BRAVE = "Brave Beginnings"
 ROCK = "Rock and Roll"
@@ -1158,6 +1440,22 @@ missableZones = {
     GALACTIC_HQ: MISS_GRUNT,
     GALACTIC_CORONET: MISS_GRUNT,
     GYM8: MISS_TRAINER
+}
+
+missableZonesTitles = {
+    GYM1: "Gym Skirmish: Oreburgh",
+    GALACTIC_BUILDING: "Grunt Brush: Eterna Building",
+    GYM2: "Gym Skirmish: Eterna",
+    GYM3: "Gym Skirmish: Veilstone",
+    GYM4: "Gym Skirmish: Pastoria",
+    GYM5: "Gym Skirmish: Hearthome",
+    GYM6: "Gym Skirmish: Canalave",
+    DRIED_LAKE: "Grunt Brush: Lake Valor",
+    LAKE_VERITY: "Grunt Brush: Lake Verity",
+    GYM7: "Gym Skirmish: Snowpoint",
+    GALACTIC_HQ: "Grunt Brush: Galactic HQ",
+    GALACTIC_CORONET: "Grunt Brush: Mt Coronet",
+    GYM8: "Gym Skirmish: Sunnyshore"
 }
 
 gifts = [
@@ -2462,6 +2760,127 @@ trainers = [
     ["Worker Holden", FLOWER, mbit(5, o_TrainersExtra3)],
     ["Worker Conrad", FLOWER, mbit(6, o_TrainersExtra3)],
 ]
+
+berries = [
+    o_BerryInfoFloaromaTown1,
+    o_BerryInfoFloaromaTown2,
+    o_BerryInfoRoute205South1,
+    o_BerryInfoRoute205South2,
+    o_BerryInfoRoute205Middle1,
+    o_BerryInfoRoute205Middle2,
+    o_BerryInfoEternaForestOutside1,
+    o_BerryInfoEternaForestOutside2,
+    o_BerryInfoEternaForestOutside3,
+    o_BerryInfoEternaForestOutside4,
+    o_BerryInfoFuegoIronworks1,
+    o_BerryInfoFuegoIronworks2,
+    o_BerryInfoFuegoIronworks3,
+    o_BerryInfoFuegoIronworks4,
+    o_BerryInfoRoute205North1,
+    o_BerryInfoRoute205North2,
+    o_BerryInfoRoute205North3,
+    o_BerryInfoRoute205North4,
+    o_BerryInfoRoute206North1,
+    o_BerryInfoRoute206North2,
+    o_BerryInfoRoute206South1,
+    o_BerryInfoRoute206South2,
+    o_BerryInfoRoute2072,
+    o_BerryInfoRoute2071,
+    o_BerryInfoRoute2074,
+    o_BerryInfoRoute2073,
+    o_BerryInfoRoute2081,
+    o_BerryInfoRoute2082,
+    o_BerryInfoRoute2083,
+    o_BerryInfoRoute2084,
+    o_BerryInfoRoute209West1,
+    o_BerryInfoRoute209West2,
+    o_BerryInfoRoute209East1,
+    o_BerryInfoRoute209East2,
+    o_BerryInfoSolaceonTown1,
+    o_BerryInfoSolaceonTown2,
+    o_BerryInfoSolaceonTown3,
+    o_BerryInfoSolaceonTown4,
+    o_BerryInfoRoute210South1,
+    o_BerryInfoRoute210South2,
+    o_BerryInfoRoute210South3,
+    o_BerryInfoRoute210South4,
+    o_BerryInfoRoute210North1,
+    o_BerryInfoRoute210North2,
+    o_BerryInfoRoute210North3,
+    o_BerryInfoRoute210North4,
+    o_BerryInfoRoute2111,
+    o_BerryInfoRoute2112,
+    o_BerryInfoRoute2113,
+    o_BerryInfoRoute2114,
+    o_BerryInfo212SunnyMansion2,
+    o_BerryInfo212SunnyMansion1,
+    o_BerryInfo212SunnySurf2,
+    o_BerryInfo212SunnySurf1,
+    o_BerryInfoRoute212Rainy1,
+    o_BerryInfoRoute212Rainy2,
+    o_BerryInfoRoute212Rainy3,
+    o_BerryInfoRoute212Rainy4,
+    o_BerryInfoPastoriaCity1,
+    o_BerryInfoPastoriaCity4,
+    o_BerryInfoPastoriaCity2,
+    o_BerryInfoPastoriaCity3,
+    o_BerryInfoRoute2131,
+    o_BerryInfoRoute2134,
+    o_BerryInfoRoute2132,
+    o_BerryInfoRoute2133,
+    o_BerryInfoRoute2141,
+    o_BerryInfoRoute2142,
+    o_BerryInfoRoute2143,
+    o_BerryInfoRoute2144,
+    o_BerryInfoRoute215West1,
+    o_BerryInfoRoute215West2,
+    o_BerryInfoRoute215East1,
+    o_BerryInfoRoute215East2,
+    o_BerryInfoRoute2181,
+    o_BerryInfoRoute2182,
+    o_BerryInfoRoute2183,
+    o_BerryInfoRoute2184,
+    o_BerryInfoRoute2211,
+    o_BerryInfoRoute2212,
+    o_BerryInfoRoute2213,
+    o_BerryInfoRoute2214,
+    o_BerryInfoRoute2221,
+    o_BerryInfoRoute2222,
+    o_BerryInfoRoute2223,
+    o_BerryInfoRoute2224,
+    o_BerryInfoRoute2241,
+    o_BerryInfoRoute2242,
+    o_BerryInfoRoute2243,
+    o_BerryInfoRoute2244,
+    o_BerryInfoFightArea1,
+    o_BerryInfoFightArea2,
+    o_BerryInfoFightArea3,
+    o_BerryInfoFightArea4,
+    o_BerryInfoRoute2253,
+    o_BerryInfoRoute2252,
+    o_BerryInfoRoute2254,
+    o_BerryInfoRoute2251,
+    o_BerryInfoRoute2261,
+    o_BerryInfoRoute2264,
+    o_BerryInfoRoute2262,
+    o_BerryInfoRoute2263,
+    o_BerryInfoRoute2281,
+    o_BerryInfoRoute2284,
+    o_BerryInfoRoute2282,
+    o_BerryInfoRoute2283,
+    o_BerryInfoRoute2291,
+    o_BerryInfoRoute2292,
+    o_BerryInfoRoute2293,
+    o_BerryInfoRoute2294,
+    o_BerryInfoResortAreaEast2,
+    o_BerryInfoResortAreaWest1,
+    o_BerryInfoResortAreaWest2,
+    o_BerryInfoResortAreaEast1,
+    o_BerryInfoRoute2301,
+    o_BerryInfoRoute2302,
+    o_BerryInfoRoute2303,
+    o_BerryInfoRoute2304,
+]
 // #endregion exploration
 
 poketchApps = [
@@ -2540,6 +2959,615 @@ trendyWords = [
     mbit(7, o_TrendyWords4),
 ]
 
+seals = [
+    mbyte(o_AmmountOfSealsHeartA),
+    mbyte(o_AmmountOfSealsHeartB),
+    mbyte(o_AmmountOfSealsHeartC),
+    mbyte(o_AmmountOfSealsHeartD),
+    mbyte(o_AmmountOfSealsHeartE),
+    mbyte(o_AmmountOfSealsHeartF),
+    mbyte(o_AmmountOfSealsStarA),
+    mbyte(o_AmmountOfSealsStarB),
+    mbyte(o_AmmountOfSealsStarC),
+    mbyte(o_AmmountOfSealsStarD),
+    mbyte(o_AmmountOfSealsStarE),
+    mbyte(o_AmmountOfSealsStarF),
+    mbyte(o_AmmountOfSealsLineA),
+    mbyte(o_AmmountOfSealsLineB),
+    mbyte(o_AmmountOfSealsLineC),
+    mbyte(o_AmmountOfSealsLineD),
+    mbyte(o_AmmountOfSealsSmokeA),
+    mbyte(o_AmmountOfSealsSmokeB),
+    mbyte(o_AmmountOfSealsSmokeC),
+    mbyte(o_AmmountOfSealsSmokeD),
+    mbyte(o_AmmountOfSealsEleA),
+    mbyte(o_AmmountOfSealsEleB),
+    mbyte(o_AmmountOfSealsEleC),
+    mbyte(o_AmmountOfSealsEleD),
+    mbyte(o_AmmountOfSealsFoamyA),
+    mbyte(o_AmmountOfSealsFoamyB),
+    mbyte(o_AmmountOfSealsFoamyC),
+    mbyte(o_AmmountOfSealsFoamyD),
+    mbyte(o_AmmountOfSealsFireA),
+    mbyte(o_AmmountOfSealsFireB),
+    mbyte(o_AmmountOfSealsFireC),
+    mbyte(o_AmmountOfSealsFireD),
+    mbyte(o_AmmountOfSealsPartyA),
+    mbyte(o_AmmountOfSealsPartyB),
+    mbyte(o_AmmountOfSealsPartyC),
+    mbyte(o_AmmountOfSealsPartyD),
+    mbyte(o_AmmountOfSealsFloralA),
+    mbyte(o_AmmountOfSealsFloralB),
+    mbyte(o_AmmountOfSealsFloralC),
+    mbyte(o_AmmountOfSealsFloralD),
+    mbyte(o_AmmountOfSealsFloralE),
+    mbyte(o_AmmountOfSealsFloralF),
+    mbyte(o_AmmountOfSealsSongA),
+    mbyte(o_AmmountOfSealsSongB),
+    mbyte(o_AmmountOfSealsSongC),
+    mbyte(o_AmmountOfSealsSongD),
+    mbyte(o_AmmountOfSealsSongE),
+    mbyte(o_AmmountOfSealsSongF),
+    mbyte(o_AmmountOfSealsSongG),
+    mbyte(o_AmmountOfSealsLetterA),
+    mbyte(o_AmmountOfSealsLetterB),
+    mbyte(o_AmmountOfSealsLetterC),
+    mbyte(o_AmmountOfSealsLetterD),
+    mbyte(o_AmmountOfSealsLetterE),
+    mbyte(o_AmmountOfSealsLetterF),
+    mbyte(o_AmmountOfSealsLetterG),
+    mbyte(o_AmmountOfSealsLetterH),
+    mbyte(o_AmmountOfSealsLetterI),
+    mbyte(o_AmmountOfSealsLetterJ),
+    mbyte(o_AmmountOfSealsLetterK),
+    mbyte(o_AmmountOfSealsLetterL),
+    mbyte(o_AmmountOfSealsLetterM),
+    mbyte(o_AmmountOfSealsLetterN),
+    mbyte(o_AmmountOfSealsLetterO),
+    mbyte(o_AmmountOfSealsLetterP),
+    mbyte(o_AmmountOfSealsLetterQ),
+    mbyte(o_AmmountOfSealsLetterR),
+    mbyte(o_AmmountOfSealsLetterS),
+    mbyte(o_AmmountOfSealsLetterT),
+    mbyte(o_AmmountOfSealsLetterU),
+    mbyte(o_AmmountOfSealsLetterV),
+    mbyte(o_AmmountOfSealsLetterW),
+    mbyte(o_AmmountOfSealsLetterX),
+    mbyte(o_AmmountOfSealsLetterY),
+    mbyte(o_AmmountOfSealsLetterZ),
+    mbyte(o_AmmountOfSealsLetterExc),
+    mbyte(o_AmmountOfSealsLetterInt),
+]
+
+backdrops = [
+    mbyte(o_BackdropUnlockedDressUp),
+    mbyte(o_BackdropUnlockedRanch),
+    mbyte(o_BackdropUnlockedCityAtNight),
+    mbyte(o_BackdropUnlockedSnowyTown),
+    mbyte(o_BackdropUnlockedFiery),
+    mbyte(o_BackdropUnlockedOuterSpace),
+    mbyte(o_BackdropUnlockedCumulousCloud),
+    mbyte(o_BackdropUnlockedDesert),
+    mbyte(o_BackdropUnlockedFlowerPatch),
+    mbyte(o_BackdropUnlockedFutureRoom),
+    mbyte(o_BackdropUnlockedOpenSea),
+    mbyte(o_BackdropUnlockedTotalDarkness),
+    mbyte(o_BackdropUnlockedTatamiRoom),
+    mbyte(o_BackdropUnlockedGingerbreadRoom),
+    mbyte(o_BackdropUnlockedSeafloor),
+    mbyte(o_BackdropUnlockedUnderground),
+    mbyte(o_BackdropUnlockedSky),
+    mbyte(o_BackdropUnlockedTheater),
+]
+
+greatMarshIds = [
+    MAP_GreatMarshArea1,
+    MAP_GreatMarshArea2,
+    MAP_GreatMarshArea3,
+    MAP_GreatMarshArea4,
+    MAP_GreatMarshArea5,
+    MAP_GreatMarshArea6,
+]
+
+dex = [
+    [1, "Bulbasaur", 99],
+    [2, "Ivysaur", 99],
+    [3, "Venusaur", 99],
+    [4, "Charmander", 99],
+    [5, "Charmeleon", 99],
+    [6, "Charizard", 99],
+    [7, "Squirtle", 99],
+    [8, "Wartortle", 99],
+    [9, "Blastoise", 99],
+    [10, "Caterpie", 99],
+    [11, "Metapod", 99],
+    [12, "Butterfree", 99],
+    [13, "Weedle", 99],
+    [14, "Kakuna", 99],
+    [15, "Beedrill", 99],
+    [16, "Pidgey", 8],
+    [17, "Pidgeotto", 8],
+    [18, "Pidgeot", 8],
+    [19, "Rattata", 8],
+    [20, "Raticate", 8],
+    [21, "Spearow", 8],
+    [22, "Fearow", 8],
+    [23, "Ekans", 99],
+    [24, "Arbok", 99],
+    [25, "Pikachu", 3],
+    [26, "Raichu", 3],
+    [27, "Sandshrew", 99],
+    [28, "Sandslash", 99],
+    [29, "Nidoran F", 8],
+    [30, "Nidorina", 8],
+    [31, "Nidoqueen", 8],
+    [32, "Nidoran M", 8],
+    [33, "Nidorino", 8],
+    [34, "Nidoking", 8],
+    [35, "Clefairy", 2],
+    [36, "Clefable", 2],
+    [37, "Vulpix", 99],
+    [38, "Ninetales", 99],
+    [39, "Jigglypuff", 8],
+    [40, "Wigglytuff", 8],
+    [41, "Zubat", 1],
+    [42, "Golbat", 1],
+    [43, "Oddish", 8],
+    [44, "Gloom", 8],
+    [45, "Vileplume", 8],
+    [46, "Paras", 8],
+    [47, "Parasect", 8],
+    [48, "Venonat", 8],
+    [49, "Venomoth", 8],
+    [50, "Diglett", 8],
+    [51, "Dugtrio", 8],
+    [52, "Meowth", 8],
+    [53, "Persian", 8],
+    [54, "Psyduck", 1],
+    [55, "Golduck", 1],
+    [56, "Mankey", 8],
+    [57, "Primeape", 8],
+    [58, "Growlithe", 99],
+    [59, "Arcanine", 99],
+    [60, "Poliwag", 8],
+    [61, "Poliwhirl", 8],
+    [62, "Poliwrath", 8],
+    [63, "Abra", 1],
+    [64, "Kadabra", 1],
+    [65, "Alakazam", 99],
+    [66, "Machop", 1],
+    [67, "Machoke", 1],
+    [68, "Machamp", 99],
+    [69, "Bellsprout", 8],
+    [70, "Weepinbell", 8],
+    [71, "Victreebel", 8],
+    [72, "Tentacool", 4],
+    [73, "Tentacruel", 4],
+    [74, "Geodude", 1],
+    [75, "Graveler", 1],
+    [76, "Golem", 99],
+    [77, "Ponyta", 2],
+    [78, "Rapidash", 2],
+    [79, "Slowpoke", 8],
+    [80, "Slowbro", 8],
+    [81, "Magnemite", 8],
+    [82, "Magneton", 8],
+    [83, "Farfetchd", 8],
+    [84, "Doduo", 8],
+    [85, "Dodrio", 8],
+    [86, "Seel", 99],
+    [87, "Dewgong", 99],
+    [88, "Grimer", 8],
+    [89, "Muk", 8],
+    [90, "Shellder", 8],
+    [91, "Cloyster", 8],
+    [92, "Gastly", 3],
+    [93, "Haunter", 3],
+    [94, "Gengar", 99],
+    [95, "Onix", 1],
+    [96, "Drowzee", 8],
+    [97, "Hypno", 8],
+    [98, "Krabby", 8],
+    [99, "Kingler", 8],
+    [100, "Voltorb", 8],
+    [101, "Electrode", 8],
+    [102, "Exeggcute", 8],
+    [103, "Exeggutor", 8],
+    [104, "Cubone", 8],
+    [105, "Marowak", 8],
+    [106, "Hitmonlee", 8],
+    [107, "Hitmonchan", 8],
+    [108, "Lickitung", 8],
+    [109, "Koffing", 8],
+    [110, "Weezing", 8],
+    [111, "Rhyhorn", 8],
+    [112, "Rhydon", 8],
+    [113, "Chansey", 3],
+    [114, "Tangela", 99],
+    [115, "Kangaskhan", 8],
+    [116, "Horsea", 8],
+    [117, "Seadra", 8],
+    [118, "Goldeen", 3],
+    [119, "Seaking", 3],
+    [120, "Staryu", 8],
+    [121, "Starmie", 8],
+    [122, "Mr Mime", 8],
+    [123, "Scyther", 99],
+    [124, "Jynx", 8],
+    [125, "Electabuzz", 99],
+    [126, "Magmar", 99],
+    [127, "Pinsir", 8],
+    [128, "Tauros", 8],
+    [129, "Magikarp", 1],
+    [130, "Gyarados", 1],
+    [131, "Lapras", 8],
+    [132, "Ditto", 8],
+    [133, "Eevee", 8],
+    [134, "Vaporeon", 8],
+    [135, "Jolteon", 8],
+    [136, "Flareon", 8],
+    [137, "Porygon", 8],
+    [138, "Omanyte", 8],
+    [139, "Omastar", 8],
+    [140, "Kabuto", 8],
+    [141, "Kabutops", 8],
+    [142, "Aerodactyl", 8],
+    [143, "Snorlax", 2],
+    [144, "Articuno", 99],
+    [145, "Zapdos", 99],
+    [146, "Moltres", 99],
+    [147, "Dratini", 8],
+    [148, "Dragonair", 8],
+    [149, "Dragonite", 8],
+    [150, "Mewtwo", 99],
+    [151, "Mew", 99],
+    [152, "Chikorita", 99],
+    [153, "Bayleef", 99],
+    [154, "Meganium", 99],
+    [155, "Cyndaquil", 99],
+    [156, "Quilava", 99],
+    [157, "Typhlosion", 99],
+    [158, "Totodile", 99],
+    [159, "Croconaw", 99],
+    [160, "Feraligatr", 99],
+    [161, "Sentret", 8],
+    [162, "Furret", 8],
+    [163, "Hoothoot", 2],
+    [164, "Noctowl", 2],
+    [165, "Ledyba", 8],
+    [166, "Ledian", 8],
+    [167, "Spinarak", 8],
+    [168, "Ariados", 8],
+    [169, "Crobat", 1],
+    [170, "Chinchou", 8],
+    [171, "Lanturn", 8],
+    [172, "Pichu", 3],
+    [173, "Cleffa", 2],
+    [174, "Igglybuff", 8],
+    [175, "Togepi", 8],
+    [176, "Togetic", 8],
+    [177, "Natu", 8],
+    [178, "Xatu", 8],
+    [179, "Mareep", 8],
+    [180, "Flaaffy", 8],
+    [181, "Ampharos", 8],
+    [182, "Bellossom", 8],
+    [183, "Marill", 3],
+    [184, "Azumarill", 3],
+    [185, "Sudowoodo", 3],
+    [186, "Politoed", 99],
+    [187, "Hoppip", 8],
+    [188, "Skiploom", 8],
+    [189, "Jumpluff", 8],
+    [190, "Aipom", 2],
+    [191, "Sunkern", 8],
+    [192, "Sunflora", 8],
+    [193, "Yanma", 8],
+    [194, "Wooper", 3],
+    [195, "Quagsire", 3],
+    [196, "Espeon", 8],
+    [197, "Umbreon", 8],
+    [198, "Murkrow", 99],
+    [199, "Slowking", 99],
+    [200, "Misdreavus", 2],
+    [201, "Unown", 3],
+    [202, "Wobbuffet", 8],
+    [203, "Girafarig", 3],
+    [204, "Pineco", 99],
+    [205, "Forretress", 99],
+    [206, "Dunsparce", 8],
+    [207, "Gligar", 99],
+    [208, "Steelix", 4],
+    [209, "Snubbull", 8],
+    [210, "Granbull", 8],
+    [211, "Qwilfish", 8],
+    [212, "Scizor", 99],
+    [213, "Shuckle", 99],
+    [214, "Heracross", 2],
+    [215, "Sneasel", 5],
+    [216, "Teddiursa", 99],
+    [217, "Ursaring", 99],
+    [218, "Slugma", 8],
+    [219, "Magcargo", 8],
+    [220, "Swinub", 8],
+    [221, "Piloswine", 8],
+    [222, "Corsola", 8],
+    [223, "Remoraid", 3],
+    [224, "Octillery", 3],
+    [225, "Delibird", 8],
+    [226, "Mantine", 6],
+    [227, "Skarmory", 8],
+    [228, "Houndour", 8],
+    [229, "Houndoom", 8],
+    [230, "Kingdra", 99],
+    [231, "Phanpy", 8],
+    [232, "Donphan", 8],
+    [233, "Porygon2", 99],
+    [234, "Stantler", 8],
+    [235, "Smeargle", 8],
+    [236, "Tyrogue", 8],
+    [237, "Hitmontop", 8],
+    [238, "Smoochum", 8],
+    [239, "Elekid", 99],
+    [240, "Magby", 99],
+    [241, "Miltank", 8],
+    [242, "Blissey", 3],
+    [243, "Raikou", 99],
+    [244, "Entei", 99],
+    [245, "Suicune", 99],
+    [246, "Larvitar", 99],
+    [247, "Pupitar", 99],
+    [248, "Tyranitar", 99],
+    [249, "Lugia", 99],
+    [250, "Ho Oh", 99],
+    [251, "Celebi", 99],
+    [252, "Treecko", 99],
+    [253, "Grovyle", 99],
+    [254, "Sceptile", 99],
+    [255, "Torchic", 99],
+    [256, "Combusken", 99],
+    [257, "Blaziken", 99],
+    [258, "Mudkip", 99],
+    [259, "Marshtomp", 99],
+    [260, "Swampert", 99],
+    [261, "Poochyena", 99],
+    [262, "Mightyena", 99],
+    [263, "Zigzagoon", 8],
+    [264, "Linoone", 8],
+    [265, "Wurmple", 2],
+    [266, "Silcoon", 2],
+    [267, "Beautifly", 2],
+    [268, "Cascoon", 2],
+    [269, "Dustox", 2],
+    [270, "Lotad", 99],
+    [271, "Lombre", 99],
+    [272, "Ludicolo", 99],
+    [273, "Seedot", 99],
+    [274, "Nuzleaf", 99],
+    [275, "Shiftry", 99],
+    [276, "Taillow", 8],
+    [277, "Swellow", 8],
+    [278, "Wingull", 3],
+    [279, "Pelipper", 3],
+    [280, "Ralts", 8],
+    [281, "Kirlia", 8],
+    [282, "Gardevoir", 8],
+    [283, "Surskit", 8],
+    [284, "Masquerain", 8],
+    [285, "Shroomish", 8],
+    [286, "Breloom", 8],
+    [287, "Slakoth", 8],
+    [288, "Vigoroth", 8],
+    [289, "Slaking", 8],
+    [290, "Nincada", 8],
+    [291, "Ninjask", 8],
+    [292, "Shedinja", 8],
+    [293, "Whismur", 8],
+    [294, "Loudred", 8],
+    [295, "Exploud", 8],
+    [296, "Makuhita", 8],
+    [297, "Hariyama", 8],
+    [298, "Azurill", 3],
+    [299, "Nosepass", 8],
+    [300, "Skitty", 8],
+    [301, "Delcatty", 8],
+    [302, "Sableye", 99],
+    [303, "Mawile", 99],
+    [304, "Aron", 99],
+    [305, "Lairon", 99],
+    [306, "Aggron", 99],
+    [307, "Meditite", 2],
+    [308, "Medicham", 2],
+    [309, "Electrike", 8],
+    [310, "Manectric", 8],
+    [311, "Plusle", 8],
+    [312, "Minun", 8],
+    [313, "Volbeat", 8],
+    [314, "Illumise", 8],
+    [315, "Roselia", 1],
+    [316, "Gulpin", 8],
+    [317, "Swalot", 8],
+    [318, "Carvanha", 8],
+    [319, "Sharpedo", 8],
+    [320, "Wailmer", 8],
+    [321, "Wailord", 8],
+    [322, "Numel", 8],
+    [323, "Camerupt", 8],
+    [324, "Torkoal", 8],
+    [325, "Spoink", 8],
+    [326, "Grumpig",8],
+    [327, "Spinda", 8],
+    [328, "Trapinch", 8],
+    [329, "Vibrava", 8],
+    [330, "Flygon", 8],
+    [331, "Cacnea", 8],
+    [332, "Cacturne", 8],
+    [333, "Swablu", 8],
+    [334, "Altaria", 8],
+    [335, "Zangoose", 99],
+    [336, "Seviper", 99],
+    [337, "Lunatone", 99],
+    [338, "Solrock", 99],
+    [339, "Barboach", 3],
+    [340, "Whiscash", 3],
+    [341, "Corphish", 8],
+    [342, "Crawdaunt", 8],
+    [343, "Baltoy", 8],
+    [344, "Claydol", 8],
+    [345, "Lileep", 8],
+    [346, "Cradily", 8],
+    [347, "Anorith", 8],
+    [348, "Armaldo", 8],
+    [349, "Feebas", 5],
+    [350, "Milotic", 5],
+    [351, "Castform", 8],
+    [352, "Kecleon", 99],
+    [353, "Shuppet", 8],
+    [354, "Banette", 8],
+    [355, "Duskull", 8],
+    [356, "Dusclops",8],
+    [357, "Tropius", 99],
+    [358, "Chimecho", 2],
+    [359, "Absol", 8],
+    [360, "Wynaut", 8],
+    [361, "Snorunt", 8],
+    [362, "Glalie", 8],
+    [363, "Spheal", 8],
+    [364, "Sealeo", 8],
+    [365, "Walrein", 8],
+    [366, "Clamperl", 8],
+    [367, "Huntail", 99],
+    [368, "Gorebyss", 99],
+    [369, "Relicanth", 8],
+    [370, "Luvdisc", 8],
+    [371, "Bagon", 8],
+    [372, "Shelgon", 8],
+    [373, "Salamence", 8],
+    [374, "Beldum", 8],
+    [375, "Metang", 8],
+    [376, "Metagross", 8],
+    [377, "Regirock", 99],
+    [378, "Regice", 99],
+    [379, "Registeel", 99],
+    [380, "Latias", 99],
+    [381, "Latios", 99],
+    [382, "Kyogre", 99],
+    [383, "Groudon", 99],
+    [384, "Rayquaza", 99],
+    [385, "Jirachi", 99],
+    [386, "Deoxys", 99],
+    [387, "Turtwig", 51],
+    [388, "Grotle", 52],
+    [389, "Torterra", 53],
+    [390, "Chimchar", 51],
+    [391, "Monferno", 52],
+    [392, "Infernape", 53],
+    [393, "Piplup", 51],
+    [394, "Prinplup", 52],
+    [395, "Empoleon", 53],
+    [396, "Starly", 1],
+    [397, "Staravia", 1],
+    [398, "Staraptor", 1],
+    [399, "Bidoof", 1],
+    [400, "Bibarel", 1],
+    [401, "Kricketot", 1],
+    [402, "Kricketune", 1],
+    [403, "Shinx", 1],
+    [404, "Luxio", 1],
+    [405, "Luxray", 1],
+    [406, "Budew", 1],
+    [407, "Roserade", 2],
+    [408, "Cranidos", 99],
+    [409, "Rampardos", 99],
+    [410, "Shieldon", 2],
+    [411, "Bastiodon", 2],
+    [412, "Burmy", 2],
+    [413, "Wormadam", 2],
+    [414, "Mothim", 2],
+    [415, "Combee", 2],
+    [416, "Vespiquen", 2],
+    [417, "Pachirisu", 2],
+    [418, "Buizel", 2],
+    [419, "Floatzel", 2],
+    [420, "Cherubi", 2],
+    [421, "Cherrim", 2],
+    [422, "Shellos", 2],
+    [423, "Gastrodon", 2],
+    [424, "Ambipom", 2],
+    [425, "Drifloon", 2],
+    [426, "Drifblim", 2],
+    [427, "Buneary", 2],
+    [428, "Lopunny", 2],
+    [429, "Mismagius", 2],
+    [430, "Honchkrow", 99],
+    [431, "Glameow", 4],
+    [432, "Purugly", 4],
+    [433, "Chingling", 2],
+    [434, "Stunky", 99],
+    [435, "Skuntank", 99],
+    [436, "Bronzor", 3],
+    [437, "Bronzong", 3],
+    [438, "Bonsly", 3],
+    [439, "Mime Jr", 8],
+    [440, "Happiny", 3],
+    [441, "Chatot", 2],
+    [442, "Spiritomb", 99],
+    [443, "Gible", 5],
+    [444, "Gabite", 5],
+    [445, "Garchomp", 5],
+    [446, "Munchlax", 2],
+    [447, "Riolu", 4],
+    [448, "Lucario", 4],
+    [449, "Hippopotas", 3],
+    [450, "Hippowdon", 3],
+    [451, "Skorupi", 3],
+    [452, "Drapion", 3],
+    [453, "Croagunk", 3],
+    [454, "Toxicroak", 3],
+    [455, "Carnivine", 3],
+    [456, "Finneon", 3],
+    [457, "Lumineon", 3],
+    [458, "Mantyke", 6],
+    [459, "Snover", 5],
+    [460, "Abomasnow", 5],
+    [461, "Weavile", 7],
+    [462, "Magnezone", 8],
+    [463, "Lickilicky", 8],
+    [464, "Rhyperior", 99],
+    [465, "Tangrowth", 99],
+    [466, "Electivire", 99],
+    [467, "Magmortar", 99],
+    [468, "Togekiss", 8],
+    [469, "Yanmega", 8],
+    [470, "Leafeon", 8],
+    [471, "Glaceon", 8],
+    [472, "Gliscor", 99],
+    [473, "Mamoswine", 8],
+    [474, "Porygon Z", 99],
+    [475, "Gallade", 8],
+    [476, "Probopass", 8],
+    [477, "Dusknoir", 99],
+    [478, "Froslass", 8],
+    [479, "Rotom", 8],
+    [480, "Uxie", 6],
+    [481, "Mesprit", 6],
+    [482, "Azelf", 6],
+    [483, "Dialga", 99],
+    [484, "Palkia", 6],
+    [485, "Heatran", 8],
+    [486, "Regigigas", 99],
+    [487, "Giratina", 8],
+    [488, "Cresselia", 8],
+    [489, "Phione", 99],
+    [490, "Manaphy", 99],
+    [491, "Darkrai", 99],
+    [492, "Shaymin", 99],
+    [493, "Arceus", 99],
+]
+
+unowns = []
+for i in range(0,27) array_push(unowns, mbyte(o_unownStart+i))
+
 // #endregion arrays
 
 
@@ -2570,7 +3598,7 @@ function eventFlag(addr, bit, inverted=false) {
 }
 function eventCounter(addrs, target, measured=false) {
     trigger = sum_of(addrs, addr=>mword(addr))==target
-    if(measured) trigger = measured(trigger)
+    if(measured) trigger = measured(trigger, when=gameState()>0)
     trigger = trigger && sum_of(addrs, addr=>prev(mword(addr)))==target-1
     
     return trigger
@@ -2580,10 +3608,14 @@ function countFlags(flags, total=-1) {
     if(total>-1) target = total
     
     trigger = 
-        measured(sum_of(flags, p => p)==target) &&
+        measured(sum_of(flags, p => p)==target, when=gameState()>0) &&
         sum_of(flags, p => prev(p))==target-1
     
     return trigger
+}
+function dexFlag(dexNumber) {
+    dexIndex = dexNumber - 1
+    return bit(dexIndex%8, gamePointer() + o_dexStart + (dexIndex/8))
 }
 
 function filterListByZone(list, zone) {
@@ -2613,12 +3645,217 @@ function getItemByDialog(id, ammount=1) {
     return trigger
 }
 
+function captureMon(monId=-1) {
+    trigger =
+        sanity(GS_BATTLE) &&
+        musicId() == MUSIC_BATTLE_WIN_WILD &&
+        prev(musicId()) == MUSIC_BATTLE && 
+        opponentMonHp() > 0 
+    
+    if(monId>0) trigger = trigger && opponentMonId() == monId
+    
+    return trigger
+}
+
 function beltReward(stage) {
     beltReward = mword(o_EventsBeltMan)
     trigger =
         prev(beltReward) == (stage-1)%3 &&
         beltReward == stage%3 &&
         sanity(GS_OW, MAP_Route221HouseBeltGuy)
+    
+    return trigger
+}
+
+function collectibleBerryBest() {
+    trigger = sanity(GS_OW) && tally_of(berries, length(berries), berry => once(berryId(berry)>0 && prev(berryId(berry)==0)))
+    
+    return trigger
+}
+
+function collectibleSeals() {
+    total = length(seals)
+    sum = sum_of(seals, s => s/s)
+    return sanity(GS_OW) && sum==total && prev(sum)==total-1
+}
+
+function collectibleDex(half=false) {
+    filterDex = []
+    for i in dex if(i[PK_PHASE]<99) array_push(filterDex, dexFlag(i[PK_NUMBER]))
+    
+    total = length(filterDex) - 6 // adjustment for non obtainable starters
+    if(half) total = total/2
+    
+    return sanity() && countFlags(filterDex, total)
+}
+
+function lotteryWin() {
+    trigger =
+        sanity(GS_OW, MAP_JubilifeTv1F) && (
+            any_of(backdrops, bd => bd<12 && prev(bd)==12) ||
+            getItemByDialog(IT_PPUP) || getItemByDialog(IT_EXPSHARE) || 
+            getItemByDialog(IT_MASTERBALL) || getItemByDialog(IT_MAXREVIVE)
+        )
+    
+    return trigger
+}
+
+function threeMudballs() {
+    trigger =
+        any_of(greatMarshIds, id => mapId() == id) &&
+        tally(3, fleeRate() < prev(fleeRate())) &&
+        disable_when(catchRate() > prev(catchRate()), until=gameState()==GS_OW) &&
+        trigger_when(captureMon())
+        
+    return trigger
+}
+
+function perfectMudball() {
+    trigger =
+        sanity(GS_BATTLE) &&
+        any_of(greatMarshIds, id => mapId() == id) &&
+        fleeRate() < prev(fleeRate()) &&
+        catchRate() == prev(catchRate())
+    
+    return trigger
+}
+function threeBaitballs() {
+    trigger =
+        any_of(greatMarshIds, id => mapId() == id) &&
+        tally(3, catchRate() > prev(catchRate())) &&
+        disable_when(fleeRate() < prev(fleeRate()), until=gameState()==GS_OW) &&
+        trigger_when(captureMon())
+        
+    return trigger
+}
+
+function perfectBaitball() {
+    trigger =
+        sanity(GS_BATTLE) &&
+        any_of(greatMarshIds, id => mapId() == id) &&
+        catchRate() > prev(catchRate()) &&
+        fleeRate() == prev(fleeRate())
+    
+    return trigger
+}
+
+function pillarGifts() {
+    trigger =
+        sanity(GS_OW) &&
+        once(mapId()==MAP_TurnbackCaveGiratinaRoom && getItemByDialog(IT_STARDUST)) &&
+        once(mapId()==MAP_TurnbackCaveGiratinaRoom && getItemByDialog(IT_RAREBONE)) &&
+        once(mapId()==MAP_TurnbackCaveGiratinaRoom && getItemByDialog(IT_REAPERCLOTH)) &&
+        never(gameState() == 0)
+    
+    return trigger
+}
+
+function chateauGhosts() {
+    trigger = 
+        sanity(GS_OW) &&
+        once(mword(o_EventsOldChateauGhost1)==1) &&
+        once(mword(o_EventsOldChateauGhost2)==1) &&
+        never(mapId() == MAP_EternaForest)
+        
+    return trigger
+}
+
+function contestVisual() {
+    rank = mword(o_InDialogItemPickedId) // yeah, it's the same address
+    
+    trigger = 
+        sanity() &&
+        rank == 0x3 &&
+        prev(contestVisualStageConditionHearts())+prev(contestVisualStageDressUpHearts()) == 1 &&
+        measured(contestVisualStageConditionHearts()+contestVisualStageDressUpHearts() == 12, when=gameState()==GS_CONTEST_1)
+    
+    return trigger
+}
+
+function contestDance() {
+    rank = mword(o_InDialogItemPickedId)
+    
+    trigger = 
+        sanity() &&
+        rank == 0x3 &&
+        prev(contestDanceStageYourScore()) == 62 &&
+        measured(contestDanceStageYourScore() == 64, when=gameState()==GS_CONTEST_2)
+    
+    return trigger
+}
+
+function contestActing() {
+    rank = mword(o_InDialogItemPickedId)
+    
+    trigger = 
+        sanity() &&
+        rank == 0x3 &&
+        prev(contestActingStageYourScore()) < 20 &&
+        measured(contestActingStageYourScore() >= 20, when=gameState()==GS_CONTEST_3)
+    
+    return trigger
+}
+
+function getUnowns() {
+    total = 28
+    return measured((total - sum_of(unowns, p => p / 0xff)) == total)
+}
+
+function restaurantBattles() {
+    table1 = mbit(2, 0x0000e23c)
+    table2 = mbit(3, 0x0000e23c)
+    table3 = mbit(4, 0x0000e23c)
+    table4 = mbit(5, 0x0000e23c)
+    table5 = mbit(6, 0x0000e23c)
+    table6 = mbit(7, 0x0000e23c)
+    table7 = mbit(0, 0x0000e23d)
+    table8 = mbit(1, 0x0000e23d)
+    table9 = mbit(2, 0x0000e23d)
+    
+    t1t1 = mbit(0, o_Trainers68)
+    t1t2 = mbit(7, o_Trainers69)
+    t2t1 = mbit(1, o_Trainers69)
+    t2t2 = mbit(2, o_Trainers69)
+    t3t1 = mbit(6, o_Trainers68)
+    t3t2 = mbit(7, o_Trainers68)
+    t4t1 = mbit(3, o_Trainers68)
+    t4t2 = mbit(7, o_Trainers67)
+    t5t1 = mbit(4, o_Trainers68)
+    t5t2 = mbit(4, o_Trainers69)
+    t6t1 = mbit(0, o_Trainers70)
+    t6t2 = mbit(0, o_Trainers69)
+    t7t1 = mbit(2, o_Trainers68)
+    t7t2 = mbit(3, o_Trainers69)
+    t8t1 = mbit(5, o_Trainers68)
+    t8t2 = mbit(6, o_Trainers69)
+    t9t1 = mbit(1, o_Trainers68)
+    t9t2 = mbit(5, o_Trainers69)
+    
+    tableTrainers = [ t1t1, t1t2, t2t1, t2t2, t3t1, t3t2, t4t1, t4t2, t5t1, t5t2, t6t1, t6t2, t7t1, t7t2, t8t1, t8t2, t9t1, t9t2 ]
+    
+    trigger = sanity(map=MAP_SevenStarsRestaurant) &&
+        (table1 == 0 && t1t1 == 1 && t1t2 == 1) &&
+        (table2 == 0 && t2t1 == 1 && t2t2 == 1) &&
+        (table3 == 0 && t3t1 == 1 && t3t2 == 1) &&
+        (table4 == 0 && t4t1 == 1 && t4t2 == 1) &&
+        (table5 == 0 && t5t1 == 1 && t5t2 == 1) &&
+        (table6 == 0 && t6t1 == 1 && t6t2 == 1) &&
+        (table7 == 0 && t7t1 == 1 && t7t2 == 1) &&
+        (table8 == 0 && t8t1 == 1 && t8t2 == 1) &&
+        (table9 == 0 && t9t1 == 1 && t9t2 == 1) &&
+        sum_of(tableTrainers, p=>p) > sum_of(tableTrainers, p=>prev(p))
+    
+    return trigger
+}
+
+function perfectPoffin() {
+    trigger =
+        sanity(GS_POFFIN) &&
+        prev(poffinResultScreenLevel()) == 0 &&
+        poffinResultScreenLevel() > 0 &&
+        poffinResultScreenTimesBurnt() == 0 &&
+        poffinResultScreenTimesSpilled() == 0 &&
+        poffinResultScreenSeconds() < 40
     
     return trigger
 }
@@ -2737,7 +3974,7 @@ function cheevoMissableZone(zone) {
     
     if(listHasElements(list, zone)) {
         myAchievement(
-            format("Missable - {0}", zone),
+            missableZonesTitles[zone],
             format("Defeat every {1} in {0}", zone, missableZones[zone]),
             10,
             completeZoneList(list, zone),
@@ -2768,7 +4005,7 @@ function cheevoStandard(cheevo) {
         cheevo[C_TITLE],
         cheevo[C_DESC],
         cheevo[C_POINTS],
-        sanity(GS_OW) && cheevo[C_TRIGGER]
+        sanity() && cheevo[C_TRIGGER]
     )
 }
 // #endregion cheevo functions
@@ -2810,12 +4047,12 @@ progression = [
     ["Bad Guy Cyrus", "Defeat Cyrus at the Spear Pillar", 10, eventCounter([o_EventsSpearPillar], 3)],
     ["Beacon of Hope", "Earn the Beacon Badge", 10, eventFlag(o_Badges, 7)],
     ["Countercurrent", "Get the HM07 Waterfall from Jasmine", 2, eventFlag(0x0000e203, 2)],
-    ["Boo-YAAAAAAHHHHHH!", "Defeat Barry at the Pokémon League", 10, eventCounter([o_EventsBarryLeague], 1)],
+    ["Boo-YAAAAAAHHHHHH!", "Defeat your rival at the Pokémon League", 10, eventCounter([o_EventsBarryLeague], 1)],
     ["Epic Piano Solo", "Defeat Cynthia, the Champion of Sinnoh", 25, eventFlag(0x0000e206, 4)],
 ]
 
 missables = [
-    ["Chronicles of the Childhood Rival", "Listen to everything Barry has to say on your escapade from Twinleaf Town", 1, eventCounter([o_EventsBarryDialogsWayToLake, o_EventsBarryDialogsBackFromLake], 7, true)],
+    ["Chronicles of the Childhood Rival", "Listen to everything your rival has to say on your escapade from Twinleaf Town", 1, eventCounter([o_EventsBarryDialogsWayToLake, o_EventsBarryDialogsBackFromLake], 7, true)],
     ["Chronicles of the Big Sister", "Listen to everything Cheryl has to say", 1, eventCounter([o_EventsCherylDialog], 2, true)],
     ["Chronicles of the Lost Child", "Listen to everything Mira has to say", 1, eventCounter([o_EventsMiraDialog], 2, true)],
     ["Chronicles of the Cool Guy", "Listen to everything Riley has to say", 1, eventCounter([o_EventsRileyDialog], 4, true)],
@@ -2867,25 +4104,77 @@ gifts = [
     ["One for Strength", "Receive a Black Belt from the old man living in Route 221", 2, beltReward(1)],
     ["One for Knowledge", "Receive a Expert Belt from the old man living in Route 221", 2, beltReward(2)],
     ["One for Endurance", "Receive a Focus Sash from the old man living in Route 221", 2, beltReward(3)],
-    //["Certified Feet Lover", "Receive a ribbon from Mr. Footstep", 4, getFootRibbon()],
+    // encryption based cheevos, disable until code work on ratools
+    //["Certified Feet Lover", "Receive a ribbon from Mr. Footstep", 4, always_false()],
+    //["\"A\" for Effort", "Get an Effort Ribbon from a lady in the Sunnyshore Market", 2, always_false()],
+    //["Stamp Race", "Get all Weekly Ribbons from Julia in a single Pokémon", 5, always_false()],
 ]
 
 collectibles = [
     ["Dress to Impress", "Get all the color scarves by showing incredible Pokémon to a certain trainer in Pastoria City", 10, countFlags([mbit(0, 0xe218), mbit(1, 0xe218), mbit(2, 0xe218), mbit(3, 0xe218), mbit(4, 0xe218)])],
     ["Minesweeper", "Complete the first 5 tasks of the Underground Man", 10, eventCounter([0x0000e11c], 5, true)],
     ["Fully Geared", "Get all obtainable Pokétch apps", 10, countFlags(poketchApps)],
-    ["Gotta Catch Some of 'em", "Register half the obtainable Pokémon in your Pokédex", 25, eventFlag(0x00000000, 0)],
-    ["Got to Catch 'em All", "Register all obtainable Pokémons in your Pokédex", 50, eventFlag(0x00000000, 0)],
-    ["Style and Substance", "Get all obtainable seals", 25, eventFlag(0x00000000, 0)],
+    ["Gotta Catch Some of 'em", "Register half the obtainable Pokémon in your Pokédex", 25, collectibleDex(true)],
+    ["Got to Catch 'em All", "Register all obtainable Pokémons in your Pokédex", 50, collectibleDex()],
+    ["Style and Substance", "Get all obtainable seals", 25, collectibleSeals()],
     ["Skiddo Toilet Fanum Tax", "Learn all the trendy words", 10, countFlags(trendyWords)],
-    ["The Legend of Sinnoh", "Collect all the type plates scattered across Sinnoh (not digging)", 10, countFlags(plates)],
-    ["I Wanna Be the Berry Best", "Plant a berry in every tile of soil in the same session", 10, eventFlag(0x00000000, 0)],
+    ["The Legend of Sinnoh", "Collect all the type plates scattered across Sinnoh (not digging)", 10, countFlags(array_map(plates, p=>p[I_ADDR]))],
+    ["I Wanna Be the Berry Best", "Plant a berry in every tile of soil in the same session", 10, collectibleBerryBest()],
     ["Do Your Dailies!", "Complete all daily activities in a single session", 10, countFlags(dailyEvents)],
-    ["Wallpaper Engine", "Obtain all PC box wallpapers", 5, eventFlag(0x00000000, 0)],
+    ["Wallpaper Engine", "Obtain all PC box wallpapers", 5, countFlags([mbit(0, o_PcBoxWallpapers), mbit(1, o_PcBoxWallpapers), mbit(2, o_PcBoxWallpapers), mbit(3, o_PcBoxWallpapers), mbit(4, o_PcBoxWallpapers), mbit(5, o_PcBoxWallpapers), mbit(6, o_PcBoxWallpapers), mbit(7, o_PcBoxWallpapers)])],
+    ["Elm's Letter Adventure", "See all Unown forms at least once", 5, getUnowns()],
 ]
 
 misc = [
-
+    ["Your Lucky Number", "Win an item in the lottery", 5, lotteryWin()],
+    ["Everyone is Happy with Wi-fi Connection!", "Unlock Mystery Gift", 1, eventFlag(o_MysteryGift, 0)],
+    ["Frickin' Floon Friday", "Catch a Drifloon", 3, captureMon(DRIFLOON)],
+    ["Mother, I Crave Violence", "Catch a Gible", 2, captureMon(GIBLE)],
+    ["Ugly Duckling", "Catch a Feebas", 5, captureMon(FEEBAS)],
+    ["Sweet Victory", "Catch a Munchlax", 10, captureMon(MUNCHLAX)],
+    ["I Can See the Light", "Help Mira get out of Wayward Cave", 3, eventCounter([o_EventsMira], 2)],
+    ["Mulch Me Up", "Recollect a berry you used some mulch on", 1, any_of(berries, b => berryId(b)==0 && prev(berryId(b))>0 && prev(berryMulch(b))>0)],
+    ["Expert Horticulturist", "Recollect 15 berries from a single berry plant", 10, any_of(berries, b => berryId(b)==0 && prev(berryId(b))>0 && prev(berryAmmount(b))==15)],
+    ["Hey There, Bebe", "Meet the creator of the Pokémon Storage System", 1, eventFlag(0x0000e31f, 6)],
+    ["Form, Not Function", "Restore the Hallowed Tower", 2, eventFlag(0x0000e0c4, 0)],
+    ["Treasure Trove", "Get the treasure from Solaceon Ruins", 3, countFlags([mbit(1, o_Items13), mbit(2, o_Items13), mbit(3, o_Items13), mbit(4, o_Items13)])],
+    ["Research Completed", "Complete the Ruin Maniac Cave tunnel and reach the end", 10, prev(mapId())==MAP_ManiacTunnelFinalPhase && mapId()==MAP_SolaceonRuins1F],
+    ["Where Is Carnivine?", "Use the binoculars to check out some Pokémon in the Great Marsh", 1, eventFlag(0x0000e31f, 4) && prev(mapId())==MAP_PastoriaGreatMarshBinoculars],
+    ["Bully", "Catch a Pokémon in the Great Marsh to which you threw no bait and at least 3 mud balls", 5, threeMudballs()],
+    ["Three Platter Banquet", "Catch a Pokémon in the Great Marsh to which you threw no mud and at least 3 bait balls", 5, threeBaitballs()],
+    ["Beside Itself in Anger", "Throw a perfect mud ball to a Pokémon in the Great Marsh, decreasing only its escape rate", 2, perfectMudball()],
+    ["Busy Eating", "Throw a perfect bait ball to a Pokémon in the Great Marsh, increasing only its catch rate", 4, perfectBaitball()],
+    ["Paint Me Like One of your Kalosian Girls", "Dress up a Pokémon in the Jubilife TV dressing room", 2, mword(o_PaintingJubilifeTvSlot1)!=0x1234 && prev(mword(o_PaintingJubilifeTvSlot1))==0x1234 && sanity(map=MAP_JubilifeTv2FPaintingRoom)],
+    ["I Go Out to Work on Monday Morning", "On monday, defeat Reporter Kinsley in Jubilife TV", 1, eventFlag(o_Trainers47, 2) && sanity(GS_OW, MAP_JubilifeTv1F)],
+    ["Tuesday, I Go Off to Honeymoon", "On tuesday, defeat Cameraman Tevin in Jubilife TV", 1, eventFlag(o_Trainers47, 1) && sanity(GS_OW, MAP_JubilifeTv1F)],
+    ["Bicycling on Every Wednesday Evening", "On wednesday, defeat Clown Lee in Jubilife TV", 1, eventFlag(o_Trainers58, 4) && sanity(GS_OW, MAP_JubilifeTv1F)],
+    ["Thursday, I Go Waltzing to the Zoo", "On thursday, defeat Interviewers Roxy & Oli in Jubilife TV", 1, eventFlag(o_Trainers47, 0) && sanity(GS_OW, MAP_JubilifeTv1F)],
+    ["Fridays, I Go Painting in the Louvre", "On friday, defeat Poké Kid Ariel in Jubilife TV", 1, eventFlag(o_Trainers59, 1) && sanity(GS_OW, MAP_JubilifeTv1F)],
+    ["I'm Bound to Be Proposing on a Saturday Night", "On saturday, defeat Guitarist Arturo in Jubilife TV", 1, eventFlag(o_Trainers54, 7) && sanity(GS_OW, MAP_JubilifeTv1F)],
+    ["Lazing on a Sunday Afternoon", "On sunday, defeat Idol Grace in Jubilife TV", 1, eventFlag(o_Trainers47, 3) && sanity(GS_OW, MAP_JubilifeTv1F)],
+    ["Draconic Apocalypse", "Have a Pokémon learn Draco Meteor from Grandma Wilma", 5, sanity(GS_TUTOR, MAP_Route210HouseGrandmaWilma) && dialogIdInMoveTutor()==5 && prev(dialogIdInMoveTutor())==6],
+    ["History Lesson", "Be shown the picture of the other ancient being that created Sinnoh by Cynthia's grandma", 1, eventFlag(0x0000e218, 5)],
+    ["F is for Fren", "Get a gift from your Pokémon at Amity Square", 2, sanity(GS_OW, MAP_AmitySquare) && prev(stepsSinceLastAmitySquareGift())>=200 && stepsSinceLastAmitySquareGift()==0],
+    ["It's Warm", "Learn about the current swarm from Rowan's assistant's little sister", 1, sanity(GS_OW, MAP_SandgemHouseAssistant1F) && swarmMonId()>0 && prev(swarmMonId()) == 0],
+    ["... Thanks", "Help Marley get through the Victory Road", 5, eventCounter([o_EventsMarley], 2)],
+    ["Big if True", "Learn about an unusual Pokémon visiting the Trophy Garden", 2, eventFlag(o_DailyEvents1, 2)],
+    ["Blessing of the Moon Light", "Cure the son of Sailor Eldritch with the Lunar Wing", 1, eventCounter([o_EventsCanalaveEldritchQuest], 3)],
+    ["Gifts of the Pillars", "Get a Stardust, a Rare Bone and a Reaper Cloth from Turnback Cave in the same session", 10, pillarGifts()],
+    ["Rocks in the Bucket", "Help Buck get through the Stark Mountain", 5, eventCounter([o_EventsBuck], 2)],
+    ["Cool, Cooler, Coolest", "Win a Cool Master Rank Super Contest", 10, eventFlag(0x0000e31d, 0)],
+    ["Beauty Is in the Eye of the Beholder", "Win a Beauty Master Rank Super Contest", 10, eventFlag(0x0000e31d, 1)],
+    ["Cute as a Button", "Win a Cute Master Rank Super Contest", 10, eventFlag(0x0000e31d, 2)],
+    ["As a Smart Man Once Said...", "Win a Smart Master Rank Super Contest", 10, eventFlag(0x0000e31d, 3)],
+    ["As Tough as Old Boots", "Win a Tough Master Rank Super Contest", 10, eventFlag(0x0000e31d, 4)],
+    ["Better Call Luigi", "Witness all the unnatural happenings in the Old Chateau in a single visit", 5, chateauGhosts()],
+    ["Ultimate Move", "Have a Pokémon learn an ultimate move from an old man in Route 228", 5, sanity(GS_TUTOR, MAP_Route228HouseUltimateMoves) && dialogIdInMoveTutor()==5 && prev(dialogIdInMoveTutor())==6],
+    ["Barge in the Burgeoisie", "Become a member of the Ribbon Society", 5, eventCounter([o_EventsRibbonSociety], 1)],
+    ["Y'all Know What Time it Is!", "Defeat your rival at the Fight Area", 10, eventFlag(o_DailyEvents3, 2)],
+    ["Master of Looks", "Obtain 12 hearts in a Master rank Super Contest visual stage", 10, contestVisual()],
+    ["Master of Groove", "Beat the dance stage of a Master rank Super Contest with the maximum points possible", 25, contestDance()],
+    ["Master of Performance", "Obtain at least 20 hearts in the acting stage of a Master rank Super Contest", 10, contestActing()],
+    ["Hold On, Let 'em Cook", "Cook a Poffin without spillages or burns in less than 40 seconds", 10, perfectPoffin()],
+    ["Experience in a Silver Platter", "Defeat all trainers visiting the Restaurant Seven Stars on any given day", 5, restaurantBattles()],
 ]
 // #endregion cheevos
 
@@ -2894,6 +4183,8 @@ misc = [
 for prog in progression cheevoProgression(prog)
 for miss in missables cheevoMissable(miss)
 for gift in gifts cheevoStandard(gift)
+for collectible in collectibles cheevoStandard(collectible)
+for m in misc cheevoStandard(m)
 for zone in missableZones cheevoMissableZone(zone)
 for zone in zones {
     cheevoAllTreasures(zone)
