@@ -5,6 +5,10 @@
 cheevoId = 493533
 function cheevoIdPlus() {
     cheevoId = cheevoId + 1
+    //if(cheevoId==493617) cheevoId = cheevoId + 1 // Certified Feet Lover
+    //if(cheevoId==493618) cheevoId = cheevoId + 1 // "A" for Effort
+    //if(cheevoId==493619) cheevoId = cheevoId + 1 // Stamp Race
+    //if(cheevoId==493682) cheevoId = cheevoId + 1 // Eterna Gym Skirmish, repurposed for Windworks Grunt Brush
 }
 function myAchievement(title, description, points, trigger, mtype="") {
     achievement(title, description, points, trigger, cheevoId, type=mtype)
@@ -14,6 +18,7 @@ function myAchievement(title, description, points, trigger, mtype="") {
 // #region addresses
 a_regionalPointer = 0x000B70
 o_gamePointer = 0xc
+o_musicId = 0xBCDE4
 
 o_MysteryGift = 0x00D25C
 o_PlayerTid = 0x00D288
@@ -780,6 +785,13 @@ o_PoffinResultScreenLevel = 0x054e8d
 o_PoffinResultScreenSeconds = 0x054e8f
 o_PoffinResultScreenCentiseconds = 0x054e90
 
+o_PokemonSummaryRibbons1 = 0x04fc94
+o_PokemonSummaryRibbons2 = 0x04fc95
+o_PokemonSummaryRibbons3 = 0x04fc96
+o_PokemonSummaryRibbons4 = 0x04fc97
+o_PokemonSummaryRibbons5 = 0x04fc98
+o_PokemonSummaryRibbons6 = 0x04fc99
+
 o_dexStart = 0x00e4f4
 o_unownStart = 0xe5fc
 
@@ -801,7 +813,7 @@ function mtbyte(offset) => tbyte(gamePointer()+offset)
 function mdword(offset) => dword(gamePointer()+offset)
 function mbit(i, offset) => bit(i, gamePointer()+offset)
 
-function musicId() => word(a_musicId)
+function musicId() => word(regionalPointer()+o_musicId)
 function mapId() => mword(o_MapId)
 function gameState() => mbyte(o_GameState)
 function dialogIdInMoveTutor() => mbyte(o_DialogIdInMoveTutor)
@@ -846,6 +858,9 @@ FEEBAS = 349
 GIBLE = 443
 
 MUSIC_BATTLE = 0x45c
+MUSIC_BATTLE_LAKE_TRIO = 0x45e
+MUSIC_BATTLE_PALKIA = 0x461
+MUSIC_BATTLE_LEGENDARY = 0x466
 MUSIC_BATTLE_WIN_WILD = 0x467
 
 GS_NOLOAD = 0x0 // not loaded
@@ -1387,19 +1402,20 @@ SUNNY = "Sunny Shores"
 LAST = "Last Stretch"
 BATTLEZ = "Battle Zone"
 
-GYM1 = "Oreburgh Gym"
-GALACTIC_BUILDING = "the Galactic Building"
-GYM2 = "Eterna Gym"
-GYM3 = "Veilstone Gym"
-GYM4 = "Pastoria Gym"
-GYM5 = "Hearthome Gym"
-GYM6 = "Canalave Gym"
-DRIED_LAKE = "the dried up Lake Valor"
-LAKE_VERITY = "Lake Verity"
-GYM7 = "Snowpoint Gym"
-GALACTIC_HQ = "the Galatic Warehouse and Galactic HQ"
-GALACTIC_CORONET = "Mt. Coronet"
-GYM8 = "Sunnyshore Gym"
+GYM1 = "01Oreburgh Gym"
+WINDWORKS = "02Valley Windworks"
+GALACTIC_BUILDING = "03the Galactic Building"
+GYM2 = "04Eterna Gym"
+GYM3 = "05Veilstone Gym"
+GYM4 = "06Pastoria Gym"
+GYM5 = "07Hearthome Gym"
+GYM6 = "08Canalave Gym"
+DRIED_LAKE = "09the dried up Lake Valor"
+LAKE_VERITY = "10Lake Verity"
+GYM7 = "11Snowpoint Gym"
+GALACTIC_HQ = "12the Galatic Warehouse and Galactic HQ"
+GALACTIC_CORONET = "13Mt. Coronet"
+GYM8 = "14Sunnyshore Gym"
 
 MISS_TRAINER = "trainer"
 MISS_GRUNT = "grunt"
@@ -1429,7 +1445,7 @@ zones = {
 missableZones = {
     GYM1: MISS_TRAINER,
     GALACTIC_BUILDING: MISS_TRAINER,
-    GYM2: MISS_TRAINER,
+    WINDWORKS: MISS_GRUNT,
     GYM3: MISS_TRAINER,
     GYM4: MISS_TRAINER,
     GYM5: MISS_TRAINER,
@@ -1445,7 +1461,7 @@ missableZones = {
 missableZonesTitles = {
     GYM1: "Gym Skirmish: Oreburgh",
     GALACTIC_BUILDING: "Grunt Brush: Eterna Building",
-    GYM2: "Gym Skirmish: Eterna",
+    WINDWORKS: "Grunt Brush: Valley Windworks",
     GYM3: "Gym Skirmish: Veilstone",
     GYM4: "Gym Skirmish: Pastoria",
     GYM5: "Gym Skirmish: Hearthome",
@@ -1458,11 +1474,11 @@ missableZonesTitles = {
     GYM8: "Gym Skirmish: Sunnyshore"
 }
 
-gifts = [
+presents = [
     ["Potion", BRAVE, mbit(4, 0x0000e1fd)],
     
     ["Quick claw", ROCK, mbit(7, 0x0000e207)],
-    ["TM76 Stealth Rock", ROCK, mbit(5, 0x0000e1fe)],
+    //["TM76 Stealth Rock", ROCK, mbit(5, 0x0000e1fe)],
     ["Heal Ball", ROCK, mbit(0, 0x0000e208)],
     ["Dusk Ball", ROCK, mbit(1, 0x0000e208)],
     ["TM78 Captivate", ROCK, mbit(5, 0x0000e208)],
@@ -1509,7 +1525,7 @@ gifts = [
     ["Metal Coat", WATER, mbit(5, 0x0000e213)],
     
     ["Icicle Plate", SNOWY, mbit(6, 0x0000e20b)],
-    ["Spell Tag", SNOWY, mbit(5, 0x0000e217)],
+    ["Spell Tag", SNOWY, mbit(3, 0x0000e217)],
     
     ["TM56 Fling", SUNNY, mbit(6, 0x0000e209)],
     
@@ -1734,7 +1750,7 @@ hiddenItems = [
     ["Great Ball", WET, mbit(2, o_HiddenItems24)],
     ["Calcium", WET, mbit(3, o_HiddenItems24)],
     ["Super Potion", WET, mbit(4, o_HiddenItems24)],
-    //["", "", mbit(, o_HiddenItems24)],
+    ["Stardust", METRO, mbit(5, o_HiddenItems24)],
     ["Great Ball", METRO, mbit(6, o_HiddenItems24)],
     ["Hyper Potion", FOG, mbit(7, o_HiddenItems24)],
 
@@ -2385,8 +2401,8 @@ trainers = [
     ["Collector Brady", VERTICAL, mbit(0, o_Trainers35)],
     ["Collector Douglas", VERTICAL, mbit(1, o_Trainers35)],
     ["Collector Ivan", WATER, mbit(2, o_Trainers35)],
-    ["Collector Fernando", "CafeCabin", mbit(3, o_Trainers35)],
-    ["Collector Edwin", "CafeCabin", mbit(4, o_Trainers35)],
+    ["Collector Fernando", FOG, mbit(3, o_Trainers35)],
+    ["Collector Edwin", FOG, mbit(4, o_Trainers35)],
     ["Dragon Tamer Hayden", LAST, mbit(5, o_Trainers35)],
     ["Ace Trainer Dennis", FOG, mbit(6, o_Trainers35)],
     ["Ace Trainer Cesar", GYM6, mbit(7, o_Trainers35)],
@@ -2411,8 +2427,8 @@ trainers = [
 
     //["", "", mbit(, o_Trainers38)],
     //["", "", mbit(, o_Trainers38)],
-    ["G. Grunt 1", FLOWER, mbit(2, o_Trainers38)],
-    ["G. Grunt 2", FLOWER, mbit(3, o_Trainers38)],
+    ["G. Grunt 1", WINDWORKS, mbit(2, o_Trainers38)],
+    ["G. Grunt 2", WINDWORKS, mbit(3, o_Trainers38)],
     ["Guitarist Tony", WATER, mbit(4, o_Trainers38)],
     ["Guitarist Jerry", GYM8, mbit(5, o_Trainers38)],
     ["Guitarist Preston", GYM8, mbit(6, o_Trainers38)],
@@ -2487,7 +2503,7 @@ trainers = [
     //["", "", mbit(, o_Trainers46)],
     //["", "", mbit(, o_Trainers46)],
     //["", "", mbit(, o_Trainers46)],
-    ["Waitress Kati ", "CafeCabin", mbit(6, o_Trainers46)],
+    ["Waitress Kati ", FOG, mbit(6, o_Trainers46)],
     ["Worker Gerardo", GYM6, mbit(7, o_Trainers46)],
 
     //["", "", mbit(, o_Trainers47)],
@@ -2635,7 +2651,7 @@ trainers = [
     ["G. Grunt 5", GALACTIC_CORONET, mbit(7, o_Trainers65)],
 
     ["G. Grunt 9", GALACTIC_CORONET, mbit(0, o_Trainers66)],
-    ["G. Grunt pair 1 female", GALACTIC_HQ, mbit(1, o_Trainers66)],
+    //["", "", mbit(, o_Trainers66)],
     ["G. Grunt pair 2 female", GALACTIC_HQ, mbit(2, o_Trainers66)],
     ["G. Grunt 1", GALACTIC_CORONET, mbit(3, o_Trainers66)],
     ["G. Grunt 6", GALACTIC_CORONET, mbit(4, o_Trainers66)],
@@ -2733,14 +2749,14 @@ trainers = [
     ["Veteran Harlan", BATTLEZ, mbit(6, o_Trainers76)],
     //["", "", mbit(, o_Trainers76)],
 
-    ["Scientist Travon", "GalacticBuilding?isbit7?", mbit(0, o_TrainersExtra1)],
+    //["", "", mbit(, o_TrainersExtra1)],
     //["", "", mbit(, o_TrainersExtra1)],
     //["", "", mbit(, o_TrainersExtra1)],
     ["Ace Trainer Anton", GYM7, mbit(3, o_TrainersExtra1)],
     ["Ace Trainer Brenna", GYM7, mbit(4, o_TrainersExtra1)],
     ["Scientist Darrius", GALACTIC_HQ, mbit(5, o_TrainersExtra1)],
     ["Scientist Fredrick", GALACTIC_HQ, mbit(6, o_TrainersExtra1)],
-    ["?", "bit7 //?", mbit(7, o_TrainersExtra1)],
+    ["Scientist Travon", GALACTIC_BUILDING, mbit(7, o_TrainersExtra1)],
 
     ["Poke Kid Janet", SUNNY, mbit(0, o_TrainersExtra2)],
     //["", "", mbit(, o_TrainersExtra2)],
@@ -3609,7 +3625,8 @@ function countFlags(flags, total=-1) {
     
     trigger = 
         measured(sum_of(flags, p => p)==target, when=gameState()>0) &&
-        sum_of(flags, p => prev(p))==target-1
+        sum_of(flags, p => prev(p))<target &&
+        sum_of(flags, p => prev(p))>0
     
     return trigger
 }
@@ -3645,11 +3662,11 @@ function getItemByDialog(id, ammount=1) {
     return trigger
 }
 
-function captureMon(monId=-1) {
+function captureMon(monId=-1, music=MUSIC_BATTLE) {
     trigger =
         sanity(GS_BATTLE) &&
         musicId() == MUSIC_BATTLE_WIN_WILD &&
-        prev(musicId()) == MUSIC_BATTLE && 
+        prev(musicId()) == music && 
         opponentMonHp() > 0 
     
     if(monId>0) trigger = trigger && opponentMonId() == monId
@@ -3668,7 +3685,13 @@ function beltReward(stage) {
 }
 
 function collectibleBerryBest() {
-    trigger = sanity(GS_OW) && tally_of(berries, length(berries), berry => once(berryId(berry)>0 && prev(berryId(berry)==0)))
+    trigger = 
+        measured(
+            tally_of(berries, length(berries), berry => 
+                sanity(GS_OW) && once(berryId(berry)>0 && prev(berryId(berry)==0))
+            ), 
+        when=sanity() && gameState()>0) &&
+        never(gamePointer()==0)
     
     return trigger
 }
@@ -3692,7 +3715,7 @@ function collectibleDex(half=false) {
 function lotteryWin() {
     trigger =
         sanity(GS_OW, MAP_JubilifeTv1F) && (
-            any_of(backdrops, bd => bd<12 && prev(bd)==12) ||
+            any_of(backdrops, bd => bd<0x12 && prev(bd)==0x12) ||
             getItemByDialog(IT_PPUP) || getItemByDialog(IT_EXPSHARE) || 
             getItemByDialog(IT_MASTERBALL) || getItemByDialog(IT_MAXREVIVE)
         )
@@ -3703,9 +3726,10 @@ function lotteryWin() {
 function threeMudballs() {
     trigger =
         any_of(greatMarshIds, id => mapId() == id) &&
-        tally(3, fleeRate() < prev(fleeRate())) &&
+        tally(3, fleeRate() < prev(fleeRate()) && gameState()==GS_BATTLE && prev(gameState())==gameState()) &&
         disable_when(catchRate() > prev(catchRate()), until=gameState()==GS_OW) &&
-        trigger_when(captureMon())
+        trigger_when(captureMon()) &&
+        never(mapId()==MAP_PastoriaGreatMarshHub)
         
     return trigger
 }
@@ -3722,9 +3746,10 @@ function perfectMudball() {
 function threeBaitballs() {
     trigger =
         any_of(greatMarshIds, id => mapId() == id) &&
-        tally(3, catchRate() > prev(catchRate())) &&
+        tally(3, catchRate() > prev(catchRate()) && gameState()==GS_BATTLE && prev(gameState())==gameState()) &&
         disable_when(fleeRate() < prev(fleeRate()), until=gameState()==GS_OW) &&
-        trigger_when(captureMon())
+        trigger_when(captureMon()) &&
+        never(mapId()==MAP_PastoriaGreatMarshHub)
         
     return trigger
 }
@@ -3798,7 +3823,11 @@ function contestActing() {
 
 function getUnowns() {
     total = 28
-    return measured((total - sum_of(unowns, p => p / 0xff)) == total)
+    trigger = 
+        measured((total - sum_of(unowns, p => p / 0xff)) == total, when=(gameState()>0 && sanity())) && 
+        (total - sum_of(unowns, p => prev(p) / 0xff)) == total-1
+    
+    return trigger
 }
 
 function restaurantBattles() {
@@ -3833,16 +3862,19 @@ function restaurantBattles() {
     
     tableTrainers = [ t1t1, t1t2, t2t1, t2t2, t3t1, t3t2, t4t1, t4t2, t5t1, t5t2, t6t1, t6t2, t7t1, t7t2, t8t1, t8t2, t9t1, t9t2 ]
     
+    // tables are 0 when available, 1 when not
+    // trainers are 0 when not available/not defeated, 1 when defeated
+    // XOR should return 1 when table not available and trainer not defeated; and when table available and trainer defeated
     trigger = sanity(map=MAP_SevenStarsRestaurant) &&
-        (table1 == 0 && t1t1 == 1 && t1t2 == 1) &&
-        (table2 == 0 && t2t1 == 1 && t2t2 == 1) &&
-        (table3 == 0 && t3t1 == 1 && t3t2 == 1) &&
-        (table4 == 0 && t4t1 == 1 && t4t2 == 1) &&
-        (table5 == 0 && t5t1 == 1 && t5t2 == 1) &&
-        (table6 == 0 && t6t1 == 1 && t6t2 == 1) &&
-        (table7 == 0 && t7t1 == 1 && t7t2 == 1) &&
-        (table8 == 0 && t8t1 == 1 && t8t2 == 1) &&
-        (table9 == 0 && t9t1 == 1 && t9t2 == 1) &&
+        (table1 ^ t1t1 == 1) &&
+        (table2 ^ t2t1 == 1) &&
+        (table3 ^ t3t1 == 1) &&
+        (table4 ^ t4t1 == 1) &&
+        (table5 ^ t5t1 == 1) &&
+        (table6 ^ t6t1 == 1) &&
+        (table7 ^ t7t1 == 1) &&
+        (table8 ^ t8t1 == 1) &&
+        (table9 ^ t9t1 == 1) &&
         sum_of(tableTrainers, p=>p) > sum_of(tableTrainers, p=>prev(p))
     
     return trigger
@@ -3860,15 +3892,43 @@ function perfectPoffin() {
     return trigger
 }
 
+function partyLeadDataChange(map) {
+    trigger =
+        sanity(GS_OW, map) &&
+        partyLeadPv() == prev(partyLeadPv()) &&
+        partyLeadChecksum() != prev(partyLeadChecksum())
+    
+    return trigger
+}
+
+function allWeeklyRibbons() {
+    ribbons = [
+        mbit(3, o_PokemonSummaryRibbons4), // Alert
+        mbit(4, o_PokemonSummaryRibbons4), // Shock
+        mbit(5, o_PokemonSummaryRibbons4), // Downcast
+        mbit(6, o_PokemonSummaryRibbons4), // Careless
+        mbit(7, o_PokemonSummaryRibbons4), // Relax
+        mbit(0, o_PokemonSummaryRibbons5), // Snooze
+        mbit(1, o_PokemonSummaryRibbons5), // Smile
+    ]
+    
+    trigger =
+        sanity(GS_SUMMARY) &&
+        all_of(ribbons, r => r == 1)
+    
+    return trigger
+}
+
 // for the sake of clarity, the inputs will be exactly as shown on Bulbapedia page
 // https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_data_structure_(Generation_IV)
 function decryptOffsetFlag(bulbaOffset, bulbaBit) { 
-    block = (bulbaOffset - 8) / 32 // which block, ABCD, does the offset passed lies on
+    offset = bulbaOffset - 8
+    block = offset / 32 // which block, ABCD, does the offset passed lies on
     A = 0
     B = 1
     C = 2
     D = 3
-    offset = (bulbaOffset - 8) % 32 // correction to use the offset directly on the 32 byte block
+    blockOffset = offset % 32 // correction to use the offset directly on the 32 byte block
     // we will use the bit as an & operator to access a 2-byte word. Hence, since the offsets are passed a singular bytes,
     // we need to adjust the bit to get the exact bit we need. 
     // - If the offset is even: we will use it as is. E.g. 0x02
@@ -3891,7 +3951,7 @@ function decryptOffsetFlag(bulbaOffset, bulbaBit) {
     // We can't know the suffling that is being used for this specific mon yet, so we will save an accessor for every possible block
     blockAccessors = []
     for i in range (0,3) {
-        array_push(blockAccessors, ((prng / 0x10000) ^ partyLeadBlockData(i, offset)) & bit)
+        array_push(blockAccessors, ((prng / 0x10000) ^ partyLeadBlockData(i, blockOffset)) & bit)
     }
     
     // next, we will calculate the shuffling. The shift value is calculated with the next formula
@@ -3904,7 +3964,7 @@ function decryptOffsetFlag(bulbaOffset, bulbaBit) {
     // an array of 4 elements, representing the position the block is in after the shuffling; and 
     // each element will be an array of the actual shifting value it would need to be in that position
     shuffleTable = {
-        A: [ [00,01,02,03,04,05], [07,08,12,13,18,19], [08,10,14,16,20,22], [09,11,15,17,21,23] ],
+        A: [ [00,01,02,03,04,05], [06,07,12,13,18,19], [08,10,14,16,20,22], [09,11,15,17,21,23] ],
         B: [ [06,07,08,09,10,11], [00,01,14,15,20,21], [02,04,12,17,18,23], [03,05,13,16,19,22] ],
         C: [ [12,13,14,15,16,17], [02,03,08,09,22,23], [00,05,06,11,19,21], [01,04,07,10,18,20] ],
         D: [ [18,19,20,21,22,23], [04,05,10,11,16,17], [01,03,07,09,13,15], [00,02,06,08,12,14] ]
@@ -3958,7 +4018,7 @@ function cheevoAllTrainers(zone) {
     }
 }
 function cheevoAllSecrets(zone) {
-    list = concatArrays(hiddenItems, gifts)
+    list = concatArrays(hiddenItems, presents)
     
     if(listHasElements(list, zone)) {
         myAchievement(
@@ -3975,7 +4035,7 @@ function cheevoMissableZone(zone) {
     if(listHasElements(list, zone)) {
         myAchievement(
             missableZonesTitles[zone],
-            format("Defeat every {1} in {0}", zone, missableZones[zone]),
+            format("Defeat every {1} in {0}", substring(zone,2), missableZones[zone]),
             10,
             completeZoneList(list, zone),
             "missable"
@@ -3996,7 +4056,7 @@ function cheevoMissable(cheevo) {
         cheevo[C_TITLE],
         cheevo[C_DESC],
         cheevo[C_POINTS],
-        sanity(GS_OW) && cheevo[C_TRIGGER],
+        sanity() && cheevo[C_TRIGGER],
         "missable"
     )
 }
@@ -4016,7 +4076,7 @@ function cheevoStandard(cheevo) {
 progression = [
     ["Journey Has Started", "Officially receive your starter", 1, eventFlag(0x0000e322,3)],
     ["Uncharted Parcel Service", "Deliver the Parcel to your rival", 1, eventFlag(0x0000e20e, 1)],
-    ["Latest Tech", "Exchange your coupons and receive a Pokétch", 1, eventCounter([o_PoketchAppInUse], 1)],
+    ["Latest Tech", "Exchange your coupons and receive a Pokétch", 1, eventCounter([o_EventsJubilifeCity], 2)],
     ["Don't Get Cooked...", "Defeat your rival at Route 203", 3, eventCounter([o_EventsRoute203], 1)],
     ["HULK SMASH", "Receive the HM06 Rock Smash", 1, eventFlag(0x0000e202, 3)],
     ["Who Deserves More Credit than the Wife of a Coal Miner", "Earn the Coal Badge", 5, eventFlag(o_Badges, 0)],
@@ -4039,8 +4099,8 @@ progression = [
     ["Bada Bada Bada Bada BLAM", "Beat your rival in Canalave City", 10, eventCounter([o_EventsCanalaveCity], 1)],
     ["What's Yours is Mine", "Earn the Mine Badge", 10, eventFlag(o_Badges, 5)],
     ["For All the Magikarp", "Defeat Saturn at the Valor Cavern", 5, eventFlag(0x0000e217, 6)],
-    ["Playing At Home", "Defeat Mars at Lake Verity", 5, eventFlag(0x0000e207, 2)], // CHECK
-    ["Faster Than Surfing", "Find the HM08 Rock Climb ", 2, eventFlag(o_Items21, 3)],
+    ["Playing At Home", "Defeat Mars at Lake Verity", 5, eventFlag(0x0000e207, 2)],
+    ["Faster Than Surfing", "Find the HM08 Rock Climb", 2, eventFlag(o_Items21, 3)],
     ["I See, Clever", "Earn the Icicle Badge", 10, eventFlag(o_Badges, 6)],
     ["Good Guy Cyrus", "Defeat Cyrus at Galactic HQ and receive the Master Ball", 5, eventCounter([o_EventsGalacticHqCyrus], 1)],
     ["Fly Free, Friends", "Free the Lake Guardians", 3, eventFlag(0x0000e23a, 4)],
@@ -4052,20 +4112,20 @@ progression = [
 ]
 
 missables = [
-    ["Chronicles of the Childhood Rival", "Listen to everything your rival has to say on your escapade from Twinleaf Town", 1, eventCounter([o_EventsBarryDialogsWayToLake, o_EventsBarryDialogsBackFromLake], 7, true)],
-    ["Chronicles of the Big Sister", "Listen to everything Cheryl has to say", 1, eventCounter([o_EventsCherylDialog], 2, true)],
-    ["Chronicles of the Lost Child", "Listen to everything Mira has to say", 1, eventCounter([o_EventsMiraDialog], 2, true)],
-    ["Chronicles of the Cool Guy", "Listen to everything Riley has to say", 1, eventCounter([o_EventsRileyDialog], 4, true)],
-    ["Space Lord", "Catch Palkia", 5, eventFlag(0x0000e530, 3)],
-    ["Being of Wisdom", "Catch Uxie", 5, eventFlag(0x0000e52f, 7)],
-    ["Being of Emotion", "Catch Mesprit", 5, eventFlag(0x0000e530, 0)],
-    ["Being of Courage", "Catch Azelf", 5, eventFlag(0x0000e530, 1)],
-    ["Chronicles of the Mysterious Maiden", "Listen to everything Marley has to say", 1, eventCounter([o_EventsMarleyDialog], 1)],
-    ["As Seen on TV!", "Catch Rotom", 3, eventFlag(0x0000e52f, 6)],
-    ["Sail to the Moon", "Catch Cresselia", 5, eventFlag(0x0000e530, 6)],
-    ["Chronicles of the Tough Boy", "Listen to everything Buck has to say", 1, eventCounter([o_EventsBuckDialog], 3, true)],
-    ["Looming Shadow", "Catch Giratina", 5, eventFlag(0x0000e530, 7)],
-    ["Eruption Incarnate", "Catch Heatran", 5, eventFlag(0x0000e530, 4)],
+    ["Chronicles of the Childhood Rival", "Listen to everything your rival has to say on your escapade from Twinleaf Town", 1, sanity(GS_OW) && eventCounter([o_EventsBarryDialogsWayToLake, o_EventsBarryDialogsBackFromLake], 7, true)],
+    ["Chronicles of the Big Sister", "Listen to everything Cheryl has to say", 1, sanity(GS_OW) && eventCounter([o_EventsCherylDialog], 2, true)],
+    ["Chronicles of the Lost Child", "Listen to everything Mira has to say", 1, sanity(GS_OW) && eventCounter([o_EventsMiraDialog], 2, true)],
+    ["Chronicles of the Cool Guy", "Listen to everything Riley has to say", 1, sanity(GS_OW) && eventCounter([o_EventsRileyDialog], 4, true)],
+    ["Space Lord", "Catch Palkia", 5, captureMon(484, MUSIC_BATTLE_PALKIA)],
+    ["Being of Wisdom", "Catch Uxie", 5, captureMon(480, MUSIC_BATTLE_LAKE_TRIO)],
+    ["Being of Emotion", "Catch Mesprit", 5, captureMon(481, MUSIC_BATTLE_LAKE_TRIO)],
+    ["Being of Courage", "Catch Azelf", 5, captureMon(482, MUSIC_BATTLE_LAKE_TRIO)],
+    ["Chronicles of the Mysterious Maiden", "Listen to everything Marley has to say", 1, sanity(GS_OW) && eventCounter([o_EventsMarleyDialog], 1)],
+    ["As Seen on TV!", "Catch Rotom", 3, captureMon(479, MUSIC_BATTLE_LEGENDARY)],
+    ["Sail to the Moon", "Catch Cresselia", 5, captureMon(488)],
+    ["Chronicles of the Tough Boy", "Listen to everything Buck has to say", 1, sanity(GS_OW) && eventCounter([o_EventsBuckDialog], 3, true)],
+    ["Looming Shadow", "Catch Giratina", 5, captureMon(487, MUSIC_BATTLE_LEGENDARY)],
+    ["Eruption Incarnate", "Catch Heatran", 5, captureMon(485, MUSIC_BATTLE_LEGENDARY)],
 ]
 
 gifts = [
@@ -4104,10 +4164,9 @@ gifts = [
     ["One for Strength", "Receive a Black Belt from the old man living in Route 221", 2, beltReward(1)],
     ["One for Knowledge", "Receive a Expert Belt from the old man living in Route 221", 2, beltReward(2)],
     ["One for Endurance", "Receive a Focus Sash from the old man living in Route 221", 2, beltReward(3)],
-    // encryption based cheevos, disable until code work on ratools
-    //["Certified Feet Lover", "Receive a ribbon from Mr. Footstep", 4, always_false()],
-    //["\"A\" for Effort", "Get an Effort Ribbon from a lady in the Sunnyshore Market", 2, always_false()],
-    //["Stamp Race", "Get all Weekly Ribbons from Julia in a single Pokémon", 5, always_false()],
+    ["Certified Feet Lover", "Receive a ribbon from Mr. Footstep", 4, partyLeadDataChange(MAP_Route213HouseMrFootstep)],
+    ["\"A\" for Effort", "Get an Effort Ribbon from a lady in the Sunnyshore Market", 2, partyLeadDataChange(MAP_SunnyshoreMarket)],
+    ["Stamp Race", "Get all Weekly Ribbons from Julia in a single Pokémon and open their summary", 5, allWeeklyRibbons()],
 ]
 
 collectibles = [
@@ -4154,7 +4213,7 @@ misc = [
     ["Lazing on a Sunday Afternoon", "On sunday, defeat Idol Grace in Jubilife TV", 1, eventFlag(o_Trainers47, 3) && sanity(GS_OW, MAP_JubilifeTv1F)],
     ["Draconic Apocalypse", "Have a Pokémon learn Draco Meteor from Grandma Wilma", 5, sanity(GS_TUTOR, MAP_Route210HouseGrandmaWilma) && dialogIdInMoveTutor()==5 && prev(dialogIdInMoveTutor())==6],
     ["History Lesson", "Be shown the picture of the other ancient being that created Sinnoh by Cynthia's grandma", 1, eventFlag(0x0000e218, 5)],
-    ["F is for Fren", "Get a gift from your Pokémon at Amity Square", 2, sanity(GS_OW, MAP_AmitySquare) && prev(stepsSinceLastAmitySquareGift())>=200 && stepsSinceLastAmitySquareGift()==0],
+    ["F is for Fren", "Get a gift from your Pokémon at Amity Square", 2, sanity(GS_OW, MAP_AmitySquare) && mbit(1, 0x0000e31c)==1 && prev(stepsSinceLastAmitySquareGift())>=200 && stepsSinceLastAmitySquareGift()==0],
     ["It's Warm", "Learn about the current swarm from Rowan's assistant's little sister", 1, sanity(GS_OW, MAP_SandgemHouseAssistant1F) && swarmMonId()>0 && prev(swarmMonId()) == 0],
     ["... Thanks", "Help Marley get through the Victory Road", 5, eventCounter([o_EventsMarley], 2)],
     ["Big if True", "Learn about an unusual Pokémon visiting the Trophy Garden", 2, eventFlag(o_DailyEvents1, 2)],
