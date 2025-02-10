@@ -1,2 +1,2 @@
 ### RATools scripts
-Scripts for RetroAchievements sets
+Scripts and utilities for RetroAchievements

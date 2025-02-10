@@ -2,6 +2,8 @@
 // #ID = 30252
 
 MAP_LeagueHofRoom = 0x00bb
+MAP_LeagueAaronHall = 0x00b0
+GS_BATTLE = 0x5
 GS_HOF = 0x3f
 
 ID = 0
@@ -85,6 +87,8 @@ o_CurrentHallOfFamePokemonIdSlot3 = 0x04FBF8
 o_CurrentHallOfFamePokemonIdSlot4 = 0x04FBFC
 o_CurrentHallOfFamePokemonIdSlot5 = 0x04FC00
 o_CurrentHallOfFamePokemonIdSlot6 = 0x04FC04
+o_CurrentLevel = 0x000555b4
+o_Options1 = 0x0000d274
 
 function regionalPointer() => tbyte(a_regionalPointer)
 function gamePointer() => tbyte(regionalPointer()+o_gamePointer)
@@ -96,6 +100,8 @@ function mbit(i, offset) => bit(i, gamePointer()+offset)
 
 function mapId() => mword(o_MapId)
 function gameState() => mbyte(o_GameState)
+function currentLevel() => mbyte(o_CurrentLevel)
+function optionBattleStyle() => mbit(6, o_Options1)
 
 function indexSlot1() => mdword(o_CurrentHallOfFamePokemonSlotInUseSlot1)
 function indexSlot2() => mdword(o_CurrentHallOfFamePokemonSlotInUseSlot2)
@@ -121,6 +127,12 @@ function permutations(pokes) {
         (idSlot1() == pokes[1][ID] && idSlot2() == pokes[2][ID] && idSlot3() == pokes[0][ID]) ||
         (idSlot1() == pokes[2][ID] && idSlot2() == pokes[0][ID] && idSlot3() == pokes[1][ID]) ||
         (idSlot1() == pokes[2][ID] && idSlot2() == pokes[1][ID] && idSlot3() == pokes[0][ID]) 
+}
+
+function lock() {
+    return
+        disable_when(gameState()==GS_BATTLE && currentLevel()>65) &&
+        disable_when(optionBattleStyle()!=1)
 }
 
 teams = {
@@ -150,9 +162,9 @@ function cheevoChallenge(trainer) {
     team = teams[trainer]
     achievement(
         format("The {0} Challenge", substring(trainer,2)),
-        format("Beat the Pokémon League with a team of {0}, {1} and {2}", team[0][NAME], team[1][NAME], team[2][NAME]),
+        format("Beat the Pokémon League with a team of {0}, {1} and {2} [Battle style: Set; Level cap: 65]", team[0][NAME], team[1][NAME], team[2][NAME]),
         10,
-        gameState()==GS_HOF && have3Mons() && permutations(team)
+        gameState()==GS_HOF && have3Mons() && lock() && (permutations(team) || (always_false() && never(mapId()==MAP_LeagueAaronHall)))
     )
 }
 

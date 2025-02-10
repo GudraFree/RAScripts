@@ -2,6 +2,7 @@
 // #ID = 25369
 
 // common functions
+//cheevoId = 0
 cheevoId = 493533
 function cheevoIdPlus() {
     cheevoId = cheevoId + 1
@@ -9,11 +10,15 @@ function cheevoIdPlus() {
     //if(cheevoId==493618) cheevoId = cheevoId + 1 // "A" for Effort
     //if(cheevoId==493619) cheevoId = cheevoId + 1 // Stamp Race
     //if(cheevoId==493682) cheevoId = cheevoId + 1 // Eterna Gym Skirmish, repurposed for Windworks Grunt Brush
+    if(cheevoId==493738) cheevoId = 498295 // if last cheevo, skip to second batch
 }
 function myAchievement(title, description, points, trigger, mtype="") {
     achievement(title, description, points, trigger, cheevoId, type=mtype)
     cheevoIdPlus()
 }
+
+// diff variables
+POFFIN_SECONDS = 40
 
 // #region addresses
 a_regionalPointer = 0x000B70
@@ -770,6 +775,7 @@ o_TrendyWords3 = 0x0192fa
 o_TrendyWords4 = 0x0192fb
 o_PcBoxWallpapers = 0x02b4da
 
+o_ContestVisualStageTurn = 0x04face
 o_ContestVisualStageConditionHearts = 0x04facf
 o_ContestVisualStageDressUpHearts = 0x04fad0
 o_ContestActingStageYourScore = 0x04fc2e
@@ -791,6 +797,9 @@ o_PokemonSummaryRibbons3 = 0x04fc96
 o_PokemonSummaryRibbons4 = 0x04fc97
 o_PokemonSummaryRibbons5 = 0x04fc98
 o_PokemonSummaryRibbons6 = 0x04fc99
+
+o_BattleTowerCurrentStreak = 0x000131e0
+o_GtsOwnLocationRegistered = 0x000168ed
 
 o_dexStart = 0x00e4f4
 o_unownStart = 0xe5fc
@@ -817,6 +826,8 @@ function musicId() => word(regionalPointer()+o_musicId)
 function mapId() => mword(o_MapId)
 function gameState() => mbyte(o_GameState)
 function dialogIdInMoveTutor() => mbyte(o_DialogIdInMoveTutor)
+function battleTowerCurrentStreak() => mword(o_BattleTowerCurrentStreak)
+function gtsLocation() => mbyte(o_GtsOwnLocationRegistered)
 
 function partyLeadPv() => mdword(o_partyLeadPv)
 function partyLeadChecksum() => mdword(o_partyLeadChecksum)
@@ -836,6 +847,7 @@ function swarmMonId() => mword(o_SwarmPokemonIdByLucasSister)
 function swarmLocId() => mword(o_SwarmLocationIdByLucasSister)
 function stepsSinceLastAmitySquareGift() => mword(o_StepsSinceLastAmitySquareGift)
 
+function contestVisualStageTurn() => mbyte(o_ContestVisualStageTurn)
 function contestVisualStageConditionHearts() => mbyte(o_ContestVisualStageConditionHearts)
 function contestVisualStageDressUpHearts() => mbyte(o_ContestVisualStageDressUpHearts)
 function contestActingStageYourScore() => mbyte(o_ContestActingStageYourScore) / 10 // to count on hearts
@@ -884,6 +896,7 @@ GS_SIGN = 0x27 // signing trainer card
 GS_DIARY = 0x2a // Diary
 GS_POFF_CASE = 0x2c // poffin case
 GS_STARTER = 0x2f // choosing starter
+GS_GTS_GLOBE = 0x32 // GTS globe
 GS_POFFIN = 0x37 // cooking poffin
 GS_TRADE = 0x39 // trade
 GS_HOF_PC = 0x3c // Hall of Fame viewing in PC
@@ -1485,6 +1498,7 @@ presents = [
     ["TM10 Hidden Power", ROCK, mbit(2, 0x0000e212)],
     ["Super Potion", ROCK, mbit(1, 0x0000e211)],
     ["Great Ball", ROCK, mbit(2, 0x0000e211)],
+    ["Starter Mask 1 (accessory)", ROCK, mbit(5, 0x0000e217)],
     
     ["TM88 Pluck", FLOWER, mbit(3, 0x0000e200)],
     ["Fire Stone", FLOWER, mbit(0, 0x0000e217)],
@@ -1724,7 +1738,7 @@ hiddenItems = [
     ["Parlyz Heal", ROCK, mbit(3, o_HiddenItems21)],
     ["Potion", OLDNEW, mbit(4, o_HiddenItems21)],
     ["Burn Heal", WET, mbit(5, o_HiddenItems21)],
-    //["", "", mbit(, o_HiddenItems21)],
+    ["Pearl", WET, mbit(6, o_HiddenItems21)],
     ["Pearl", WET, mbit(7, o_HiddenItems21)],
 
     ["Hyper Potion", WET, mbit(0, o_HiddenItems22)],
@@ -2436,8 +2450,8 @@ trainers = [
 
     ["Ruin Maniac Calvin", FOG, mbit(0, o_Trainers39)],
     ["Ruin Maniac Larry", LAST, mbit(1, o_Trainers39)],
-    ["Jogger Wyatt", "Route210???", mbit(2, o_Trainers39)],
-    ["Jogger Craig", "Route215???", mbit(2, o_Trainers39)],
+    ["Jogger Wyatt", FOG, mbit(2, o_Trainers39)],
+    ["Jogger Craig", FOG, mbit(2, o_Trainers39)],
     ["Jogger Raul", METRO, mbit(4, o_Trainers39)],
     ["Black Belt Colby", GYM3, mbit(5, o_Trainers39)],
     ["Black Belt Darren", GYM3, mbit(6, o_Trainers39)],
@@ -2466,7 +2480,7 @@ trainers = [
     ["Picknicker Cheyenne", GYM5, mbit(2, o_Trainers42)],
     ["Poke Kid Mehgan", GYM8, mbit(3, o_Trainers42)],
     ["Policeman Danny", WET, mbit(4, o_Trainers42)],
-    //["", "", mbit(, o_Trainers42)],
+    ["Policeman Thomas", SUNNY, mbit(5, o_Trainers42)],
     //["", "", mbit(, o_Trainers42)],
     ["Rich Boy Trey", SUNNY, mbit(7, o_Trainers42)],
 
@@ -2926,13 +2940,15 @@ poketchApps = [
 dailyEvents = [
     mbit(0, o_DailyEvents1), // berry from Berry Master in Route 208
     mbit(1, o_DailyEvents1), // Great Ball from bald man in Pokecenter (Celestic Town)
-    mbit(4, o_DailyEvents1), // berry from Lady in Pastoria City
+    mbit(2, o_DailyEvents1), // Trophy garden daily pokemon
+    mbit(3, o_DailyEvents1), // berry from Lady in Pastoria City
+    mbit(4, o_DailyEvents1), // ribbon from Julia in Sunnyshore
     mbit(5, o_DailyEvents1), // spa treatment in Ribbon Society, Resort Area
-    mbit(7, o_DailyEvents1), // ribbon from Julia in Sunnyshore
     mbit(1, o_DailyEvents2), // draw at the lottery
     mbit(2, o_DailyEvents2), // berry from lady in Floaroma Town
+    mbit(3, o_DailyEvents2), // visit the Seven Stars Restaurant
     mbit(4, o_DailyEvents2), // massage from lady in Veilstone City
-    mbit(6, o_DailyEvents2), // daily belt from Belt Man in Route 221
+    mbit(6, o_DailyEvents2), // belt from Belt Man in Route 221
     mbit(7, o_DailyEvents2), // trainer in Jubilife TV
     mbit(1, o_DailyEvents3), // Assignment for the Sinnoh News
 ]
@@ -3649,7 +3665,9 @@ function completeZoneList(list, zone) {
     return sanity(state=GS_OW) && countFlags(filteredList)
 }
 
-function listHasElements(list, zone) => length(filterListByZone(list, zone)) > 0
+function zoneLength(list, zone) => length(filterListByZone(list, zone))
+
+function listHasElements(list, zone) => zoneLength(list, zone) > 0
 
 function getItemByDialog(id, ammount=1) {
     itemId = mword(o_InDialogItemPickedId)
@@ -3699,7 +3717,7 @@ function collectibleBerryBest() {
 function collectibleSeals() {
     total = length(seals)
     sum = sum_of(seals, s => s/s)
-    return sanity(GS_OW) && sum==total && prev(sum)==total-1
+    return sanity(GS_OW) && measured(sum==total, when=sanity() && gameState()>0) && prev(sum)==total-1
 }
 
 function collectibleDex(half=false) {
@@ -3725,11 +3743,10 @@ function lotteryWin() {
 
 function threeMudballs() {
     trigger =
-        any_of(greatMarshIds, id => mapId() == id) &&
-        tally(3, fleeRate() < prev(fleeRate()) && gameState()==GS_BATTLE && prev(gameState())==gameState()) &&
-        disable_when(catchRate() > prev(catchRate()), until=gameState()==GS_OW) &&
-        trigger_when(captureMon()) &&
-        never(mapId()==MAP_PastoriaGreatMarshHub)
+        (any_of(greatMarshIds, id => mapId() == id) || (always_false() && never(gameState()==GS_OW))) &&
+        tally(3, fleeRate() < prev(fleeRate()) && gameState()==GS_BATTLE && prev(gameState())==GS_BATTLE) &&
+        disable_when(catchRate() > prev(catchRate()) && gameState()==GS_BATTLE && prev(gameState())==GS_BATTLE) &&
+        trigger_when(captureMon())
         
     return trigger
 }
@@ -3737,6 +3754,7 @@ function threeMudballs() {
 function perfectMudball() {
     trigger =
         sanity(GS_BATTLE) &&
+        prev(gameState())==GS_BATTLE &&
         any_of(greatMarshIds, id => mapId() == id) &&
         fleeRate() < prev(fleeRate()) &&
         catchRate() == prev(catchRate())
@@ -3745,11 +3763,11 @@ function perfectMudball() {
 }
 function threeBaitballs() {
     trigger =
-        any_of(greatMarshIds, id => mapId() == id) &&
-        tally(3, catchRate() > prev(catchRate()) && gameState()==GS_BATTLE && prev(gameState())==gameState()) &&
-        disable_when(fleeRate() < prev(fleeRate()), until=gameState()==GS_OW) &&
-        trigger_when(captureMon()) &&
-        never(mapId()==MAP_PastoriaGreatMarshHub)
+        (any_of(greatMarshIds, id => mapId() == id) || (always_false() && never(gameState()==GS_OW))) &&
+        tally(3, catchRate() > prev(catchRate()) && gameState()==GS_BATTLE && prev(gameState())==GS_BATTLE) &&
+        disable_when(fleeRate() < prev(fleeRate()) && gameState()==GS_BATTLE && prev(gameState())==GS_BATTLE) &&
+        trigger_when(captureMon())
+        
         
     return trigger
 }
@@ -3757,6 +3775,7 @@ function threeBaitballs() {
 function perfectBaitball() {
     trigger =
         sanity(GS_BATTLE) &&
+        prev(gameState())==GS_BATTLE &&
         any_of(greatMarshIds, id => mapId() == id) &&
         catchRate() > prev(catchRate()) &&
         fleeRate() == prev(fleeRate())
@@ -3787,36 +3806,39 @@ function chateauGhosts() {
 
 function contestVisual() {
     rank = mword(o_InDialogItemPickedId) // yeah, it's the same address
+    measuWhen = rank==0x3 && gameState()==GS_CONTEST_1  && contestVisualStageTurn() == 0
     
     trigger = 
         sanity() &&
-        rank == 0x3 &&
-        prev(contestVisualStageConditionHearts())+prev(contestVisualStageDressUpHearts()) == 1 &&
-        measured(contestVisualStageConditionHearts()+contestVisualStageDressUpHearts() == 12, when=gameState()==GS_CONTEST_1)
+        rank==0x3 && 
+        gameState()==GS_CONTEST_1  && 
+        contestVisualStageTurn() == 0 &&
+        prev(contestVisualStageConditionHearts())+prev(contestVisualStageDressUpHearts()) < 12 &&
+        contestVisualStageConditionHearts()+contestVisualStageDressUpHearts() == 12
     
     return trigger
 }
 
 function contestDance() {
     rank = mword(o_InDialogItemPickedId)
+    measuWhen = rank==0x3 && gameState()==GS_CONTEST_2
     
     trigger = 
         sanity() &&
-        rank == 0x3 &&
         prev(contestDanceStageYourScore()) == 62 &&
-        measured(contestDanceStageYourScore() == 64, when=gameState()==GS_CONTEST_2)
+        measured(contestDanceStageYourScore() == 64, when=measuWhen)
     
     return trigger
 }
 
 function contestActing() {
     rank = mword(o_InDialogItemPickedId)
+    measuWhen = rank==0x3 && gameState()==GS_CONTEST_3
     
     trigger = 
         sanity() &&
-        rank == 0x3 &&
         prev(contestActingStageYourScore()) < 20 &&
-        measured(contestActingStageYourScore() >= 20, when=gameState()==GS_CONTEST_3)
+        measured(contestActingStageYourScore() >= 20, when=measuWhen)
     
     return trigger
 }
@@ -3826,6 +3848,16 @@ function getUnowns() {
     trigger = 
         measured((total - sum_of(unowns, p => p / 0xff)) == total, when=(gameState()>0 && sanity())) && 
         (total - sum_of(unowns, p => prev(p) / 0xff)) == total-1
+    
+    return trigger
+}
+
+function battleTowerStreak(target) {
+    trigger =
+        sanity() &&
+        battleTowerCurrentStreak() == target &&
+        prev(battleTowerCurrentStreak()) < target &&
+        prev(battleTowerCurrentStreak()) >= target - 7
     
     return trigger
 }
@@ -3887,7 +3919,7 @@ function perfectPoffin() {
         poffinResultScreenLevel() > 0 &&
         poffinResultScreenTimesBurnt() == 0 &&
         poffinResultScreenTimesSpilled() == 0 &&
-        poffinResultScreenSeconds() < 40
+        poffinResultScreenSeconds() < POFFIN_SECONDS
     
     return trigger
 }
@@ -3993,6 +4025,15 @@ function getFootRibbon() {
 }
 
 // #region cheevo functions
+function pointsZone(list, zone) {
+    points = 3
+    if(zoneLength(list, zone)>=5) points = 5
+    if(zoneLength(list, zone)>=15) points = 10
+    if(zoneLength(list, zone)>=30) points = 25
+    
+    return points
+}
+
 function cheevoAllTreasures(zone) {
     list = items
     
@@ -4000,7 +4041,7 @@ function cheevoAllTreasures(zone) {
         myAchievement(
             format("{0} - Treasures", zone),
             format("Get all grounded items in {0}", zones[zone]),
-            10,
+            pointsZone(list, zone),
             completeZoneList(list, zone)
         )
     }
@@ -4012,7 +4053,7 @@ function cheevoAllTrainers(zone) {
         myAchievement(
             format("{0} - Trainers", zone),
             format("Defeat all trainers in {0}", zones[zone]),
-            10,
+            pointsZone(list, zone),
             completeZoneList(list, zone)
         )
     }
@@ -4024,7 +4065,7 @@ function cheevoAllSecrets(zone) {
         myAchievement(
             format("{0} - Secrets", zone),
             format("Get all hidden items and gifts in {0}", zones[zone]),
-            10,
+            pointsZone(list, zone),
             completeZoneList(list, zone)
         )
     }
@@ -4036,7 +4077,7 @@ function cheevoMissableZone(zone) {
         myAchievement(
             missableZonesTitles[zone],
             format("Defeat every {1} in {0}", substring(zone,2), missableZones[zone]),
-            10,
+            pointsZone(list, zone),
             completeZoneList(list, zone),
             "missable"
         )
@@ -4232,8 +4273,16 @@ misc = [
     ["Master of Looks", "Obtain 12 hearts in a Master rank Super Contest visual stage", 10, contestVisual()],
     ["Master of Groove", "Beat the dance stage of a Master rank Super Contest with the maximum points possible", 25, contestDance()],
     ["Master of Performance", "Obtain at least 20 hearts in the acting stage of a Master rank Super Contest", 10, contestActing()],
-    ["Hold On, Let 'em Cook", "Cook a Poffin without spillages or burns in less than 40 seconds", 10, perfectPoffin()],
+    ["Hold On, Let 'em Cook", format("Cook a Poffin without spillages or burns in less than {0} seconds", POFFIN_SECONDS), 10, perfectPoffin()],
     ["Experience in a Silver Platter", "Defeat all trainers visiting the Restaurant Seven Stars on any given day", 5, restaurantBattles()],
+]
+
+secondBatch = [
+    ["Caring about Sharing", "Receive the Exp. Share from Rowan's assistant on the Eterna City south gate", 2, eventFlag(0x0000e211, 3)],
+    ["Extra! Extra!", "Complete an asignment for the Sinnoh News in Solaceon Town", 5, eventFlag(o_DailyEvents3, 1)],
+    ["I Can See My House From Here!", "Register your location in Jubilife City's Global Trade Station", 1, sanity(GS_GTS_GLOBE) && gtsLocation()>0 && prev(gtsLocation()==0)],
+    ["Fest Zest", "Reach a streak of 20 victories in the Battle Tower Single Battle Room, and defeat Palmer", 10, battleTowerStreak(21)],
+    ["Party Over", "Reach a streak of 48 victories in the Battle Tower Single Battle Room, and defeat Palmer again", 25, battleTowerStreak(49)],
 ]
 // #endregion cheevos
 
@@ -4250,3 +4299,4 @@ for zone in zones {
     cheevoAllTrainers(zone)
     cheevoAllSecrets(zone)
 }
+for c in secondBatch cheevoStandard(c)

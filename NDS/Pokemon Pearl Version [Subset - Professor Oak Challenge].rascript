@@ -547,14 +547,14 @@ phaseDesc = {
 }
 
 phasePoints = {
-    1: 25,
+    1: 50,
     2: 50,
     3: 50,
-    4: 10,
-    5: 10,
-    6: 5,
-    7: 1,
-    8: 100 
+    4: 25,
+    5: 25,
+    6: 10,
+    7: 5,
+    8: 0 
 }
 
 a_pointer_regional = 0x000b70
@@ -580,7 +580,7 @@ function gamestate() => byte(gamePointer() + o_gamestate)
 function sanity(onlyOW=false) {
     trigger = gamePointer()==prev(gamePointer())
     if(onlyOW) trigger = trigger && trigger_when(gamestate()==0x4)
-    else trigger = trigger && (gamestate()==0x4 || gamestate()==0x49)
+    else trigger = trigger && gamestate()>0x0
     return trigger
 }
 function badges() => bitcount(gamePointer() + o_badges) // add bit for league and a bit for Barry
