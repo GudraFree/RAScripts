@@ -65,7 +65,7 @@ UMBREON = [197, "Umbreon"]
 TORKOAL = [324, "Torkoal"]
 MILOTIC = [350, "Milotic"]
 DRAGONITE = [149, "Dragonite"]
-HEATRAN = [485, "Heatran"]
+CRESSELIA = [488, "Cresselia"]
 AZELF = [482, "Azelf"]
 MESPRIT = [481, "Mesprit"]
 UXIE = [480, "Uxie"]
@@ -75,7 +75,7 @@ o_gamePointer = 0xc
 o_GameState = 0x04F9E8
 o_MapId = 0x00E44C
 
-o_CurrentHallOfFamePokemonSlotInUseSlot1 = 0x04FBD9
+o_CurrentHallOfFamePokemonSlotInUseSlot1 = 0x04FBD8
 o_CurrentHallOfFamePokemonSlotInUseSlot2 = 0x04FBDC
 o_CurrentHallOfFamePokemonSlotInUseSlot3 = 0x04FBE0
 o_CurrentHallOfFamePokemonSlotInUseSlot4 = 0x04FBE4
@@ -154,7 +154,7 @@ teams = {
     "16Cheryl": [BLISSEY, WAILORD, HARIYAMA],
     "17Riley": [LUCARIO, ABSOL, SALAMENCE],
     "18Buck": [CLAYDOL, TORKOAL, UMBREON],
-    "19Palmer": [HEATRAN, MILOTIC, DRAGONITE],
+    "19Palmer": [CRESSELIA, MILOTIC, DRAGONITE],
     "20Red Chain": [UXIE, MESPRIT, AZELF],
 }
 
