@@ -7,8 +7,8 @@ cheevoId = 485754
 function cheevoIdPlus() {
     cheevoId = cheevoId + 1
 }
-function myAchievement(title, description, points, trigger, type="") {
-    achievement(title, description, points, trigger, cheevoId, type)
+function myAchievement(title, description, points, trigger, mtype="") {
+    achievement(title, description, points, trigger, cheevoId, type=mtype)
     cheevoIdPlus()
 }
 
@@ -139,7 +139,7 @@ dex = [
     [119, "Seaking", 3],
     [120, "Staryu", 8],
     [121, "Starmie", 8],
-    [122, "Mr Mime", 8],
+    [122, "Mr. Mime", 8],
     [123, "Scyther", 99],
     [124, "Jynx", 8],
     [125, "Electabuzz", 99],
@@ -456,7 +456,7 @@ dex = [
     [436, "Bronzor", 3],
     [437, "Bronzong", 3],
     [438, "Bonsly", 3],
-    [439, "Mime Jr", 8],
+    [439, "Mime Jr.", 8],
     [440, "Happiny", 3],
     [441, "Chatot", 2],
     [442, "Spiritomb", 99],
@@ -525,14 +525,14 @@ phaseBadges = {
 }
 
 phaseTitle = {
-    1: "Onto The Oak Mines",
+    1: "Another Day in the Oak Mines",
     2: "Sweet Honey",
     3: "Trifecta",
     4: "Level Surfer",
     5: "Peak Content",
     6: "Light at the End of the Tunnel",
     7: "League Champ, Oak Chump",
-    8: "Okay, Oak Champ Now"
+    8: "Okay, Now You're the Oak Champ"
 }
 
 phaseDesc = {
@@ -548,8 +548,8 @@ phaseDesc = {
 
 phasePoints = {
     1: 50,
-    2: 50,
-    3: 50,
+    2: 100,
+    3: 100,
     4: 25,
     5: 25,
     6: 10,
@@ -629,7 +629,7 @@ function captureMon(mon) {
         dexFlag(dexNumber) == 1
         
     if(length(previous)>0)
-        trigger = trigger && all_of(previous, pmon => dexFlag(mon[PK_NUMBER]) == 1)
+        trigger = trigger && all_of(previous, pmon => dexFlag(pmon[PK_NUMBER]) == 1)
     
     return sanity() && trigger
 }
@@ -684,13 +684,19 @@ function getCheckpoint(phase) {
     return sanity(true) && trigger
 }
 
+function iHateEnglish(name) {
+    letter = substring(name, 0, 1)
+    if(letter == "A" || letter == "E" || letter == "I" || letter == "O" || letter == "U") return "n"
+    else return ""
+}
+
 function cheevoMunchlax() {
     myAchievement(
-        "You Are Ready to Go!",
+        "You're Ready to Go!",
         "Munchlax will appear before the second badge with your current Trainer and Secret IDs",
         0,
         sanity(true) && prev(mom())== 0 && trigger_when(mom()==1) && munchlaxCalc(),
-        type="missable"
+        "missable"
     )
 }
 function cheevoStarter1() {
@@ -721,7 +727,7 @@ function cheevoMon(mon) {
     name = mon[PK_NAME]
     myAchievement(
         name,
-        format("Obtain a {0}", name),
+        format("Obtain a{1} {0}", name, iHateEnglish(name)),
         0,
         captureMon(mon)
     )

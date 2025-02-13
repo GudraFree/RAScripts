@@ -1415,20 +1415,20 @@ SUNNY = "Sunny Shores"
 LAST = "Last Stretch"
 BATTLEZ = "Battle Zone"
 
-GYM1 = "01Oreburgh Gym"
-WINDWORKS = "02Valley Windworks"
-GALACTIC_BUILDING = "03the Galactic Building"
-GYM2 = "04Eterna Gym"
-GYM3 = "05Veilstone Gym"
-GYM4 = "06Pastoria Gym"
-GYM5 = "07Hearthome Gym"
-GYM6 = "08Canalave Gym"
-DRIED_LAKE = "09the dried up Lake Valor"
-LAKE_VERITY = "10Lake Verity"
-GYM7 = "11Snowpoint Gym"
-GALACTIC_HQ = "12the Galatic Warehouse and Galactic HQ"
-GALACTIC_CORONET = "13Mt. Coronet"
-GYM8 = "14Sunnyshore Gym"
+GYM1 = "01in the Oreburgh Gym"
+WINDWORKS = "02in the Valley Windworks"
+GALACTIC_BUILDING = "03in the Team Galactic Eterna Building"
+GYM2 = "04in the Eterna Gym"
+GYM3 = "05in the Veilstone Gym"
+GYM4 = "06in the Pastoria Gym"
+GYM5 = "07in the Hearthome Gym"
+GYM6 = "08in the Canalave Gym"
+DRIED_LAKE = "09in the dried-up Lake Valor"
+LAKE_VERITY = "10at Lake Verity"
+GYM7 = "11in the Snowpoint Gym"
+GALACTIC_HQ = "12in the Galactic Warehouse and Galactic HQ"
+GALACTIC_CORONET = "13in Mt. Coronet"
+GYM8 = "14in the Sunnyshore Gym"
 
 MISS_TRAINER = "trainer"
 MISS_GRUNT = "grunt"
@@ -1448,7 +1448,7 @@ zones = {
     VERTICAL: "Veilstone City, Route 214, Valor Lakefront and Lake Valor",
     WET: "Route 213, Pastoria City, Great Marsh, Route 212 and Pokémon Mansion",
     WATER: "Route 218, Canalave City, Iron Island, Route 219, Route 220 and Route 221",
-    MOUNT: "Mt Coronet",
+    MOUNT: "Mt. Coronet",
     SNOWY: "Route 216, Route 217, Acuity Lakefront, Lake Acuity and Snowpoint City",
     SUNNY: "Route 222, Sunnyshore City and Route 223",
     LAST: "Victory Road, Route 224 and Pokémon League",
@@ -1483,7 +1483,7 @@ missableZonesTitles = {
     LAKE_VERITY: "Grunt Brush: Lake Verity",
     GYM7: "Gym Skirmish: Snowpoint",
     GALACTIC_HQ: "Grunt Brush: Galactic HQ",
-    GALACTIC_CORONET: "Grunt Brush: Mt Coronet",
+    GALACTIC_CORONET: "Grunt Brush: Mt. Coronet",
     GYM8: "Gym Skirmish: Sunnyshore"
 }
 
@@ -4034,13 +4034,19 @@ function pointsZone(list, zone) {
     return points
 }
 
+function inOrOn(zone) {
+    start = substring(zones[zone], 0, 5)
+    if(start=="Route") return "on"
+    else return "in"
+}
+
 function cheevoAllTreasures(zone) {
     list = items
     
     if(listHasElements(list, zone)) {
         myAchievement(
             format("{0} - Treasures", zone),
-            format("Get all grounded items in {0}", zones[zone]),
+            format("Get every grounded item in {0}", zones[zone]),
             pointsZone(list, zone),
             completeZoneList(list, zone)
         )
@@ -4052,7 +4058,7 @@ function cheevoAllTrainers(zone) {
     if(listHasElements(list, zone)) {
         myAchievement(
             format("{0} - Trainers", zone),
-            format("Defeat all trainers in {0}", zones[zone]),
+            format("Defeat every trainer in {0}", zones[zone]),
             pointsZone(list, zone),
             completeZoneList(list, zone)
         )
@@ -4064,7 +4070,7 @@ function cheevoAllSecrets(zone) {
     if(listHasElements(list, zone)) {
         myAchievement(
             format("{0} - Secrets", zone),
-            format("Get all hidden items and gifts in {0}", zones[zone]),
+            format("Get every hidden item and gift in {0}", zones[zone]),
             pointsZone(list, zone),
             completeZoneList(list, zone)
         )
@@ -4076,7 +4082,7 @@ function cheevoMissableZone(zone) {
     if(listHasElements(list, zone)) {
         myAchievement(
             missableZonesTitles[zone],
-            format("Defeat every {1} in {0}", substring(zone,2), missableZones[zone]),
+            format("Defeat every {1} {0}", substring(zone,2), missableZones[zone]),
             pointsZone(list, zone),
             completeZoneList(list, zone),
             "missable"
@@ -4119,35 +4125,35 @@ progression = [
     ["Uncharted Parcel Service", "Deliver the Parcel to your rival", 1, eventFlag(0x0000e20e, 1)],
     ["Latest Tech", "Exchange your coupons and receive a Pokétch", 1, eventCounter([o_EventsJubilifeCity], 2)],
     ["Don't Get Cooked...", "Defeat your rival at Route 203", 3, eventCounter([o_EventsRoute203], 1)],
-    ["HULK SMASH", "Receive the HM06 Rock Smash", 1, eventFlag(0x0000e202, 3)],
+    ["HULK SMASH", "Receive HM06, Rock Smash", 1, eventFlag(0x0000e202, 3)],
     ["Who Deserves More Credit than the Wife of a Coal Miner", "Earn the Coal Badge", 5, eventFlag(o_Badges, 0)],
     ["Seriously? Right in Front of my Pokémon Professor?", "Join forces with Rowan's assistant and defeat the grunts annoying them", 3, eventCounter([o_EventsJubilifeCity], 4)],
-    ["Free Like the Wind", "Defeat Mars at Valley Windworks", 3, eventCounter([o_EventsRoute205], 2)],
+    ["Free Like the Wind", "Defeat Mars in the Valley Windworks", 3, eventCounter([o_EventsRoute205], 2)],
     ["Scary Walk Through the Forest", "Help Cheryl get through Eterna Forest", 2, eventCounter([o_EventsCheryl], 2)],
-    ["Aaaand... Cut!", "Meet Cynthia and receive the HM01 Cut", 1, eventCounter([o_EventsEternaCity], 1)],
-    ["I Speak For The Trees", "Earn the Forest Badge", 5, eventFlag(o_Badges, 1)],
-    ["Building Up Enemies", "Defeat Jupiter at Team Galactic Eterna Building", 3, eventFlag(0x0000e200, 1)],
-    ["All About Searching", "Receive the Vs Seeker and Dowsing Machine from Rowan's assistant", 1, eventCounter([o_EventsBycicleGifts], 2)],
+    ["Aaaand... Cut!", "Meet Cynthia and receive HM01, Cut", 1, eventCounter([o_EventsEternaCity], 1)],
+    ["I Speak for the Trees", "Earn the Forest Badge", 5, eventFlag(o_Badges, 1)],
+    ["Building Up Enemies", "Defeat Jupiter in the Team Galactic Eterna Building", 3, eventFlag(0x0000e200, 1)],
+    ["All About Searching", "Receive the Vs. Seeker and Dowsing Machine from Rowan's assistant", 1, eventCounter([o_EventsBycicleGifts], 2)],
     ["Stay Off The Hook!", "Defeat your rival in Hearthome City", 4, eventCounter([o_EventsHearthomeCity], 2)],
-    ["Do Not Push Uphill", "Receive the HM04 Strength", 4, eventFlag(0x0000e202, 6)],
+    ["Do Not Push Uphill", "Receive HM04, Strength", 4, eventFlag(0x0000e202, 6)],
     ["Training Required", "Earn the Cobble Badge", 5, eventFlag(o_Badges, 2)],
     ["Outbully The Bully", "Help Rowan's assistant recover their Pokédex from the Galactic Grunts", 3, eventFlag(0x0000e210, 1)],
     ["Fen Garden", "Earn the Fen Badge", 5, eventFlag(o_Badges, 3)],
     ["Rawsome!", "Defeat your rival in Pastoria City", 5, eventFlag(0x0000e210, 3)],
     ["Go Home, You're Drunk", "Get a secret remedy for Pokémon headaches from Cynthia", 2, eventFlag(0x0000e206, 7)],
-    ["Slow Advance", "Receive the HM05 Surf", 2, eventFlag(0x0000e321, 5)],
+    ["Slow Advance", "Receive HM05, Surf", 2, eventFlag(0x0000e321, 5)],
     ["It Belongs in a Museum!", "Earn the Relic Badge", 10, eventFlag(o_Badges, 4)],
     ["Bada Bada Bada Bada BLAM", "Beat your rival in Canalave City", 10, eventCounter([o_EventsCanalaveCity], 1)],
-    ["What's Yours is Mine", "Earn the Mine Badge", 10, eventFlag(o_Badges, 5)],
-    ["For All the Magikarp", "Defeat Saturn at the Valor Cavern", 5, eventFlag(0x0000e217, 6)],
-    ["Playing At Home", "Defeat Mars at Lake Verity", 5, eventFlag(0x0000e207, 2)],
-    ["Faster Than Surfing", "Find the HM08 Rock Climb", 2, eventFlag(o_Items21, 3)],
+    ["What's Yours Is Mine", "Earn the Mine Badge", 10, eventFlag(o_Badges, 5)],
+    ["For All the Magikarp", "Defeat Saturn in the Valor Cavern", 5, eventFlag(0x0000e217, 6)],
+    ["Playing at Home", "Defeat Mars at Lake Verity", 5, eventFlag(0x0000e207, 2)],
+    ["Faster than Surfing", "Find HM08, Rock Climb", 2, eventFlag(o_Items21, 3)],
     ["I See, Clever", "Earn the Icicle Badge", 10, eventFlag(o_Badges, 6)],
     ["Good Guy Cyrus", "Defeat Cyrus at Galactic HQ and receive the Master Ball", 5, eventCounter([o_EventsGalacticHqCyrus], 1)],
     ["Fly Free, Friends", "Free the Lake Guardians", 3, eventFlag(0x0000e23a, 4)],
     ["Bad Guy Cyrus", "Defeat Cyrus at the Spear Pillar", 10, eventCounter([o_EventsSpearPillar], 3)],
     ["Beacon of Hope", "Earn the Beacon Badge", 10, eventFlag(o_Badges, 7)],
-    ["Countercurrent", "Get the HM07 Waterfall from Jasmine", 2, eventFlag(0x0000e203, 2)],
+    ["Countercurrent", "Get HM07 Waterfall from Jasmine", 2, eventFlag(0x0000e203, 2)],
     ["Boo-YAAAAAAHHHHHH!", "Defeat your rival at the Pokémon League", 10, eventCounter([o_EventsBarryLeague], 1)],
     ["Epic Piano Solo", "Defeat Cynthia, the Champion of Sinnoh", 25, eventFlag(0x0000e206, 4)],
 ]
@@ -4170,64 +4176,64 @@ missables = [
 ]
 
 gifts = [
-    ["First One is on the House", "Receive a Potion sample in Route 201", 1, eventFlag(0x0000e1fd, 4)],
-    ["Top of the Class", "Defeat both students at the Trainer School and receive the TM10 Hidden Power", 5, eventFlag(0x0000e212, 2)],
+    ["First One Is on the House", "Receive a Potion sample on Route 201", 1, eventFlag(0x0000e1fd, 4)],
+    ["Top of the Class", "Defeat both students at the Trainer School and receive TM10, Hidden Power", 5, eventFlag(0x0000e212, 2)],
     ["Ol' Reliable", "Receive the Old Rod", 1, eventFlag(0x0000e200, 4)],
     ["Making Friends", "Receive the Pal Pad", 1, eventFlag(0x0000e158, 0)],
     ["Guaranteed Not to Flee", "Trade a Machop for an Abra in Oreburgh City", 3, eventFlag(0x0000e200, 5)],
     ["Farming Sim", "Receive the Sprayduck", 1, eventFlag(0x0000e200, 0)],
-    ["Do Not Teach It to Slur", "Trade a Buizel for a Chatot in Eterna City", 3, eventFlag(0x0000e200, 6)],
-    ["Twinning With Roark", "Receive the Explorer Kit", 1, eventFlag(0x0000e1ff, 1)],
+    ["Do Not Teach It to Swear", "Trade a Buizel for a Chatot in Eterna City", 3, eventFlag(0x0000e200, 6)],
+    ["Twinning with Roark", "Receive the Explorer Kit", 1, eventFlag(0x0000e1ff, 1)],
     ["Love, Care, Lots of Steps", "Receive a Pokémon Egg from a hiker in Hearthome City", 1, eventFlag(0x0000e20f, 3)],
     ["Cookie Box", "Receive the Poffin Case", 1, eventFlag(0x0000e201, 5)],
     ["It's a Good One", "Receive the Good Rod", 2, eventFlag(0x0000e204, 2)],
     ["Unseal the Style", "Receive the Seal Case", 2, eventFlag(0x0000e212, 7)],
     ["Gambling Enabled", "Receive the Coin Case", 1, eventFlag(0x0000e207, 4)],
-    ["Mascot From Another Timeline", "Receive an Eevee from Bebe", 3, eventFlag(0x0000e216, 1)],
-    ["The Sky is the Limit", "Obtain the HM02 Fly", 2, eventFlag(o_Items30, 6)],
+    ["Mascot from Another Timeline", "Receive an Eevee from Bebe", 3, eventFlag(0x0000e216, 1)],
+    ["The Sky Is the Limit", "Obtain HM02, Fly", 2, eventFlag(o_Items30, 6)],
     ["Actual Fetch Sidequest", "Help a woman find the lost key for her suite and receive a reward", 4, eventFlag(0x0000e217, 2)],
     ["Macho Bug", "Receive the Macho Brace from a Burmy fan in Pastoria City", 5, eventFlag(0x0000e213, 4)],
-    ["Clear Skies", "Receive the HM05 Defog", 2, eventFlag(0x0000e21c, 0)],
-    ["Feel the Fuego", "Receive a gift from Mr. Fuego in Fuego Ironworks", 5, eventFlag(0x0000e217, 0)],
-    ["Senior Data Analist", "Get your Pokédex upgraded to show the different forms of Pokémon", 1, eventFlag(0x0000e1ba, 0)],
+    ["Clear Skies", "Receive HM05, Defog", 2, eventFlag(0x0000e21c, 0)],
+    ["Feel the Fuego", "Receive a gift from Mr. Fuego in the Fuego Ironworks", 5, eventFlag(0x0000e217, 0)],
+    ["Senior Data Analyst", "Get your Pokédex upgraded to show the different forms of Pokémon", 1, eventFlag(0x0000e1ba, 0)],
     ["Pleasant Aura", "Receive a Pokémon Egg from Riley after helping him", 5, eventFlag(0x0000e20c, 5)],
-    ["Coat Up", "Receive a Metal Coat from Byron in Iron Island", 2, eventFlag(0x0000e213, 5)],
-    ["Good Samaritan", "Try to return the HM08 to its owner and receive a reward", 1, eventFlag(0x0000e20b, 6)],
-    ["Fuck Mindy", "Experience betrayal after trading a Medicham for a Haunter in Snowpoint City", 2, eventFlag(0x0000e20e, 4)],
+    ["Coat Up", "Receive a Metal Coat from Byron on Iron Island", 2, eventFlag(0x0000e213, 5)],
+    ["Good Samaritan", "Try to return HM08 to its owner and receive a reward", 1, eventFlag(0x0000e20b, 6)],
+    ["Frick Mindy", "Experience betrayal after trading a Medicham for a Haunter in Snowpoint City", 2, eventFlag(0x0000e20e, 4)],
     ["Going National", "Obtain the National Mode for your Pokédex", 5, eventFlag(0x0000e246, 2)],
     ["Not Included in POC", "Receive an Up-Grade from Professor Oak in Eterna City", 2, eventFlag(0x0000e213, 1)],
-    ["Graduated", "Obtain the Diploma for seeing all Pokémon in Sinnoh from the Game Director", 5, eventFlag(0x0000e205, 3)],
+    ["Graduated", "Obtain the Diploma for seeing every Pokémon in Sinnoh from the Game Director", 5, eventFlag(0x0000e205, 3)],
     ["SUUUUUPEEEEEER", "Receive the Super Rod", 3, eventFlag(0x0000e1fd, 3)],
     ["Magikarp Benz", "Trade a Finneon for a foreign Magikarp in Route 226", 3, eventFlag(0x0000e20e, 5)],
-    ["I Can See!", "Receive all types of glasses from the man in Celestic Town's shop", 3, countFlags([mbit(4, 0xe216), mbit(5, 0xe216), mbit(6, 0xe216)])],
+    ["I Can See!", "Receive every type of glasses from the man in Celestic Town's shop", 3, countFlags([mbit(4, 0xe216), mbit(5, 0xe216), mbit(6, 0xe216)])],
     ["Oh Lawd He Swimmin", "Break the record with a humongous Remoraid and receive a reward", 4, getItemByDialog(IT_NETBALL) && sanity(GS_OW, MAP_Route222HouseFishSize)],
-    ["Small Indie Company", "Get all the Poketch apps from the independent developer in Sunnyshore City", 3, countFlags([mbit(0, o_PoketchAppUnlockedCalendar), mbit(0, o_PoketchAppUnlockedDotArtist), mbit(0, o_PoketchAppUnlockedRoulette)])],
-    ["One for Strength", "Receive a Black Belt from the old man living in Route 221", 2, beltReward(1)],
-    ["One for Knowledge", "Receive a Expert Belt from the old man living in Route 221", 2, beltReward(2)],
-    ["One for Endurance", "Receive a Focus Sash from the old man living in Route 221", 2, beltReward(3)],
+    ["Small Indie Company", "Get every Pokétch app from the independent developer in Sunnyshore City", 3, countFlags([mbit(0, o_PoketchAppUnlockedCalendar), mbit(0, o_PoketchAppUnlockedDotArtist), mbit(0, o_PoketchAppUnlockedRoulette)])],
+    ["One for Strength", "Receive a Black Belt from the old man living on Route 221", 2, beltReward(1)],
+    ["One for Knowledge", "Receive a Expert Belt from the old man living on Route 221", 2, beltReward(2)],
+    ["One for Endurance", "Receive a Focus Sash from the old man living on Route 221", 2, beltReward(3)],
     ["Certified Feet Lover", "Receive a ribbon from Mr. Footstep", 4, partyLeadDataChange(MAP_Route213HouseMrFootstep)],
     ["\"A\" for Effort", "Get an Effort Ribbon from a lady in the Sunnyshore Market", 2, partyLeadDataChange(MAP_SunnyshoreMarket)],
-    ["Stamp Race", "Get all Weekly Ribbons from Julia in a single Pokémon and open their summary", 5, allWeeklyRibbons()],
+    ["Stamp Race", "Have Julia award every Weekly Ribbon to a single Pokémon and open their summary", 5, allWeeklyRibbons()],
 ]
 
 collectibles = [
-    ["Dress to Impress", "Get all the color scarves by showing incredible Pokémon to a certain trainer in Pastoria City", 10, countFlags([mbit(0, 0xe218), mbit(1, 0xe218), mbit(2, 0xe218), mbit(3, 0xe218), mbit(4, 0xe218)])],
+    ["Dress to Impress", "Get all of the color scarves by showing incredible Pokémon to a certain trainer in Pastoria City", 10, countFlags([mbit(0, 0xe218), mbit(1, 0xe218), mbit(2, 0xe218), mbit(3, 0xe218), mbit(4, 0xe218)])],
     ["Minesweeper", "Complete the first 5 tasks of the Underground Man", 10, eventCounter([0x0000e11c], 5, true)],
-    ["Fully Geared", "Get all obtainable Pokétch apps", 10, countFlags(poketchApps)],
-    ["Gotta Catch Some of 'em", "Register half the obtainable Pokémon in your Pokédex", 25, collectibleDex(true)],
-    ["Got to Catch 'em All", "Register all obtainable Pokémons in your Pokédex", 50, collectibleDex()],
-    ["Style and Substance", "Get all obtainable seals", 25, collectibleSeals()],
-    ["Skiddo Toilet Fanum Tax", "Learn all the trendy words", 10, countFlags(trendyWords)],
-    ["The Legend of Sinnoh", "Collect all the type plates scattered across Sinnoh (not digging)", 10, countFlags(array_map(plates, p=>p[I_ADDR]))],
-    ["I Wanna Be the Berry Best", "Plant a berry in every tile of soil in the same session", 10, collectibleBerryBest()],
-    ["Do Your Dailies!", "Complete all daily activities in a single session", 10, countFlags(dailyEvents)],
-    ["Wallpaper Engine", "Obtain all PC box wallpapers", 5, countFlags([mbit(0, o_PcBoxWallpapers), mbit(1, o_PcBoxWallpapers), mbit(2, o_PcBoxWallpapers), mbit(3, o_PcBoxWallpapers), mbit(4, o_PcBoxWallpapers), mbit(5, o_PcBoxWallpapers), mbit(6, o_PcBoxWallpapers), mbit(7, o_PcBoxWallpapers)])],
-    ["Elm's Letter Adventure", "See all Unown forms at least once", 5, getUnowns()],
+    ["Fully Geared", "Get every obtainable Pokétch app", 10, countFlags(poketchApps)],
+    ["Gotta Catch Some of 'em", "Register half of the obtainable Pokémon in your Pokédex", 25, collectibleDex(true)],
+    ["Got to Catch 'em All", "Register every obtainable Pokémon in your Pokédex", 50, collectibleDex()],
+    ["Style and Substance", "Get every obtainable seal", 25, collectibleSeals()],
+    ["Skiddo Toilet Fanum Tax", "Learn all of the trendy words", 10, countFlags(trendyWords)],
+    ["The Legend of Sinnoh", "Collect all of the type plates scattered across Sinnoh. Plates obtained through digging are not required and do not count", 10, countFlags(array_map(plates, p=>p[I_ADDR]))],
+    ["I Wanna Be the Berry Best", "In a single session, plant a berry in every tile of soil", 10, collectibleBerryBest()],
+    ["Do Your Dailies!", "In a single day, complete every daily activity", 10, countFlags(dailyEvents)],
+    ["Wallpaper Engine", "Obtain every PC box wallpaper", 5, countFlags([mbit(0, o_PcBoxWallpapers), mbit(1, o_PcBoxWallpapers), mbit(2, o_PcBoxWallpapers), mbit(3, o_PcBoxWallpapers), mbit(4, o_PcBoxWallpapers), mbit(5, o_PcBoxWallpapers), mbit(6, o_PcBoxWallpapers), mbit(7, o_PcBoxWallpapers)])],
+    ["Elm's Letter Adventure", "See every Unown forms at least once", 5, getUnowns()],
 ]
 
 misc = [
     ["Your Lucky Number", "Win an item in the lottery", 5, lotteryWin()],
-    ["Everyone is Happy with Wi-fi Connection!", "Unlock Mystery Gift", 1, eventFlag(o_MysteryGift, 0)],
+    ["Everyone is Happy with Wi-Fi Connection!", "Unlock Mystery Gift", 1, eventFlag(o_MysteryGift, 0)],
     ["Frickin' Floon Friday", "Catch a Drifloon", 3, captureMon(DRIFLOON)],
     ["Mother, I Crave Violence", "Catch a Gible", 2, captureMon(GIBLE)],
     ["Ugly Duckling", "Catch a Feebas", 5, captureMon(FEEBAS)],
@@ -4240,47 +4246,47 @@ misc = [
     ["Treasure Trove", "Get the treasure from Solaceon Ruins", 3, countFlags([mbit(1, o_Items13), mbit(2, o_Items13), mbit(3, o_Items13), mbit(4, o_Items13)])],
     ["Research Completed", "Complete the Ruin Maniac Cave tunnel and reach the end", 10, prev(mapId())==MAP_ManiacTunnelFinalPhase && mapId()==MAP_SolaceonRuins1F],
     ["Where Is Carnivine?", "Use the binoculars to check out some Pokémon in the Great Marsh", 1, eventFlag(0x0000e31f, 4) && prev(mapId())==MAP_PastoriaGreatMarshBinoculars],
-    ["Bully", "Catch a Pokémon in the Great Marsh to which you threw no bait and at least 3 mud balls", 5, threeMudballs()],
-    ["Three Platter Banquet", "Catch a Pokémon in the Great Marsh to which you threw no mud and at least 3 bait balls", 5, threeBaitballs()],
+    ["Bully", "In the Great Marsh, throw three mud balls at a Pokémon then catch it without ever using bait", 4, threeMudballs()],
+    ["Three Platter Banquet", "In the Great Marsh, throw three bait balls at a Pokémon then catch it without ever using mud", 10, threeBaitballs()],
     ["Beside Itself in Anger", "Throw a perfect mud ball to a Pokémon in the Great Marsh, decreasing only its escape rate", 2, perfectMudball()],
     ["Busy Eating", "Throw a perfect bait ball to a Pokémon in the Great Marsh, increasing only its catch rate", 4, perfectBaitball()],
-    ["Paint Me Like One of your Kalosian Girls", "Dress up a Pokémon in the Jubilife TV dressing room", 2, mword(o_PaintingJubilifeTvSlot1)!=0x1234 && prev(mword(o_PaintingJubilifeTvSlot1))==0x1234 && sanity(map=MAP_JubilifeTv2FPaintingRoom)],
-    ["I Go Out to Work on Monday Morning", "On monday, defeat Reporter Kinsley in Jubilife TV", 1, eventFlag(o_Trainers47, 2) && sanity(GS_OW, MAP_JubilifeTv1F)],
-    ["Tuesday, I Go Off to Honeymoon", "On tuesday, defeat Cameraman Tevin in Jubilife TV", 1, eventFlag(o_Trainers47, 1) && sanity(GS_OW, MAP_JubilifeTv1F)],
-    ["Bicycling on Every Wednesday Evening", "On wednesday, defeat Clown Lee in Jubilife TV", 1, eventFlag(o_Trainers58, 4) && sanity(GS_OW, MAP_JubilifeTv1F)],
-    ["Thursday, I Go Waltzing to the Zoo", "On thursday, defeat Interviewers Roxy & Oli in Jubilife TV", 1, eventFlag(o_Trainers47, 0) && sanity(GS_OW, MAP_JubilifeTv1F)],
-    ["Fridays, I Go Painting in the Louvre", "On friday, defeat Poké Kid Ariel in Jubilife TV", 1, eventFlag(o_Trainers59, 1) && sanity(GS_OW, MAP_JubilifeTv1F)],
-    ["I'm Bound to Be Proposing on a Saturday Night", "On saturday, defeat Guitarist Arturo in Jubilife TV", 1, eventFlag(o_Trainers54, 7) && sanity(GS_OW, MAP_JubilifeTv1F)],
-    ["Lazing on a Sunday Afternoon", "On sunday, defeat Idol Grace in Jubilife TV", 1, eventFlag(o_Trainers47, 3) && sanity(GS_OW, MAP_JubilifeTv1F)],
+    ["Paint Me Like One of Your Kalosian Girls", "Dress up a Pokémon in the Jubilife TV dressing room", 2, mword(o_PaintingJubilifeTvSlot1)!=0x1234 && prev(mword(o_PaintingJubilifeTvSlot1))==0x1234 && sanity(map=MAP_JubilifeTv2FPaintingRoom)],
+    ["I Go Out to Work on Monday Morning", "On Monday, defeat Reporter Kinsley in the Jubilife TV building", 1, eventFlag(o_Trainers47, 2) && sanity(GS_OW, MAP_JubilifeTv1F)],
+    ["Tuesday, I Go Off to Honeymoon", "On Tuesday, defeat Cameraman Tevin in the Jubilife TV building", 1, eventFlag(o_Trainers47, 1) && sanity(GS_OW, MAP_JubilifeTv1F)],
+    ["Bicycling on Every Wednesday Evening", "On Wednesday, defeat Clown Lee in the Jubilife TV building", 1, eventFlag(o_Trainers58, 4) && sanity(GS_OW, MAP_JubilifeTv1F)],
+    ["Thursday, I Go Waltzing to the Zoo", "On Thursday, defeat Interviewers Roxy & Oli in the Jubilife TV building", 1, eventFlag(o_Trainers47, 0) && sanity(GS_OW, MAP_JubilifeTv1F)],
+    ["Fridays, I Go Painting in the Louvre", "On Friday, defeat Poké Kid Ariel in the Jubilife TV building", 1, eventFlag(o_Trainers59, 1) && sanity(GS_OW, MAP_JubilifeTv1F)],
+    ["I'm Bound to Be Proposing on a Saturday Night", "On Saturday, defeat Guitarist Arturo in the Jubilife TV building", 1, eventFlag(o_Trainers54, 7) && sanity(GS_OW, MAP_JubilifeTv1F)],
+    ["Lazing on a Sunday Afternoon", "On Sunday, defeat Idol Grace in the Jubilife TV building", 1, eventFlag(o_Trainers47, 3) && sanity(GS_OW, MAP_JubilifeTv1F)],
     ["Draconic Apocalypse", "Have a Pokémon learn Draco Meteor from Grandma Wilma", 5, sanity(GS_TUTOR, MAP_Route210HouseGrandmaWilma) && dialogIdInMoveTutor()==5 && prev(dialogIdInMoveTutor())==6],
-    ["History Lesson", "Be shown the picture of the other ancient being that created Sinnoh by Cynthia's grandma", 1, eventFlag(0x0000e218, 5)],
-    ["F is for Fren", "Get a gift from your Pokémon at Amity Square", 2, sanity(GS_OW, MAP_AmitySquare) && mbit(1, 0x0000e31c)==1 && prev(stepsSinceLastAmitySquareGift())>=200 && stepsSinceLastAmitySquareGift()==0],
+    ["History Lesson", "Be shown a picture of the other ancient being that created Sinnoh by Cynthia's grandma", 1, eventFlag(0x0000e218, 5)],
+    ["F Is for Fren", "Get a gift from your Pokémon at Amity Square", 2, sanity(GS_OW, MAP_AmitySquare) && mbit(1, 0x0000e31c)==1 && prev(stepsSinceLastAmitySquareGift())>=200 && stepsSinceLastAmitySquareGift()==0],
     ["It's Warm", "Learn about the current swarm from Rowan's assistant's little sister", 1, sanity(GS_OW, MAP_SandgemHouseAssistant1F) && swarmMonId()>0 && prev(swarmMonId()) == 0],
     ["... Thanks", "Help Marley get through the Victory Road", 5, eventCounter([o_EventsMarley], 2)],
     ["Big if True", "Learn about an unusual Pokémon visiting the Trophy Garden", 2, eventFlag(o_DailyEvents1, 2)],
     ["Blessing of the Moon Light", "Cure the son of Sailor Eldritch with the Lunar Wing", 1, eventCounter([o_EventsCanalaveEldritchQuest], 3)],
     ["Gifts of the Pillars", "Get a Stardust, a Rare Bone and a Reaper Cloth from Turnback Cave in the same session", 10, pillarGifts()],
-    ["Rocks in the Bucket", "Help Buck get through the Stark Mountain", 5, eventCounter([o_EventsBuck], 2)],
+    ["Rocks in the Bucket", "Help Buck get through Stark Mountain", 5, eventCounter([o_EventsBuck], 2)],
     ["Cool, Cooler, Coolest", "Win a Cool Master Rank Super Contest", 10, eventFlag(0x0000e31d, 0)],
     ["Beauty Is in the Eye of the Beholder", "Win a Beauty Master Rank Super Contest", 10, eventFlag(0x0000e31d, 1)],
     ["Cute as a Button", "Win a Cute Master Rank Super Contest", 10, eventFlag(0x0000e31d, 2)],
     ["As a Smart Man Once Said...", "Win a Smart Master Rank Super Contest", 10, eventFlag(0x0000e31d, 3)],
     ["As Tough as Old Boots", "Win a Tough Master Rank Super Contest", 10, eventFlag(0x0000e31d, 4)],
-    ["Better Call Luigi", "Witness all the unnatural happenings in the Old Chateau in a single visit", 5, chateauGhosts()],
+    ["Better Call Luigi", "In a single visit, witness all of the unnatural happenings in the Old Chateau", 5, chateauGhosts()],
     ["Ultimate Move", "Have a Pokémon learn an ultimate move from an old man in Route 228", 5, sanity(GS_TUTOR, MAP_Route228HouseUltimateMoves) && dialogIdInMoveTutor()==5 && prev(dialogIdInMoveTutor())==6],
     ["Barge in the Burgeoisie", "Become a member of the Ribbon Society", 5, eventCounter([o_EventsRibbonSociety], 1)],
-    ["Y'all Know What Time it Is!", "Defeat your rival at the Fight Area", 10, eventFlag(o_DailyEvents3, 2)],
-    ["Master of Looks", "Obtain 12 hearts in a Master rank Super Contest visual stage", 10, contestVisual()],
-    ["Master of Groove", "Beat the dance stage of a Master rank Super Contest with the maximum points possible", 25, contestDance()],
-    ["Master of Performance", "Obtain at least 20 hearts in the acting stage of a Master rank Super Contest", 10, contestActing()],
+    ["Y'all Know What Time It Is!", "Defeat your rival at the Fight Area", 10, eventFlag(o_DailyEvents3, 2)],
+    ["Master of Looks", "Obtain 12 hearts in a Master Rank Super Contest visual stage", 10, contestVisual()],
+    ["Master of Groove", "Beat the dance stage of a Master Rank Super Contest with the maximum points possible", 25, contestDance()],
+    ["Master of Performance", "Obtain at least 20 hearts in the acting stage of a Master Rank Super Contest", 10, contestActing()],
     ["Hold On, Let 'em Cook", format("Cook a Poffin without spillages or burns in less than {0} seconds", POFFIN_SECONDS), 10, perfectPoffin()],
-    ["Experience in a Silver Platter", "Defeat all trainers visiting the Restaurant Seven Stars on any given day", 5, restaurantBattles()],
+    ["Experience on a Silver Platter", "Defeat every trainer visiting the Restaurant Seven Stars on any given day", 5, restaurantBattles()],
 ]
 
 secondBatch = [
-    ["Caring about Sharing", "Receive the Exp. Share from Rowan's assistant on the Eterna City south gate", 2, eventFlag(0x0000e211, 3)],
-    ["Extra! Extra!", "Complete an asignment for the Sinnoh News in Solaceon Town", 5, eventFlag(o_DailyEvents3, 1)],
-    ["I Can See My House From Here!", "Register your location in Jubilife City's Global Trade Station", 1, sanity(GS_GTS_GLOBE) && gtsLocation()>0 && prev(gtsLocation()==0)],
+    ["Caring About Sharing", "Receive the Exp. Share from Rowan's assistant at the Eterna City south gate", 2, eventFlag(0x0000e211, 3)],
+    ["Extra! Extra!", "Complete an assignment for the Sinnoh News in Solaceon Town", 5, eventFlag(o_DailyEvents3, 1)],
+    ["I Can See My House from Here!", "Register your location in Jubilife City's Global Trade Station", 1, sanity(GS_GTS_GLOBE) && gtsLocation()>0 && prev(gtsLocation()==0)],
     ["Fest Zest", "Reach a streak of 20 victories in the Battle Tower Single Battle Room, and defeat Palmer", 10, battleTowerStreak(21)],
     ["Party Over", "Reach a streak of 48 victories in the Battle Tower Single Battle Room, and defeat Palmer again", 25, battleTowerStreak(49)],
 ]
