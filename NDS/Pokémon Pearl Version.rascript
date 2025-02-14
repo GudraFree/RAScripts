@@ -839,7 +839,7 @@ function berryAmmount(berry) => mbyte(berry + o_BerryInfoAmmount)
 function berryMulch(berry) => mbyte(berry + o_BerryInfoMulch)
 
 function opponentMonId(place=1) => mword(o_OpponentPokemonInBattleId + (place-1)*o_OpponentPokemonDatablock)
-function opponentMonHp(place=1) => mword(o_OpponentPokemonInBattleId + (place-1)*o_OpponentPokemonDatablock)
+function opponentMonHp(place=1) => mword(o_OpponentPokemonHp + (place-1)*o_OpponentPokemonDatablock)
 function catchRate() => mbyte(o_CatchRateStageInGreatMarsh)
 function fleeRate() => mbyte(o_FleeRateStageInGreatMarsh)
 
@@ -1572,12 +1572,12 @@ hiddenItems = [
 
     ["Iron", OUTSKIRTS, mbit(0, o_HiddenItems3)],
     ["Honey", OUTSKIRTS, mbit(1, o_HiddenItems3)],
-    //["", "", mbit(, o_HiddenItems3)],
+    ["TinyMushroom", METRO, mbit(2, o_HiddenItems3)],
     ["Super Potion", WET, mbit(3, o_HiddenItems3)],
     ["Great Ball", WET, mbit(4, o_HiddenItems3)],
     ["Protein", WET, mbit(5, o_HiddenItems3)],
     ["TinyMushroom", WET, mbit(6, o_HiddenItems3)],
-    //["", "", mbit(, o_HiddenItems3)],
+    ["Revive", WET, mbit(7, o_HiddenItems3)],
 
     ["Ether", WET, mbit(0, o_HiddenItems4)],
     ["Heart Scale", WET, mbit(1, o_HiddenItems4)],
@@ -1590,10 +1590,10 @@ hiddenItems = [
 
     ["Max Revive", WET, mbit(0, o_HiddenItems5)],
     ["Rare Candy", VERTICAL, mbit(1, o_HiddenItems5)],
-    //["", "", mbit(, o_HiddenItems5)],
+    ["Awakening", METRO, mbit(2, o_HiddenItems5)],
     ["TinyMushroom", METRO, mbit(3, o_HiddenItems5)],
-    //["", "", mbit(, o_HiddenItems5)],
-    //["", "", mbit(, o_HiddenItems5)],
+    ["Honey", METRO, mbit(4, o_HiddenItems5)],
+    ["Super Potion", METRO, mbit(5, o_HiddenItems5)],
     ["Repel", METRO, mbit(6, o_HiddenItems5)],
     ["Escape Rope", METRO, mbit(7, o_HiddenItems5)],
 
@@ -1726,8 +1726,8 @@ hiddenItems = [
     ["Honey", FLOWER, mbit(0, o_HiddenItems20)],
     ["Revive", OUTSKIRTS, mbit(1, o_HiddenItems20)],
     ["Awakening", WET, mbit(2, o_HiddenItems20)],
-    //["", "", mbit(, o_HiddenItems20)],
-    //["", "", mbit(, o_HiddenItems20)],
+    ["Revive", METRO, mbit(3, o_HiddenItems20)],
+    ["Great Ball", FOG, mbit(4, o_HiddenItems20)],
     ["Max Potion", FLOWER, mbit(5, o_HiddenItems20)],
     ["Ultra Ball", FLOWER, mbit(6, o_HiddenItems20)],
     ["Honey", SUNNY, mbit(7, o_HiddenItems20)],
@@ -1759,8 +1759,8 @@ hiddenItems = [
     ["Max Ether", VERTICAL, mbit(6, o_HiddenItems23)],
     ["Honey", FOG, mbit(7, o_HiddenItems23)],
 
-    //["", "", mbit(, o_HiddenItems24)],
-    //["", "", mbit(, o_HiddenItems24)],
+    ["Hyper Potion", FOG, mbit(0, o_HiddenItems24)],
+    ["Zinc", FOG, mbit(1, o_HiddenItems24)],
     ["Great Ball", WET, mbit(2, o_HiddenItems24)],
     ["Calcium", WET, mbit(3, o_HiddenItems24)],
     ["Super Potion", WET, mbit(4, o_HiddenItems24)],
@@ -2451,7 +2451,7 @@ trainers = [
     ["Ruin Maniac Calvin", FOG, mbit(0, o_Trainers39)],
     ["Ruin Maniac Larry", LAST, mbit(1, o_Trainers39)],
     ["Jogger Wyatt", FOG, mbit(2, o_Trainers39)],
-    ["Jogger Craig", FOG, mbit(2, o_Trainers39)],
+    ["Jogger Craig", FOG, mbit(3, o_Trainers39)],
     ["Jogger Raul", METRO, mbit(4, o_Trainers39)],
     ["Black Belt Colby", GYM3, mbit(5, o_Trainers39)],
     ["Black Belt Darren", GYM3, mbit(6, o_Trainers39)],
