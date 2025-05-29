@@ -1579,10 +1579,14 @@ function bestiaryEntry(index, listEntry) {
     
     return mems && deltas && floors
 }
-function bestiaryNoEntry(listMem, listDelta, listNotMem, listNotDelta, listEntry) {
+function bestiaryNoEntry(listMem, listDelta) {
     total = length(listMem)
     mems = measured(tally_of(listMem, total, p => p))
-    deltas = tally_of(listDelta, (total-1), p => p)
+    // there is 3 possible cases here of counters going up in the same frame
+    // - by 1: every common enemy and most bosses
+    // - by 2: Garlen Bugpod modes
+    // - by 3: Nahatomb forms
+    deltas = tally_of(listDelta, (total-3), p => p)
     deltaNevers = never(tally_of(listDelta, total, p => p))
     trigger = mems && deltas && deltaNevers && never(screen()==SCREEN_TITLE)
     
@@ -2088,22 +2092,22 @@ function cheevoBestiaryEntry(index, listEntry) {
     )
     cheevoId = cheevoId + 1
 }
-function cheevoBestiaryStrength(listMem, listDelta, listNotMem, listNotDelta, listEntry) {
+function cheevoBestiaryStrength(listMem, listDelta) {
     achievement(
         "Dreamy Researcher - Stats",
         "Discover the stats for all monsters in the bestiary",
         25,
-        bestiaryNoEntry(listMem, listDelta, listNotMem, listNotDelta, listEntry),
+        bestiaryNoEntry(listMem, listDelta),
         id=cheevoId
     )
     cheevoId = cheevoId + 1
 }
-function cheevoBestiaryInfo(listMem, listDelta, listNotMem, listNotDelta, listEntry) {
+function cheevoBestiaryInfo(listMem, listDelta) {
     achievement(
         "Dreamy Researcher - Info",
         "Discover the information for all monsters in the bestiary",
         50,
-        bestiaryNoEntry(listMem, listDelta, listNotMem, listNotDelta, listEntry),
+        bestiaryNoEntry(listMem, listDelta),
         id=cheevoId
     )
     cheevoId = cheevoId + 1
@@ -2432,12 +2436,8 @@ function bestiary() {
     listEntry = []
     listStrengthMem = []
     listInfoMem = []
-    listNotStrengthMem = []
-    listNotInfoMem = []
     listStrengthDelta = []
     listInfoDelta = []
-    listNotStrengthDelta = []
-    listNotInfoDelta = []
     
     for address in bestiary_regular {
         array_push(listEntry, word(address))
@@ -2445,11 +2445,6 @@ function bestiary() {
         array_push(listStrengthDelta, once(prev(word(address))>=BESTIARY_STRENGTH))
         array_push(listInfoMem, once(word(address)>=BESTIARY_INFO))
         array_push(listInfoDelta, once(prev(word(address))>=BESTIARY_INFO))
-        
-        array_push(listNotStrengthMem, once(word(address)<BESTIARY_STRENGTH))
-        array_push(listNotStrengthDelta, once(prev(word(address))<BESTIARY_STRENGTH))
-        array_push(listNotInfoMem, once(word(address)<BESTIARY_INFO))
-        array_push(listNotInfoDelta, once(prev(word(address))<BESTIARY_INFO))
     }
     for address in bestiary_boss {
         array_push(listEntry, word(address))
@@ -2457,11 +2452,6 @@ function bestiary() {
         array_push(listStrengthDelta, once(prev(word(address))>=BESTIARY_BOSS_STRENGTH))
         array_push(listInfoMem, once(word(address)>=BESTIARY_BOSS_INFO))
         array_push(listInfoDelta, once(prev(word(address))>=BESTIARY_BOSS_INFO))
-        
-        array_push(listNotStrengthMem, once(word(address)<BESTIARY_BOSS_STRENGTH))
-        array_push(listNotStrengthDelta, once(prev(word(address))<BESTIARY_BOSS_STRENGTH))
-        array_push(listNotInfoMem, once(word(address)<BESTIARY_BOSS_INFO))
-        array_push(listNotInfoDelta, once(prev(word(address))<BESTIARY_BOSS_INFO))
     }
     for address in bestiary_guntz {
         array_push(listEntry, word(address))
@@ -2469,16 +2459,11 @@ function bestiary() {
         array_push(listStrengthDelta, once(prev(word(address))>=BESTIARY_BOSS_STRENGTH))
         array_push(listInfoMem, once(word(address)>=BESTIARY_GUNTZ_INFO))
         array_push(listInfoDelta, once(prev(word(address))>=BESTIARY_GUNTZ_INFO))
-        
-        array_push(listNotStrengthMem, once(word(address)<BESTIARY_BOSS_STRENGTH))
-        array_push(listNotStrengthDelta, once(prev(word(address))<BESTIARY_BOSS_STRENGTH))
-        array_push(listNotInfoMem, once(word(address)<BESTIARY_GUNTZ_INFO))
-        array_push(listNotInfoDelta, once(prev(word(address))<BESTIARY_GUNTZ_INFO))
     }
     
     for percent in range(1,4) cheevoBestiaryEntry(percent, listEntry)
-    cheevoBestiaryStrength(listStrengthMem, listStrengthDelta, listNotStrengthMem, listNotStrengthDelta, listEntry)
-    cheevoBestiaryInfo(listInfoMem, listInfoDelta, listNotInfoMem, listNotInfoDelta, listEntry)
+    cheevoBestiaryStrength(listStrengthMem, listStrengthDelta)
+    cheevoBestiaryInfo(listInfoMem, listInfoDelta)
 }
 
 // cycle cheevos test
