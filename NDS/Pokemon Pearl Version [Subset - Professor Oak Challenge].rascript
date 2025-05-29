@@ -523,6 +523,16 @@ phaseBadges = {
     7: 8,
     8: 9 // bitcount of badges + league
 }
+phaseBadgesTarget = {
+    1: 1,
+    2: 2,
+    3: 5,
+    4: 6,
+    5: 7,
+    6: 8,
+    7: 9,
+    8: 10 // bitcount of badges + league + heatran
+}
 
 phaseTitle = {
     1: "Another Day in the Oak Mines",
@@ -577,10 +587,8 @@ function tid2() => byte(gamePointer() + o_tid)
 function tv() => word(gamePointer() + o_tv)
 function mom() => word(gamePointer() + o_mom)
 function gamestate() => byte(gamePointer() + o_gamestate)
-function sanity(onlyOW=false) {
-    trigger = gamePointer()==prev(gamePointer())
-    if(onlyOW) trigger = trigger && trigger_when(gamestate()==0x4)
-    else trigger = trigger && gamestate()>0x0
+function sanity() {
+    trigger = gamePointer()==prev(gamePointer()) && gamestate()>0x0
     return trigger
 }
 function badges() => bitcount(gamePointer() + o_badges) // add bit for league and a bit for Barry
@@ -668,20 +676,20 @@ function haveStarters() {
 }
 
 function getCheckpoint(phase) {
-    badges = phaseBadges[phase]
+    badges = phaseBadgesTarget[phase]
     phaseMons = []
     starters = []
     for mon in dex if(mon[PK_PHASE]<=phase) array_push(phaseMons, mon)
     for mon in dex if(mon[PK_PHASE]==51) array_push(starters, mon)
     
     trigger =
-        trigger_when(checkpoint() == badges + 1) &&
-        prev(checkpoint()) == badges &&
+        trigger_when(checkpoint() == badges) &&
+        trigger_when(prev(checkpoint()) == badges-1) &&
         any_of(starters, starter =>
             measured(sum_of(phaseMons, mon => dexFlag(mon[PK_NUMBER]))+dexFlag(starter[PK_NUMBER])+dexFlag(starter[PK_NUMBER]+1)+dexFlag(starter[PK_NUMBER]+2) == countMons(phase), gamestate()>0)
         )
     
-    return sanity(true) && trigger
+    return sanity() && trigger
 }
 
 function iHateEnglish(name) {
@@ -695,7 +703,7 @@ function cheevoMunchlax() {
         "You're Ready to Go!",
         "Munchlax will appear before the second badge with your current Trainer and Secret IDs",
         0,
-        sanity(true) && prev(mom())== 0 && trigger_when(mom()==1) && munchlaxCalc(),
+        sanity() && prev(mom())== 0 && trigger_when(mom()==1) && munchlaxCalc(),
         "missable"
     )
 }
