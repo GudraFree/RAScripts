@@ -788,6 +788,7 @@ o_PoffinResultScreenTimesSpilled = 0x054e80
 o_PoffinResultScreenTimesBurnt = 0x054e84
 o_PoffinResultScreenType = 0x054e8c
 o_PoffinResultScreenLevel = 0x054e8d
+o_PoffinResultScreenMinutes = 0x054e8e
 o_PoffinResultScreenSeconds = 0x054e8f
 o_PoffinResultScreenCentiseconds = 0x054e90
 
@@ -857,6 +858,7 @@ function poffinResultScreenTimesSpilled() => mbyte(o_PoffinResultScreenTimesSpil
 function poffinResultScreenTimesBurnt() => mbyte(o_PoffinResultScreenTimesBurnt)
 function poffinResultScreenType() => mbyte(o_PoffinResultScreenType)
 function poffinResultScreenLevel() => mbyte(o_PoffinResultScreenLevel)
+function poffinResultScreenMinutes() => mbyte(o_PoffinResultScreenMinutes)
 function poffinResultScreenSeconds() => mbyte(o_PoffinResultScreenSeconds)
 function poffinResultScreenCentiseconds() => mbyte(o_PoffinResultScreenCentiseconds)
 
@@ -3806,15 +3808,17 @@ function chateauGhosts() {
 
 function contestVisual() {
     rank = mword(o_InDialogItemPickedId) // yeah, it's the same address
-    measuWhen = rank==0x3 && gameState()==GS_CONTEST_1  && contestVisualStageTurn() == 0
     
     trigger = 
         sanity() &&
         rank==0x3 && 
         gameState()==GS_CONTEST_1  && 
-        contestVisualStageTurn() == 0 &&
-        prev(contestVisualStageConditionHearts())+prev(contestVisualStageDressUpHearts()) < 12 &&
-        contestVisualStageConditionHearts()+contestVisualStageDressUpHearts() == 12
+        contestVisualStageTurn() == 0 && (
+            prev(contestVisualStageConditionHearts()) != contestVisualStageConditionHearts() ||
+            prev(contestVisualStageDressUpHearts()) != contestVisualStageDressUpHearts()
+        ) &&
+        contestVisualStageDressUpHearts() == 4 &&
+        contestVisualStageConditionHearts()+contestVisualStageDressUpHearts() >= 9
     
     return trigger
 }
@@ -3919,6 +3923,7 @@ function perfectPoffin() {
         poffinResultScreenLevel() > 0 &&
         poffinResultScreenTimesBurnt() == 0 &&
         poffinResultScreenTimesSpilled() == 0 &&
+        poffinResultScreenMinutes() == 0 &&
         poffinResultScreenSeconds() < POFFIN_SECONDS
     
     return trigger
@@ -4141,7 +4146,7 @@ progression = [
     ["Fen Garden", "Earn the Fen Badge", 5, eventFlag(o_Badges, 3)],
     ["Rawsome!", "Defeat your rival in Pastoria City", 5, eventFlag(0x0000e210, 3)],
     ["Go Home, You're Drunk", "Get a secret remedy for Pokémon headaches from Cynthia", 2, eventFlag(0x0000e206, 7)],
-    ["Slow Advance", "Receive HM05, Surf", 2, eventFlag(0x0000e321, 5)],
+    ["Slow Advance", "Receive HM03, Surf", 2, eventFlag(0x0000e321, 5)],
     ["It Belongs in a Museum!", "Earn the Relic Badge", 10, eventFlag(o_Badges, 4)],
     ["Bada Bada Bada Bada BLAM", "Beat your rival in Canalave City", 10, eventCounter([o_EventsCanalaveCity], 1)],
     ["What's Yours Is Mine", "Earn the Mine Badge", 10, eventFlag(o_Badges, 5)],
@@ -4276,7 +4281,7 @@ misc = [
     ["Ultimate Move", "Have a Pokémon learn an ultimate move from an old man in Route 228", 5, sanity(GS_TUTOR, MAP_Route228HouseUltimateMoves) && dialogIdInMoveTutor()==5 && prev(dialogIdInMoveTutor())==6],
     ["Barge in the Burgeoisie", "Become a member of the Ribbon Society", 5, eventCounter([o_EventsRibbonSociety], 1)],
     ["Y'all Know What Time It Is!", "Defeat your rival at the Fight Area", 10, eventFlag(o_DailyEvents3, 2)],
-    ["Master of Looks", "Obtain 12 hearts in a Master Rank Super Contest visual stage", 10, contestVisual()],
+    ["Master of Looks", "Obtain 4 Dress Up hearts and at least 9 total hearts in a Master Rank Super Contest visual stage", 10, contestVisual()],
     ["Master of Groove", "Beat the dance stage of a Master Rank Super Contest with the maximum points possible", 25, contestDance()],
     ["Master of Performance", "Obtain at least 20 hearts in the acting stage of a Master Rank Super Contest", 10, contestActing()],
     ["Hold On, Let 'em Cook", format("Cook a Poffin without spillages or burns in less than {0} seconds", POFFIN_SECONDS), 10, perfectPoffin()],
@@ -4306,3 +4311,27 @@ for zone in zones {
     cheevoAllSecrets(zone)
 }
 for c in secondBatch cheevoStandard(c)
+
+
+
+function lbPoffin() {
+    start =
+        sanity(GS_POFFIN) &&
+        prev(poffinResultScreenLevel()) == 0 &&
+        poffinResultScreenLevel() > 0 &&
+        poffinResultScreenTimesBurnt() == 0 &&
+        poffinResultScreenTimesSpilled() == 0
+    cancel = always_false()
+    submit = always_true()
+    value = poffinResultScreenCentiseconds() + 100*poffinResultScreenSeconds() + 60*100*poffinResultScreenMinutes()
+    
+    leaderboard(
+        "The Best Poffin",
+        "Fastest time for poffin making with no burns and spills",
+        start, cancel, submit, value,
+        format="MILLISECS", 
+        lower_is_better=true
+    )
+}
+
+lbPoffin()
