@@ -1161,7 +1161,7 @@ function paintChallenge() {
     //paintTimeLeft = word(questPointer()+qpoPaintTime)
     paintGoesOff = once(isPainted==0 && prev(isPainted)>0)
     kill = monsterHP()==0 && prev(monsterHP())>0
-    reset = never(paintGoesOff && repeated(3600, always_true())) && never(questTerminated())
+    reset = never(paintGoesOff && repeated(3600, always_true())) && never(questTerminated()) && never(location()==locationVillage) && never(location()==locationHub)
     
     return paintGoesOff && trigger_when(kill) && reset && pointerSanityCheck(questPointer)
 }
@@ -1174,15 +1174,18 @@ for quest in quests {
         questNameAppend = quest[QUEST_TITL_APPEND]
         if(questNameAppend!="") questName = questName+" "+questNameAppend
         type= "progression"
+        loc = quest[QUEST_LOCATION]
         typeText = quest[QUEST_TYPE_TEXT]
-        if(typeText=="final") type= ""
-        questDesc =format("Clear the {0} {1} quest \"{2}\"", typeText, quest[QUEST_LOCATION], quest[QUEST_NAME])
+        pts = quest[QUEST_POINTS]
+        if(loc!=v) type=""
+        if(pts>5) type= "" // exclude everything post monoblos
+        questDesc =format("Clear the {0} {1} quest \"{2}\"", typeText, loc, quest[QUEST_NAME])
         questDescAppend = quest[QUEST_DESC_APPEND]
         if(questDescAppend!="") questDesc = questDesc+" "+questDescAppend
         achievement(
             title = questName, 
             description = questDesc,
-            points = quest[QUEST_POINTS],
+            points = pts,
             trigger = singleQuest(quest),
             id = cheevoId,
             type = type
