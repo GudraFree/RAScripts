@@ -33,7 +33,7 @@ MSG_TRIBAL_ADVANCE = "@SURPRISEMERCS"
 MSG_TRIBAL_UNIT = "@SURPRISEBARB"
 MSG_WELOVETHEKING = "@WEDONTLOVEKING"
 MSG_WIN_SCIENCE = "@CENTAURI"
-MSG_WIN_DOMINATION = "@PLAYAGAIN"
+MSG_WIN_DOMINATION = "@KEEPPLAYING"
 
 SCIENCE = "science"
 DOMIN = "domination"
@@ -44,9 +44,9 @@ DIF_KING = 3
 DIF_EMPEROR = 4
 DIF_DEITY = 5
 
-MAP_SMALL = 0
-MAP_MEDIUM = 1
-MAP_LARGE = 2
+MAP_SMALL = 0x1fd0a0
+MAP_MEDIUM = 0x1fa1c0
+MAP_LARGE = 0x1f2c90
 
 BARB_VILLAGE = 0
 BARB_ROVING = 1
@@ -75,12 +75,25 @@ TRB_PERSIAN = 0x12
 TRB_CARTHAGE = 0x13
 TRB_SIOUX = 0x14
 
+TRB_MILESTONE_20M = 0x1d
+
+REP_SPOTLESS = 0x0
+REP_EXCELLENT = 0x1
+REP_HONORABLE = 0x2
+REP_QUESTIONABLE = 0x3
+REP_DISHONOR = 0x4
+REP_POOR = 0x5
+REP_DESPICABLE = 0x6
+REP_ATROCIOUS = 0x7
+
 DPL_MET = 0
 DPL_CEASE_FIRE = 1
 DPL_PEACE = 2
 DPL_ALLY = 3
 DPL_EMBASSY = 7
 DPL_WAR = 13
+DPL_NUKE_AFTER = 17
+DPL_NUKE_BEFORE = 21
 
 TIL_TYPE_DESERT = 0
 TIL_TYPE_PLAINS = 1
@@ -124,11 +137,10 @@ C_DESC = 1
 C_POINTS = 2
 C_TRIGGER = 3
 
-rangeUnit = range(0, 999)
+rangeUnit = range(0, 1023)
 rangeUnitReduced = range(0, 249)
-rangeCity = range(0,255)
-rangeCityReduced = range(0,149)
-rangeCityReducedAgain = range(0,49)
+rangeCity = range(0,127)
+rangeCityReduced = range(0,18)
 rangeSlots = range(0,7)
 rangeTrade = range(1,3)
 
@@ -226,46 +238,51 @@ techs = {
     88: "Writing",
 }
 
+BLD_SEWER = 23
+BLD_FACTORY = 15
 buildings = {
-    0: "Palace",
-    1: "Barracks",
-    2: "Granary",
-    3: "Temple",
-    4: "MarketPlace",
-    5: "Library",
-    6: "Courthouse",
-    7: "City Walls",
-    8: "Aqueduct",
-    9: "Bank",
-    10: "Cathedral",
-    11: "University",
-    12: "Mass Transit",
-    13: "Colosseum",
-    14: "Factory",
-    15: "Manufacturing Plant",
-    16: "SDI Defense",
-    17: "Recycling Center",
-    18: "Power Plant",
-    19: "Hydro Plant",
-    20: "Nuclear Plant",
-    21: "Stock Exchange",
-    22: "Sewer System",
-    23: "Supermarket",
-    24: "Superhighways",
-    25: "Research Lab",
-    26: "SAM Missile Battery",
-    27: "Coastal Fortress",
-    28: "Solar Plant",
-    29: "Harbor",
-    30: "Offshore Platform",
-    31: "Airport",
-    32: "Police Station",
-    33: "Port Facility",
+    1: "Palace",
+    2: "Barracks",
+    3: "Granary",
+    4: "Temple",
+    5: "MarketPlace",
+    6: "Library",
+    7: "Courthouse",
+    8: "City Walls",
+    9: "Aqueduct",
+    10: "Bank",
+    11: "Cathedral",
+    12: "University",
+    13: "Mass Transit",
+    14: "Colosseum",
+    15: "Factory",
+    16: "Manufacturing Plant",
+    17: "SDI Defense",
+    18: "Recycling Center",
+    19: "Power Plant",
+    20: "Hydro Plant",
+    21: "Nuclear Plant",
+    22: "Stock Exchange",
+    23: "Sewer System",
+    24: "Supermarket",
+    25: "Superhighways",
+    26: "Research Lab",
+    27: "SAM Missile Battery",
+    28: "Coastal Fortress",
+    29: "Solar Plant",
+    30: "Harbor",
+    31: "Offshore Platform",
+    32: "Airport",
+    33: "Police Station",
+    34: "Port Facility",
 }
 
 WON_APOLLO = 25
 WON_STATUE = 19
 WON_MARCOPOLO = 9
+WON_PYRAMIDS = 0
+WON_LIGHTHOUSE = 3
+WON_LIBRARY = 4
 wonders = {
     0: "Pyramids",
     1: "Hanging Gardens",
@@ -298,15 +315,17 @@ wonders = {
 }
 
 // addresses
-a_size = 0x10c07c
-a_diff = 0x10c07e
-a_tribeNumber = 0x10c080
-a_barbActivity = 0x10c082
-a_gender = 0x10c084
-a_tribe = 0x10c086
-a_architecture = 0x10c088
+a_tribesActive = 0x11a274
+a_tribesTotal = 0x11a276
 
-a_playerIndex = 0x11a26d
+a_diff = 0x11a272
+a_barbActivity = 0x11a273
+a_genderFirst = 0x116ad4
+o_genderDatablock = 48
+a_mapPointer = 0x1589b0
+a_architecture = 0x116fb2
+
+a_playerIndex = 0x11acb4
 a_slotTurn = 0x11a26f
 a_totalUnits = 0x11a280
 a_totalCities = 0x11a282
@@ -339,22 +358,14 @@ o_cityCurrentOwner = 0x8
 o_cityPeople = 0x9
 o_cityFood = 0x1c
 o_cityProd = 0x1e
-o_cityId = 0x20
 o_cityName = 0x22
 o_cityBuildings1 = 0x38
-o_cityBuildings2 = 0x39
-o_cityBuildings3 = 0x3a
-o_cityBuildings4 = 0x3b
-o_cityBuildings5 = 0x3c
 o_cityCurrentProd = 0x3d
 o_cityTradesSent = 0x3e
-// o_cityTradeBlob = 0x3f
+o_cityTradeSupply1 = 0x3f
+o_cityTradeDemand1 = 0x42
 o_cityTrade1Commodity = 0x45
-o_cityTrade2Commodity = 0x46
-o_cityTrade3Commodity = 0x47
 o_cityTrade1Destination = 0x48
-o_cityTrade2Destination = 0x4a
-o_cityTrade3Destination = 0x4c
 
 a_wonderFirst = 0x11a342
 
@@ -366,19 +377,19 @@ o_tribeScienceTotal = 0x6A
 o_tribeCurrentResearch = 0x6C
 o_tribeTurnsAlive = 0x72
 o_tribeGovernment = 0x77
+o_tribeRep = 0x80
 o_tribeDiplo = 0x84
 o_tribeTechs1 = 0xBC
-o_tribeTechs2 = 0xBD
-o_tribeTechs3 = 0xBE
-o_tribeTechs4 = 0xBF
-o_tribeTechs5 = 0xC0
-o_tribeTechs6 = 0xC1
-o_tribeTechs7 = 0xC2
-o_tribeTechs8 = 0xC3
-o_tribeTechs9 = 0xC4
-o_tribeTechs10 = 0xC5
-o_tribeTechs11 = 0xC6
-o_tribeTechs12 = 0xC7
+o_tribePopulationMilestones = 0xD4
+o_tribeTRLoc1 = 0x437
+o_tribeTRLoc2 = 0x438
+o_tribeTRLoc3 = 0x439
+o_tribeTRLoc4 = 0x43a
+o_tribeTRLoc5 = 0x43b
+o_tribeTRLoc6 = 0x43c
+o_tribeTRLoc7 = 0x43d
+o_tribeTRLoc8 = 0x43e
+o_tribeTRAdds = 0x43f
 o_tribeSSFlags = 0x444
 o_tribeSSStruct = 0x44c
 o_tribeSSProp = 0x44e
@@ -391,16 +402,12 @@ a_tileFirst = 0x1fa1c0
 o_tileDatablock = 6
 o_tileType = 0
 o_tileEnhancement = 1
-o_tileVisibility = 5
+o_tileVisibility = 4
 
 // accessors
-function size() => word(a_size)
-function difficulty() => word(a_diff)
-function tribeNumber() => word(a_tribeNumber)
-function barbActivity() => word(a_barbActivity)
-function gender() => word(a_gender)
-function tribe() => word(a_tribe)
-function architecture() => word(a_architecture)
+function tribeNumber() => bitcount(a_tribesTotal) - bit0(a_tribesTotal)
+function tribesActive() => bitcount(a_tribesActive) - bit0(a_tribesActive)
+function tribeActive(i) => bit(i,a_tribesActive)
 
 function player() => byte(a_playerIndex)
 function turn() => byte(a_slotTurn)
@@ -410,14 +417,30 @@ function gameTurn() => word(a_gameTurn)
 function year() => word(a_year)
 function yearSign() => bit(15, a_year)
 
+function difficulty() => byte(a_diff)
+function barbActivity() => byte(a_barbActivity)
+function architecture() => byte(a_architecture)
+function mapPointer() => tbyte(a_mapPointer)
+
 function tribeId(i) => byte(a_tribeFirst + o_tribeDatablock*i + o_tribeId)
-function tribeGold(i) => byte(a_tribeFirst + o_tribeDatablock*i + o_tribeGold)
+function tribeGold(i) => dword(a_tribeFirst + o_tribeDatablock*i + o_tribeGold)
 function tribeScience(i) => word(a_tribeFirst + o_tribeDatablock*i + o_tribeScienceTotal)
 function tribeCurrentResearch(i) => word(a_tribeFirst + o_tribeDatablock*i + o_tribeCurrentResearch)
 function tribeTurnsAlive(i) => byte(a_tribeFirst + o_tribeDatablock*i + o_tribeTurnsAlive)
 function tribeGovernment(i) => byte(a_tribeFirst + o_tribeDatablock*i + o_tribeGovernment)
+function tribeReputation(i) => byte(a_tribeFirst + o_tribeDatablock*i + o_tribeRep)
 function tribeDiplo(i,slot,diplo) => bit(diplo%8, a_tribeFirst + o_tribeDatablock*i + o_tribeDiplo + slot*4 + diplo/8)
 function tribeTech(i,n) => bit(n%8, a_tribeFirst + o_tribeDatablock*i + o_tribeTechs1 +n/8)
+function tribePopulationMilestones(i) => byte(a_tribeFirst + o_tribeDatablock*i + o_tribePopulationMilestones)
+function tribeTRLoc1(i) => byte(a_tribeFirst + o_tribeDatablock*i + o_tribeTRLoc1)
+function tribeTRLoc2(i) => byte(a_tribeFirst + o_tribeDatablock*i + o_tribeTRLoc2)
+function tribeTRLoc3(i) => byte(a_tribeFirst + o_tribeDatablock*i + o_tribeTRLoc3)
+function tribeTRLoc4(i) => byte(a_tribeFirst + o_tribeDatablock*i + o_tribeTRLoc4)
+function tribeTRLoc5(i) => byte(a_tribeFirst + o_tribeDatablock*i + o_tribeTRLoc5)
+function tribeTRLoc6(i) => byte(a_tribeFirst + o_tribeDatablock*i + o_tribeTRLoc6)
+function tribeTRLoc7(i) => byte(a_tribeFirst + o_tribeDatablock*i + o_tribeTRLoc7)
+function tribeTRLoc8(i) => byte(a_tribeFirst + o_tribeDatablock*i + o_tribeTRLoc8)
+function tribeTRAdds(i) => bitcount(a_tribeFirst + o_tribeDatablock*i + o_tribeTRAdds) - bit7(a_tribeFirst + o_tribeDatablock*i + o_tribeTRAdds)
 function tribeSSStruct(i) => word(a_tribeFirst + o_tribeDatablock*i + o_tribeSSStruct)
 function tribeSSProp(i) => word(a_tribeFirst + o_tribeDatablock*i + o_tribeSSProp)
 function tribeSSFuel(i) => word(a_tribeFirst + o_tribeDatablock*i + o_tribeSSFuel)
@@ -436,10 +459,15 @@ function cityName(i) => dword_be(a_cityFirst + o_cityDatablock*i + o_cityName)
 function cityBuilding(i,n) => bit(n%8, a_cityFirst + o_cityDatablock*i + o_cityBuildings1 +n/8)
 function cityCurrentProd(i) => byte(a_cityFirst + o_cityDatablock*i + o_cityCurrentProd)
 function cityTradesSent(i) => byte(a_cityFirst + o_cityDatablock*i + o_cityTradesSent)
+function cityTradeSupply(i,n) => byte(a_cityFirst + o_cityDatablock*i + o_cityTradeSupply1 + (n-1))
+function cityTradeDemand(i,n) => byte(a_cityFirst + o_cityDatablock*i + o_cityTradeDemand1 + (n-1))
 function cityTradeCommodity(i,n) => byte(a_cityFirst + o_cityDatablock*i + o_cityTrade1Commodity + (n-1))
 function cityTradeDestination(i,n) => word(a_cityFirst + o_cityDatablock*i + o_cityTrade1Destination + 2*(n-1))
 
 function wonder(i) => word(a_wonderFirst + 2*i)
+
+function tribe() => tribeId(player())
+function gender() => byte(a_genderFirst + tribe()*o_genderDatablock)
 
 function unitPosX(i) => word(a_unitFirst + o_unitDatablock*i + o_unitPosX)
 function unitPosY(i) => word(a_unitFirst + o_unitDatablock*i + o_unitPosY)
@@ -456,11 +484,19 @@ function unitSpecialAction(i) => byte(a_unitFirst + o_unitDatablock*i + o_unitSp
 function unitDestPosX(i) => word(a_unitFirst + o_unitDatablock*i + o_unitDestPosX)
 function unitDestPosY(i) => word(a_unitFirst + o_unitDatablock*i + o_unitDestPosY)
 
-function tileType(i) => low4(a_tileFirst + o_tileDatablock*i + o_tileType)
-function tileEnhancement(i,flag) => bit(flag, a_tileFirst + o_tileDatablock*i + o_tileEnhancement)
-function tileVisibility(i,tribe) => bit(tribe, a_tileFirst + o_tileDatablock*i + o_tileVisibility)
+function tileType(i) => low4(mapPointer() + o_tileDatablock*i + o_tileType)
+function tileEnhancement(i,flag) => bit(flag, mapPointer() + o_tileDatablock*i + o_tileEnhancement)
+function tileVisibility(i,tribe) => bit(tribe, mapPointer() + o_tileDatablock*i + o_tileVisibility)
 
 // #region lookups
+lookupAD = {
+    0: "AD ",
+    1: ""
+}
+lookupBC = {
+    0: "",
+    1: " BC"
+}
 lookupTitle = {
     0x000: "Mr. Caesar of the Romans",
     0x001: "Dictator Caesar of the Romans",
@@ -581,13 +617,13 @@ lookupTitle = {
     0x804: "High Priest Shaka of the Zulus",
     0x805: "Consul Shaka of the Zulus",
     0x806: "President Shaka of the Zulus",
-    0x810: "Ms. Shakala of the Zulus",
-    0x811: "Empress Shakala of the Zulus",
-    0x812: "Queen Shakala of the Zulus",
-    0x813: "Comrade Shakala of the Zulus",
-    0x814: "High Priestess Shakala of the Zulus",
-    0x815: "Consul Shakala of the Zulus",
-    0x816: "President Shakala of the Zulus",
+    0x810: "Ms. Nandi of the Zulus",
+    0x811: "Empress Nandi of the Zulus",
+    0x812: "Queen Nandi of the Zulus",
+    0x813: "Comrade Nandi of the Zulus",
+    0x814: "High Priestess Nandi of the Zulus",
+    0x815: "Consul Nandi of the Zulus",
+    0x816: "President Nandi of the Zulus",
     0x900: "Mr. Louis XIV of the French",
     0x901: "Emperor Louis XIV of the French",
     0x902: "King Louis XIV of the French",
@@ -658,13 +694,13 @@ lookupTitle = {
     0xd14: "High Priestess Bortei of the Mongols",
     0xd15: "Consul Bortei of the Mongols",
     0xd16: "President Bortei of the Mongols",
-    0xe00: "Mr. Cunobenin of the Celts",
-    0xe01: "Emperor Cunobenin of the Celts",
-    0xe02: "King Cunobenin of the Celts",
-    0xe03: "Comrade Cunobenin of the Celts",
-    0xe04: "Druid Cunobenin of the Celts",
-    0xe05: "Consul Cunobenin of the Celts",
-    0xe06: "President Cunobenin of the Celts",
+    0xe00: "Mr. Cunobelin of the Celts",
+    0xe01: "Emperor Cunobelin of the Celts",
+    0xe02: "King Cunobelin of the Celts",
+    0xe03: "Comrade Cunobelin of the Celts",
+    0xe04: "Druid Cunobelin of the Celts",
+    0xe05: "Consul Cunobelin of the Celts",
+    0xe06: "President Cunobelin of the Celts",
     0xe10: "Ms. Boadicea of the Celts",
     0xe11: "Empress Boadicea of the Celts",
     0xe12: "Queen Boadicea of the Celts",
@@ -679,13 +715,13 @@ lookupTitle = {
     0xf04: "High Priest Tokugawa of the Japanese",
     0xf05: "Consul Tokugawa of the Japanese",
     0xf06: "Prime Minister Tokugawa of the Japanese",
-    0xf10: "Ms. Amateratsu of the Japanese",
-    0xf11: "Empress Amateratsu of the Japanese",
-    0xf12: "Shogun Amateratsu of the Japanese",
-    0xf13: "Comrade Amateratsu of the Japanese",
-    0xf14: "High Priestess Amateratsu of the Japanese",
-    0xf15: "Consul Amateratsu of the Japanese",
-    0xf16: "Prime Minister Amateratsu of the Japanese",
+    0xf10: "Ms. Amaterasu of the Japanese",
+    0xf11: "Empress Amaterasu of the Japanese",
+    0xf12: "Shogun Amaterasu of the Japanese",
+    0xf13: "Comrade Amaterasu of the Japanese",
+    0xf14: "High Priestess Amaterasu of the Japanese",
+    0xf15: "Consul Amaterasu of the Japanese",
+    0xf16: "Prime Minister Amaterasu of the Japanese",
     0x1000: "Mr. Canute of the Vikings",
     0x1001: "Warlord Canute of the Vikings",
     0x1002: "King Canute of the Vikings",
@@ -693,13 +729,13 @@ lookupTitle = {
     0x1004: "High Priest Canute of the Vikings",
     0x1005: "Consul Canute of the Vikings",
     0x1006: "President Canute of the Vikings",
-    0x1010: "Ms. Gunnhild of the Vikings",
-    0x1011: "Warlord Gunnhild of the Vikings",
-    0x1012: "Queen Gunnhild of the Vikings",
-    0x1013: "Comrade Gunnhild of the Vikings",
-    0x1014: "High Priestess Gunnhild of the Vikings",
-    0x1015: "Consul Gunnhild of the Vikings",
-    0x1016: "President Gunnhild of the Vikings",
+    0x1010: "Ms. Gyde of the Vikings",
+    0x1011: "Warlord Gyde of the Vikings",
+    0x1012: "Queen Gyde of the Vikings",
+    0x1013: "Comrade Gyde of the Vikings",
+    0x1014: "High Priestess Gyde of the Vikings",
+    0x1015: "Consul Gyde of the Vikings",
+    0x1016: "President Gyde of the Vikings",
     0x1100: "Mr. Philip II of the Spanish",
     0x1101: "Emperor Philip II of the Spanish",
     0x1102: "King Philip II of the Spanish",
@@ -757,10 +793,20 @@ lookupTitle = {
     0x1415: "Consul Sacajawea of the Sioux",
     0x1416: "President Sacajawea of the Sioux",
 }
+lookupReputation = {
+    0: "is known throughout the world as a just ruler",
+    1: "is ruling their empire with benevolent grace",
+    2: "is ruling their empire with a code of honor",
+    3: "is ruling their empire with cunning and guile",
+    4: "is ruling their empire disreputably",
+    5: "is ruling their empire through uncompromising force",
+    6: "is ruling their empire with malevolent cruelty",
+    7: "is known throughout the world as an infamous villain",
+}
 lookupSize = {
-    0: "small",
-    1: "normal",
-    2: "large"
+    MAP_SMALL: "Small",
+    MAP_MEDIUM: "Normal",
+    MAP_LARGE: "Large"
 }
 lookupDiff = {
     0: "Chieftain",
@@ -810,14 +856,14 @@ lookupWonderTitle = {
 
 // #region functions
 function slot(tribe) => tribe%7 + 1
-function playerTurn() => turn() == player()
+function playerTurn() => turn() == player() && turn() == prev(turn())
 function activeCity(i) => i<totalCities() && totalCities()==prev(totalCities())
 function activeUnit(i) => i<totalUnits() && totalUnits()==prev(totalUnits())
 function ownCity(i) => cityCurrentOwner(i) == player() && activeCity(i)
 function ownUnit(i) => unitOwner(i) == player() && activeUnit(i)
 function otherTribes(myTribe) => array_filter(rangeSlots, slot=> slot!=slot(myTribe))
 function yearLessThan(year) => __ornext(year()<year || yearSign()==1)
-function posToTileIndex(x, y) => x / 2 + y * (MAP_SMALL_COLS + (MAP_MEDIUM_COLS - MAP_SMALL_COLS) * bit0(a_size) + (MAP_LARGE_COLS - MAP_SMALL_COLS) * bit1(a_size))
+function posToTileIndex(x, y) => x / 2 + y * (MAP_SMALL_COLS + (MAP_MEDIUM_COLS - MAP_SMALL_COLS) * bit6(a_mapPointer) + (MAP_LARGE_COLS - MAP_SMALL_COLS) * bit4(a_mapPointer))
 function newTradeRoute(i) => __ornext(cityTradesSent(i)>prev(cityTradesSent(i)) || (cityTradesSent(i)==3 && cityTradeCommodity(i,1)!=prev(cityTradeCommodity(i,1))))
 
 // cheevo triggers
@@ -834,21 +880,47 @@ function hillsMine() => playerTurn() && any_of(rangeUnitReduced, i => ownUnit(i)
 function fortifyFort() => playerTurn() && any_of(rangeUnitReduced, i => ownUnit(i) && unitSpecialAction(i)==UNT_ACT_FORTIFY && prev(unitSpecialAction(i))==UNT_ACT_NONE && tileEnhancement(posToTileIndex(unitPosX(i), unitPosY(i)), TIL_FLAG_FORT)==1)
 function refuelBomber() => playerTurn() && any_of(rangeUnitReduced, i => ownUnit(i) && unitTurnsBuild(i)==0 && prev(unitTurnsBuild(i))==1 && tileEnhancement(posToTileIndex(unitPosX(i), unitPosY(i)), TIL_FLAG_FORT)==1 && tileEnhancement(posToTileIndex(unitPosX(i), unitPosY(i)), TIL_FLAG_CITY)==1)
 //veteranship gets awarded before the rival unit is destroyed
-function unitGetVeteran() => playerTurn() && any_of(rangeUnit, i => ownUnit(i) && unitVeteran(i) > prev(unitVeteran(i)))
-function ancientGovernment() => any_of([GOV_MONARCHY, GOV_REPUBLIC], gov => tribeGovernment(player()) == gov && prev(tribeGovernment(player())) != gov)
-function industrialGovernment() => any_of([GOV_COMMUNISM, GOV_FUNDAMENTALISM, GOV_DEMOCRACY], gov => tribeGovernment(player()) == gov && prev(tribeGovernment(player())) != gov)
-function buildWonder(i) => prev(wonder(i))==0xffff && wonder(i)<0xffff && cityCurrentOwner(wonder(i)) == player()
+function unitGetVeteran() => playerTurn() && any_of(rangeUnitReduced, i => ownUnit(i) && unitVeteran(i) > prev(unitVeteran(i)) && unitId(i) == prev(unitId(i)))
+function ancientGovernment() => playerTurn() && any_of([GOV_MONARCHY, GOV_REPUBLIC], gov => tribeGovernment(player()) == gov && prev(tribeGovernment(player())) != gov)
+function industrialGovernment() => playerTurn() && any_of([GOV_COMMUNISM, GOV_FUNDAMENTALISM, GOV_DEMOCRACY], gov => tribeGovernment(player()) == gov && prev(tribeGovernment(player())) != gov)
+function buildWonder(i) => prev(wonder(i))==0xffff && wonder(i)<0xffff && cityCurrentOwner(wonder(i))+0 == player() && playerTurn()
 function message(msgs) => any_of(msgs, msg => ascii_string_equals(a_messages, msg) && !ascii_string_equals(a_messages, msg, transform=a=>prev(a)))
-function allTechs() {
-    return
-        playerTurn() &&
-        measured(sum_of(techs, n=>tribeTech(player,n)) == length(techs)) &&
-        prev(sum_of(techs, n=>tribeTech(player,n))) == length(techs) - 1
-}
 function alliance() => playerTurn() && any_of(rangeSlots, n => tribeDiplo(player(), n, DPL_ALLY) > prev(tribeDiplo(player(), n, DPL_ALLY)))
 function embassy() => playerTurn() && any_of(rangeSlots, n => tribeDiplo(player(), n, DPL_EMBASSY) > prev(tribeDiplo(player(), n, DPL_EMBASSY)))
-
 function megaWin() => size()==MAP_LARGE && barbActivity()==BARB_RAGING && win(diff=DIF_DEITY)
+// Wont work. Supply and demand randomly change on new trades
+function supplyDemand() {
+    return 
+        playerTurn() && any_of(rangeCityReduced, city => 
+            newTradeRoute(city) &&
+            sum_of(rangeTrade, i => cityTradeSupply(city, i)) > 0x80 &&
+            all_of(rangeTrade, n =>
+                cityTradesSent(city)>=n && 
+                sum_of(rangeTrade, i => cityTradeDemand(cityTradeDestination(city,n), i)) > 0x80
+            ) &&
+            all_of(rangeTrade, n =>
+                cityTradesSent(city)>=n && 
+                sum_of(rangeTrade, i => prev(cityTradeDemand(cityTradeDestination(city,n), i))) < 0x80
+            )
+        )
+}
+function tradeRoute() {
+    return
+        playerTurn() && 
+        any_of(rangeCity, city => 
+            ownCity(city) &&
+            newTradeRoute(city) && 
+            any_of(rangeTrade, n =>
+                cityTradesSent(city)>=n && 
+                cityCurrentOwner(cityTradeDestination(city,n))+0 != player()
+            )
+        )
+}
+function throneRoom() {
+    items = tribeTRLoc1(player()) + tribeTRLoc2(player()) + tribeTRLoc3(player()) + tribeTRLoc4(player()) + tribeTRLoc5(player()) + tribeTRLoc6(player()) + tribeTRLoc7(player()) + tribeTRLoc8(player()) + tribeTRAdds(player())
+    
+    return measured(items==39, when=player()>0) && prev(items)==38
+}
 
 function greekChall() {
     slotGreece = slot(TRB_GREECE)
@@ -872,12 +944,12 @@ function siouxChall() {
 function spainChall() {
     slotSpain = slot(TRB_SPAIN)
     columns = []
-    evenCols = range(0, MAP_MEDIUM_COLS-2, 2)
-    evenRows = range(0, MAP_MEDIUM_ROWS-2, 2)
+    evenCols = range(0, MAP_LARGE_COLS-2, 2)
+    evenRows = range(0, MAP_LARGE_ROWS-2, 2)
     for col in evenCols {
         tiles = []
         for row in evenRows {
-            tileIndex = row*MAP_MEDIUM_COLS + col
+            tileIndex = row*MAP_LARGE_COLS + col
             array_push(tiles, tileVisibility(tileIndex, slotSpain))
         }
         array_push(columns, tiles)
@@ -887,66 +959,86 @@ function spainChall() {
     
     
     return
-        tribe() == TRB_SPAIN &&
         playerTurn() &&
-        yearLessThan(1550) &&
         measured(tally_of(columns, length(columns), col =>
             once(sum_of(col, p => p) > 0)
-        ), format="percent")
+        ), when= yearLessThan(1550) && tribe()==TRB_SPAIN && mapPointer()==MAP_LARGE , format="percent") &&
+        never(player()==0) &&
+        never(mapPointer()==0)
     
 }
 function aztecChall() {
     gold = tribeGold(slot(TRB_AZTEC))
     return
-        tribe()==TRB_AZTEC &&
-        gold - prev(gold) >= 500
+        tribe()==TRB_AZTEC && 
+        prev(gold) > 0 &&
+        prev(gold) < 30000 &&
+        gold >= 30000
 }
 function mongolChall() {
+    slotMongol = slot(TRB_MONGOL)
     return
         tribe()==TRB_MONGOL &&
+        tribePopulationMilestones(slotMongol) == TRB_MILESTONE_20M &&
+        prev(tribePopulationMilestones(slotMongol)) == TRB_MILESTONE_20M - 1
+        
+/* This is a sad day for the world of gaming, as the toolkit is not ready for this
         sum_of(rangeCity, city =>
+            prev(cityPeople(city)) * (prev(cityCurrentOwner(city))/7)
+        )<200 &&
+        measured(sum_of(rangeCity, city =>
             cityPeople(city) * (cityCurrentOwner(city)/7)
-        )==200
+        )==200)
+*/
 }
 function russiaChall() {
     return
+        playerTurn() && 
         tribe()==TRB_RUSSIA &&
         yearLessThan(1969) &&
         buildWonder(WON_APOLLO)
 }
-function frenchChall() {
+function frenchChall() { //unused
     return
+        playerTurn() && 
         tribe()==TRB_FRANCE &&
         yearLessThan(1875) &&
         buildWonder(WON_STATUE)
 }
 function frenchChall2() {
+    slotAme = slot(TRB_AMERICA)
     return
         tribe()==TRB_FRANCE &&
-        wonder(WON_STATUE)<0xffff &&
-        cityCurrentOwner(wonder(WON_STATUE)) == slot(TRB_FRANCE) &&
-        prev(cityCurrentOwner(wonder(WON_STATUE))) == slot(TRB_AMERICA)
+        tribeId(slotAme)==TRB_AMERICA &&
+        tribeActive(slotAme) == 1 && 
+        trigger_when(
+            prev(wonder(WON_STATUE)<0xffff) &&
+            cityCurrentOwner(wonder(WON_STATUE)) == slot(TRB_FRANCE) &&
+            prev(cityCurrentOwner(wonder(WON_STATUE))) == slotAme
+        )
 }
 function japanChall() {
     return
-        tribe()==TRB_JAPAN &&
+        
         playerTurn() &&
         any_of(rangeCity, i =>
             ownCity(i) &&
-            measured(sum_of(buildings, n=>cityBuilding(i,n)) == length(buildings)) &&
+            measured(sum_of(buildings, n=>cityBuilding(i,n)) == length(buildings), when= tribe()==TRB_JAPAN) &&
             prev(sum_of(buildings, n=>cityBuilding(i,n))) == length(buildings) - 1
         )
 }
 function babylonChall() {
     slotBabyl = slot(TRB_BABYLON)
     return 
-        tribe()==TRB_BABYLON &&
-        tribeSSStruct(slotBabyl) == 39 &&
-        tribeSSProp(slotBabyl) == 6 &&
-        tribeSSFuel(slotBabyl) == 6 &&
-        tribeSSHab(slotBabyl) == 4 &&
-        tribeSSLife(slotBabyl) == 4 &&
-        tribeSSSolar(slotBabyl) == 4 &&
+        measured(
+            tribeSSStruct(slotBabyl)/39 +
+            tribeSSProp(slotBabyl)/8 +
+            tribeSSFuel(slotBabyl)/8 +
+            tribeSSHab(slotBabyl)/4 +
+            tribeSSLife(slotBabyl)/4 +
+            tribeSSSolar(slotBabyl)/4 
+            == 6
+        , when=tribe()==TRB_BABYLON) &&
         trigger_when(win(SCIENCE))
 }
 function persianChall() {
@@ -954,26 +1046,36 @@ function persianChall() {
     embassies = sum_of(rangeSlots, n => tribeDiplo(slotPers, n, DPL_EMBASSY))
     return
         tribe()==TRB_PERSIAN &&
-        embassies == 6 &&
-        prev(embassies) == 5 &&
-        cityCurrentOwner(wonder(WON_MARCOPOLO)) != slotPers
+        trigger_when(measured(embassies == 6)) &&
+        trigger_when(prev(embassies) == 5) &&
+        tribesActive()==7
 }
 function celtChall() {
     slotCelt = slot(TRB_CELT)
     startingHit = once(tribe()==TRB_CELT && totalCities()==1 && prev(totalCities())==0) // first city in the game is founded
     celtGetCity = 
-        totalCities()>prev(totalCities()) && cityCurrentOwner(totalCities()-1)==slotCelt || //founding a city
-        any_of(rangeCity, i => totalCities()==prev(totalCities()) && cityCurrentOwner(i)==slotCelt && prev(cityCurrentOwner(i))!=slotCelt) // capturing a city
+        //founding a city after the first celt founded city
+        repeated(2,
+            totalCities()>prev(totalCities()) && 
+            cityCurrentOwner(totalCities()-1)==slotCelt
+        ) || 
+        // capturing a city
+        any_of(rangeCity, i => 
+            totalCities()==prev(totalCities()) && 
+            cityCurrentOwner(i)==slotCelt && 
+            prev(cityCurrentOwner(i))!=slotCelt
+        ) 
     
     return
         startingHit &&
         never(celtGetCity) &&
+        never(player()==0) &&
         trigger_when(win())
 }
 function vikingChall() {
     return
-        tribe()==TRB_VIKING &&
-        measured(repeated(3, totalCities()<prev(totalCities())), when=player()>0) &&
+        playerTurn() && 
+        measured(repeated(3, totalCities()<prev(totalCities())), when=tribe()==TRB_VIKING && player()>0) &&
         never(!playerTurn())
 }
 function americanChall() {
@@ -984,43 +1086,160 @@ function americanChall() {
         tribeGovernment(slotAme) == GOV_DEMOCRACY &&
         any_of(rangeSlots, n => tribeDiplo(slotAme, n, DPL_WAR) > prev(tribeDiplo(slotAme, n, DPL_WAR)))
 }
+// can't handle negative numbers, sadly
 function chinaChall() {
     slotChina = slot(TRB_CHINA)
     
     return 
-        tribe() == TRB_CHINA &&
-        any_of(rangeCityReducedAgain, i =>
+        any_of(rangeCityReduced, i =>
             cityCurrentOwner(i) == slotChina &&
             newTradeRoute(i) &&
             any_of(rangeTrade, n =>
-                cityTradesSent(i)>=n && (
-                    cityPosX(i) * cityPosX(i)
-                    - cityPosX(i) * cityPosX(cityTradeDestination(i,n))
-                    - cityPosX(i) * cityPosX(cityTradeDestination(i,n))
-                    + cityPosX(cityTradeDestination(i,n)) * cityPosX(cityTradeDestination(i,n))
-                    + cityPosY(i) * cityPosY(i)
-                    - cityPosY(i) * cityPosY(cityTradeDestination(i,n))
-                    - cityPosY(i) * cityPosY(cityTradeDestination(i,n))
-                    + cityPosY(cityTradeDestination(i,n)) * cityPosY(cityTradeDestination(i,n)) 
-                ) == 100^2
+                measured(
+                    (
+                          cityPosX(i) * cityPosX(i)
+                        - cityPosX(i) * cityPosX(cityTradeDestination(i,n))
+                        - cityPosX(i) * cityPosX(cityTradeDestination(i,n))
+                        + cityPosX(cityTradeDestination(i,n)) * cityPosX(cityTradeDestination(i,n))
+                        + cityPosY(i) * cityPosY(i)
+                        - cityPosY(i) * cityPosY(cityTradeDestination(i,n))
+                        - cityPosY(i) * cityPosY(cityTradeDestination(i,n))
+                        + cityPosY(cityTradeDestination(i,n)) * cityPosY(cityTradeDestination(i,n)) 
+                    ) >= 10000,
+                    when= cityTradesSent(i)>=n && tribe()==TRB_CHINA,
+                    format= "percent"
+                )
             )
         )
 }
-
-function carthageChall() {
+function chinaChall2() {
+    slotChina = slot(TRB_CHINA)
     
-    slotCarthage = slot(TRB_CARTHAGE)
+    return 
+        any_of(rangeCityReduced, i =>
+            cityCurrentOwner(i) == slotChina &&
+            newTradeRoute(i) &&
+            any_of(rangeTrade, n => 
+                (
+                    (
+                        measured(
+                            cityPosX(i) - cityPosX(cityTradeDestination(i,n)) +
+                            cityPosY(i) - cityPosY(cityTradeDestination(i,n))
+                            >= 100
+                        , when= 
+                            tribe()==TRB_CHINA &&
+                            cityTradesSent(i)>=n && 
+                            cityPosX(cityTradeDestination(i,n))+0 < cityPosX(i) &&
+                            cityPosY(cityTradeDestination(i,n))+0 < cityPosY(i)
+                        )
+                    ) ||
+                    (
+                        measured(
+                            cityPosX(i) - cityPosX(cityTradeDestination(i,n)) +
+                            cityPosY(cityTradeDestination(i,n)) - cityPosY(i) 
+                            >= 100
+                        , when= 
+                            tribe()==TRB_CHINA &&
+                            cityTradesSent(i)>=n && 
+                            cityPosX(cityTradeDestination(i,n))+0 < cityPosX(i) &&
+                            cityPosY(cityTradeDestination(i,n))+0 > cityPosY(i)
+                        )
+                    ) ||
+                    (
+                        measured(
+                            cityPosX(cityTradeDestination(i,n)) - cityPosX(i) +
+                            cityPosY(i) - cityPosY(cityTradeDestination(i,n))
+                            >= 100
+                        , when= 
+                            tribe()==TRB_CHINA &&
+                            cityTradesSent(i)>=n && 
+                            cityPosX(cityTradeDestination(i,n))+0 > cityPosX(i) &&
+                            cityPosY(cityTradeDestination(i,n))+0 < cityPosY(i) 
+                        )
+                    ) ||
+                    (
+                        measured(
+                            cityPosX(cityTradeDestination(i,n)) - cityPosX(i) +
+                            cityPosY(cityTradeDestination(i,n)) - cityPosY(i) 
+                            >= 100
+                        , when= 
+                            tribe()==TRB_CHINA &&
+                            cityTradesSent(i)>=n && 
+                            cityPosX(cityTradeDestination(i,n))+0 > cityPosX(i) &&
+                            cityPosY(cityTradeDestination(i,n))+0 > cityPosY(i) 
+                        )
+                    )
+                )
+            )
+        )
+}
+function carthageChall() {
+    slotRome = slot(TRB_ROME)
     
     return 
         tribe() == TRB_CARTHAGE &&
-        any_of(rangeCityReduced, i =>
-            cityCurrentOwner(i) == slotCarthage &&
-            newTradeRoute(i) &&
+        tribeId(slotRome) == TRB_ROME &&
+        tribeActive(slotRome) == 1 &&
+        any_of(rangeCity, i =>
+            trigger_when(cityCurrentOwner(i) == slot(TRB_CARTHAGE)) &&
+            trigger_when(newTradeRoute(i)) && 
             any_of(rangeTrade, n =>
-                cityTradesSent(i)>=n && 
-                cityTradeCommodity(i,n) == TRD_SALT
+                trigger_when(cityTradesSent(i)>=n) && 
+                trigger_when(cityTradeCommodity(i,n) == TRD_SALT) &&
+                trigger_when(cityCurrentOwner(cityTradeDestination(i,n)) == slotRome)
             )
         )
+        
+}
+function germanChall() {
+    slotGerman = slot(TRB_GERMAN)
+    
+    return
+        playerTurn() &&
+        measured(sum_of(techs, n=>tribeTech(slotGerman,n)) == length(techs), when= tribe()==TRB_GERMAN) &&
+        prev(sum_of(techs, n=>tribeTech(slotGerman,n))) == length(techs) - 1
+}
+function romanChall() {
+    return
+        playerTurn() &&
+        measured(
+            tally_of(rangeCity, 10, i => 
+                cityCurrentOwner(i) == slot(TRB_ROME) &&
+                cityCurrentOwner(i) == prev(cityCurrentOwner(i)) &&
+                cityBuilding(i, BLD_SEWER) > prev(cityBuilding(i, BLD_SEWER))
+            )
+        , when= tribe()==TRB_ROME && mapPointer()>0) &&
+        never(player()==0)
+}
+function egyptChall() {
+    slotEgypt = slot(TRB_EGYPT)
+    wonds = [WON_PYRAMIDS, WON_LIBRARY, WON_LIGHTHOUSE]
+    return 
+        playerTurn() && 
+        tribe() == TRB_EGYPT &&
+        all_of(wonds, i => wonder(i)<0xffff && cityCurrentOwner(wonder(i)) == slotEgypt) &&
+        any_of(wonds, i => prev(wonder(i)) == 0xffff)
+}
+function englandChall() {
+    slotEngland = slot(TRB_ENGLAND)
+    return
+        tribe() == TRB_ENGLAND &&
+        tribeGovernment(slotEngland) == GOV_MONARCHY &&
+        trigger_when(any_of(rangeCity, i => cityCurrentOwner(i) == slotEngland && cityBuilding(i, BLD_FACTORY) > prev(cityBuilding(i, BLD_FACTORY)))) &&
+        disable_when(any_of(rangeCity, i => repeated(2, cityBuilding(i, BLD_FACTORY) == 1)), until=player()==0)
+}
+function zuluChall() {
+    return 
+        tribe()==TRB_ZULU &&
+        tribeReputation(slot(TRB_ZULU)) == 0 &&
+        trigger_when(win())
+}
+function indiaChall() {
+    slotIndia = slot(TRB_INDIA)
+    return
+        playerTurn() && 
+        tribe()==TRB_INDIA &&
+        any_of(rangeSlots, i => tribeDiplo(slotIndia, i, DPL_NUKE_AFTER) > prev(tribeDiplo(slotIndia, i, DPL_NUKE_AFTER)))
 }
 
 // cheevo calls
@@ -1070,14 +1289,16 @@ concepts = [
     ["Balanced Diet", "Create an Farmland improvement", 2, farmland()],
     ["The Children Yearn for the Mines", "Create a Mine improvement on a Hills tile", 1, hillsMine()],
     ["You Shall Not Pass", "Garrison a unit on a Fortress improvement", 1, fortifyFort()],
-    ["Pit Stop", "Refuel an air unit on an Airbase improvement", 3, refuelBomber()],
-    ["Battle-Hardened", "Have a unit reach veterancy", 2, unitGetVeteran()],
-    ["We Live in a Society", "Adopt an Ancient era government", 3, ancientGovernment()],
-    ["We The People", "Adopt an Industrial era government", 5, industrialGovernment()],
-    ["Baby's First Diplomacy", "Establish an embassy with another civilization", 2, embassy()],
-    ["BFF <3", "Form an alliance with another civilization", 4, alliance()],
+    ["Pit Stop", "Refuel an bomber type air unit on an Airbase improvement on its second turn airborne", 3, refuelBomber()],
+    ["Battle-Hardened", "Have a unit reach veterancy", 1, unitGetVeteran()],
+    ["We Live in a Society", "Adopt an Ancient era government", 2, ancientGovernment()],
+    ["We The People", "Adopt an Industrial era government", 4, industrialGovernment()],
+    ["Baby's First Diplomacy", "Establish an embassy with another civilization", 3, embassy()],
+    ["BFF <3", "Form an alliance with another civilization", 2, alliance()],
     ["Blood for the Blood God", "Receive a gift from a tribal village", 1, message([MSG_TRIBAL_ADVANCE, MSG_TRIBAL_CITY, MSG_TRIBAL_GOLD, MSG_TRIBAL_SETTLER, MSG_TRIBAL_UNIT])],
     ["Best. Ruler. Ever.", "Celebrate \"We love the king\" day", 1, message([MSG_WELOVETHEKING])],
+    ["Supply and Demand, Baby", "Send a trade route to another tribe's city", 5, tradeRoute()],
+    ["Fit for a King", "Complete all the throne room improvements in a single game", 50, throneRoom()],
 ]
 winsWC = [
     ["Veni, Vidi, Vici", "Achieve a domination victory", 10, win(type=DOMIN)],
@@ -1089,35 +1310,29 @@ wins = [
     ["King for a Day", "Achieve a victory in King difficulty or harder", 5, win(diff=DIF_KING)],
     ["New Groove", "Achieve a victory in Emperor difficulty or harder", 10, win(diff=DIF_EMPEROR)],
     ["Dieting", "Achieve a victory in Deity difficulty", 25, win(diff=DIF_DEITY)],
-    ["Above Mere Mortality", "Achieve a victory in Deity difficulty, 7 tribes, Large map, and Raging Hordes barbarians", 50, megaWin()],
 ]
 tribeChallenges = [
-    ["All Roads Lead to Rome", "As the Romans, have 7 trade routes from your own cities with your capital, Rome, as their destination", 10, trigger],
+    ["temp Rome", "As the Romans, have sewers in 10 of your cities", 10, romanChall()],
     ["Reverse Space Race", "As the Russians, build the Apollo Space Program before 1969", 10, russiaChall()],
-    ["One Small Village of Indomitable Gauls", "As the Celts, win a game without ever having more than one city", 50, celtChall()],
+    ["One Small Village of Indomitable Gauls", "As the Celts, win a game without ever having more than one city in a single session", 50, celtChall()],
     ["B.A.B.E.L. 3000", "As the Babylonians, obtain a science victory with a complete spaceship", 25, babylonChall()],
-    ["Nothing but Respect", "As the Zulus, bribe a rival city into joining your empire", 5, trigger],
+    ["Reformed Warlord", "As the Zulus, win a game with a Spotless reputation", 25, zuluChall()],
     ["temp Japan", "As the Japanese, have all possible improvements on a single city", 25, japanChall()],
-    ["Did Not See That Coming", "As the Germans, win a game with a Spotless reputation", 10, trigger],
-    ["temp French", "As the French, build the Statue of Liberty before 1875", 10, frenchChall()],
+    ["It's De German Engineering!", "As the Germans, research all existing technologies in a single game", 10, germanChall()],
+    ["Takesies Backsis", "As the French, capture an American city that built the Statue of Liberty", 10, frenchChall2()],
     ["temp Viking", "As the Vikings, destroy 3 cities in one turn", 10, vikingChall()],
-    ["Seven Wonders of Aaru", "As the Egyptians, build 7 Wonders in a city you settled", 25, trigger],
+    ["temp Egypt", "As the Egyptians, build the Pyramids, the Great Library and the Lighthouse", 25, egyptChall()],
     ["El Dorado", "As the Aztecs, produce 500 gold per turn", 10, aztecChall()],
     ["Primus Circumdedisti Me", "As the Spanish, circumnavigate the world before 1550", 25, spainChall()],
     ["The Greatest Force for Good", "As an American Democracy, successfully declare a war", 5, americanChall()],
-    ["The Silk Road", "As China, establish a trade route spanning at least 100 tiles", 10, chinaChall()],
+    ["The Silk Road", "As China, establish a trade route spanning at least 100 tiles", 10, chinaChall2()],
     ["Persian Postal Service", "As the Persians, establish an embassy with 6 different civilizations in a single game without using the Marco Polo Embassy", 25, persianChall()],
     ["Demokratia", "As the Greeks, be the first civilization to research and adopt Democracy", 10, greekChall()],
-    ["Where the Sun Never Sets", "As an English Monarchy, have a city in each continent", 5, trigger],
+    ["It's the Industrial Revolution, Baby!", "As an English monarchy, build the first factory in the world", 10, englandChall()],
     ["Return to Sender", "As the Carthaginians, send Salt to a Roman city with a trade route", 10, carthageChall()],
-    ["Peace Was Never an Option", "As the Indians, use a nuclear device", 5, trigger],
+    ["Peace Was Never an Option", "As the Indians, use a nuclear device", 5, indiaChall()],
     ["Great Great Grandfather", "As the Mongols, have 200 citizens across your empire", 25, mongolChall()],
     ["Sitting Horse", "As the Sioux, discover Horseback Riding before any other civilization", 10, siouxChall()],
-]
-generalChallenges = [
-    ["Supply and Demand, Baby", "Send a commodity in demand with a trade route to another tribe's city", 4, trigger],
-    ["Fit for a King", "Complete all the throne room improvements in a single game", 25, trigger],
-    //["Mastermind", "Research all existing technologies in a single game", 10, allTechs()],
 ]
 
 //cheevoTest()
@@ -1127,18 +1342,22 @@ for cheev in winsWC cheevoWC(cheev)
 for cheev in wins cheevoStandard(cheev)
 for wonder in wonders cheevoWonder(wonder)
 for cheev in tribeChallenges cheevoStandard(cheev)
-for cheev in generalChallenges cheevoStandard(cheev)
 
 // -- RICH PRESENCE --
 function rpTitle() => tribe()*0x100 + gender()*0x10 + tribeGovernment(player())
-function rpNotIngame() => always_false()
-/*
+function rpNotIngame() => turn()==0
+function rpYear() => (year() * ~yearSign()) + ((year()^0xffff) * yearSign() + yearSign())
+
 rich_presence_conditional_display(rpNotIngame(), "Preparing for a new campaign")
-rich_presence_display("{0} is on a {1} map | {2}, {3} tribes, {4}",
+rich_presence_display("It's {5}{6}{7}. {0} {8} • {9} gold • {1} map, {2}, {3} tribes, {4}",
     rich_presence_lookup("TITLE", rpTitle(), lookupTitle, "Someone"),
-    rich_presence_lookup("SIZE", size(), lookupSize),
+    rich_presence_lookup("SIZE", mapPointer(), lookupSize),
     rich_presence_lookup("DIFF", difficulty(), lookupDiff),
-    rich_presence_value("nTribes", tribeNumber()+3),
-    rich_presence_lookup("BARBS", barbActivity(), lookupBarbs)
+    rich_presence_macro("Number", tribeNumber()),
+    rich_presence_lookup("BARBS", barbActivity(), lookupBarbs),
+    rich_presence_lookup("AD", yearSign(), lookupAD),
+    rich_presence_macro("Number", rpYear()),
+    rich_presence_lookup("BC", yearSign(), lookupBC),
+    rich_presence_lookup("REP", tribeReputation(player()), lookupReputation),
+    rich_presence_macro("Number", tribeGold(player()))
 )
-*/
