@@ -4267,7 +4267,7 @@ misc = [
     ["History Lesson", "Be shown a picture of the other ancient being that created Sinnoh by Cynthia's grandma", 1, eventFlag(0x0000e218, 5)],
     ["F Is for Fren", "Get a gift from your Pokémon at Amity Square", 2, sanity(GS_OW, MAP_AmitySquare) && mbit(1, 0x0000e31c)==1 && prev(stepsSinceLastAmitySquareGift())>=200 && stepsSinceLastAmitySquareGift()==0],
     ["It's Warm", "Learn about the current swarm from Rowan's assistant's little sister", 1, sanity(GS_OW, MAP_SandgemHouseAssistant1F) && swarmMonId()>0 && prev(swarmMonId()) == 0],
-    ["... Thanks", "Help Marley get through the Victory Road", 5, eventCounter([o_EventsMarley], 2)],
+    ["...Thanks", "Help Marley get through the Victory Road", 5, eventCounter([o_EventsMarley], 2)],
     ["Big if True", "Learn about an unusual Pokémon visiting the Trophy Garden", 2, eventFlag(o_DailyEvents1, 2)],
     ["Blessing of the Moon Light", "Cure the son of Sailor Eldritch with the Lunar Wing", 1, eventCounter([o_EventsCanalaveEldritchQuest], 3)],
     ["Gifts of the Pillars", "Get a Stardust, a Rare Bone and a Reaper Cloth from Turnback Cave in the same session", 10, pillarGifts()],
