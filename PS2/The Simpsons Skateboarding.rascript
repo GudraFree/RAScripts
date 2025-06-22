@@ -414,8 +414,8 @@ function progressionZone(zone) =>
 progressionLastZone = 
     currentLevelType()==FEST && 
     any_of(characters, player => 
-        bit0(springfieldGorgeSkatefestMiscObjectives(player)) + bit1(springfieldGorgeSkatefestMiscObjectives(player)) == 2 && 
-        prev(bit0(springfieldGorgeSkatefestMiscObjectives(player))) + prev(bit1(springfieldGorgeSkatefestMiscObjectives(player))) == 1
+        bit2(springfieldGorgeSkatefestMiscObjectives(player)) + bit1(springfieldGorgeSkatefestMiscObjectives(player)) == 2 && 
+        prev(bit2(springfieldGorgeSkatefestMiscObjectives(player))) + prev(bit1(springfieldGorgeSkatefestMiscObjectives(player))) == 1
     )
 
 
