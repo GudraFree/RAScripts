@@ -1,13 +1,14 @@
 // Civilization II
 // #ID = 13902
 
-cheevoId = 0
+cheevoId = 523840
 function cheevoIdPlus() {
     cheevoId = cheevoId + 1
+    if(cheevoId==523860) cheevoId = cheevoId + 1
 }
 function myAchievement(title, description, points, trigger, mtype="") {
     achievement(title, description, points, trigger, cheevoId, type=mtype)
-    //cheevoIdPlus()
+    cheevoIdPlus()
 }
 
 // constants
@@ -131,6 +132,9 @@ UNT_ID_STEALTHBOMBER = 0x1f
 
 TRD_SALT = 0x4
 
+INP_X = 6
+INP_R1 = 3
+
 // arrays
 C_TITLE = 0
 C_DESC = 1
@@ -210,7 +214,7 @@ techs = {
     60: "Philosophy",
     61: "Physics",
     62: "Plastics",
-    63: "Plumbing",
+//    63: "Plumbing (unused)",
     64: "Polytheism",
     65: "Pottery",
     66: "Radio",
@@ -284,13 +288,13 @@ WON_PYRAMIDS = 0
 WON_LIGHTHOUSE = 3
 WON_LIBRARY = 4
 wonders = {
-    0: "Pyramids",
-    1: "Hanging Gardens",
-    2: "Colossus",
-    3: "Lighthouse",
-    4: "Great Library",
-    5: "Oracle",
-    6: "Great Wall",
+    0: "the Pyramids",
+    1: "the Hanging Gardens",
+    2: "the Colossus",
+    3: "the Lighthouse",
+    4: "the Great Library",
+    5: "the Oracle",
+    6: "the Great Wall",
     7: "Sun Tzu's War Academy",
     8: "King Richard's Crusade",
     9: "Marco Polo's Embassy",
@@ -303,15 +307,15 @@ wonders = {
     16: "Isaac Newton's College",
     17: "Adam Smith's Trading Co.",
     18: "Darwin's Voyage",
-    19: "Statue of Liberty",
-    20: "Eiffel Tower",
+    19: "the Statue of Liberty",
+    20: "the Eiffel Tower",
     21: "Women's Suffrage",
-    22: "Hoover Dam",
-    23: "Manhattan Project",
-    24: "United Nations",
-    25: "Apollo Program",
-    26: "SETI Program",
-    27: "Cure for Cancer",
+    22: "the Hoover Dam",
+    23: "the Manhattan Project",
+    24: "the United Nations",
+    25: "the Apollo Program",
+    26: "the SETI Program",
+    27: "the Cure for Cancer",
 }
 
 // addresses
@@ -332,6 +336,7 @@ a_totalCities = 0x11a282
 a_gameTurn = 0x11a262
 a_year = 0x11a264
 a_messages = 0x121340
+a_inputs = 0x15939c
 
 a_unitFirst = 0x10d6b4
 o_unitDatablock = 26
@@ -421,6 +426,7 @@ function difficulty() => byte(a_diff)
 function barbActivity() => byte(a_barbActivity)
 function architecture() => byte(a_architecture)
 function mapPointer() => tbyte(a_mapPointer)
+function input(i) => bit(i%8, a_inputs + i/8)
 
 function tribeId(i) => byte(a_tribeFirst + o_tribeDatablock*i + o_tribeId)
 function tribeGold(i) => dword(a_tribeFirst + o_tribeDatablock*i + o_tribeGold)
@@ -823,38 +829,39 @@ lookupBarbs = {
     3: "Raging Hordes"
 }
 lookupWonderTitle = {
-    0: "Pyramids",
-    1: "Hanging Gardens",
-    2: "Colossus",
-    3: "Lighthouse",
-    4: "Great Library",
-    5: "Oracle",
-    6: "Great Wall",
-    7: "Sun Tzu's War Academy",
-    8: "King Richard's Crusade",
-    9: "Marco Polo's Embassy",
-    10: "Michelangelo's Chapel",
+    0: "Khufu, or Not Khufu?",
+    1: "By the Rivers of Babylon",
+    2: "Having Laid to Rest the Brazen Wave of War",
+    3: "Light of Pharos",
+    4: "Heroes of the Mind",
+    5: "If You Make War, a Great Empire Shall Fall",
+    6: "The Dragon of the Earth",
+    7: "Know Your Enemy and Know Yourself",
+    8: "Heart of a Lion",
+    9: "A Myriad of Talents",
+    10: "The Vault of Heaven",
     11: "Of the Movement of the Earth",
     12: "Nao Victoria",
-    13: "Shakespeare's Theatre",
-    14: "Leonardo's Workshop",
-    15: "J.S. Bach's Cathedral",
-    16: "Isaac Newton's College",
-    17: "Adam Smith's Trading Co.",
-    18: "Darwin's Voyage",
-    19: "Statue of Liberty",
-    20: "Eiffel Tower",
+    13: "Mirth Becomes a Feast",
+    14: "The Rebirth of Knowledge",
+    15: "The Art of Fugue",
+    16: "Making the Calculus",
+    17: "Led by an Invisible Hand",
+    18: "On the Origin of Species",
+    19: "Give Me Your Tired, Your Poor, Your Huddled Masses",
+    20: "La Dame de Fer",
     21: "And Nothing Less",
-    22: "Hoover Dam",
-    23: "Manhattan Project",
-    24: "United Nations",
-    25: "Apollo Program",
-    26: "SETI Program",
-    27: "Cure for Cancer"
+    22: "A Boulder in the Riverbed",
+    23: "Now I Am Become Death, Destroyer of Worlds",
+    24: "To Unite Our Strength",
+    25: "One Small Step",
+    26: "I Want to Believe",
+    27: "Oncodegenesis"
 }
 // #endregion lookups
 
 // #region functions
+function cheatCash() => disable_when(input(INP_R1)==1 && input(INP_X)==1 && prev(tribeGold(player()))!=29874 && tribeGold(player())==29874)
 function slot(tribe) => tribe%7 + 1
 function playerTurn() => turn() == player() && turn() == prev(turn())
 function activeCity(i) => i<totalCities() && totalCities()==prev(totalCities())
@@ -1248,7 +1255,7 @@ function cheevoWC(cheevo) {
         cheevo[C_TITLE],
         cheevo[C_DESC],
         cheevo[C_POINTS],
-        cheevo[C_TRIGGER],
+        cheevo[C_TRIGGER] && cheatCash(),
         "win_condition"
     )
 }
@@ -1257,15 +1264,15 @@ function cheevoStandard(cheevo) {
         cheevo[C_TITLE],
         cheevo[C_DESC],
         cheevo[C_POINTS],
-        cheevo[C_TRIGGER]
+        cheevo[C_TRIGGER] && cheatCash()
     )
 }
 function cheevoWonder(i) { 
     cheevoStandard([
         lookupWonderTitle[i], 
-        format("Build the {0} in one of your cities",wonders[i]), 
+        format("Build {0} in one of your cities",wonders[i]), 
         5, 
-        buildWonder(i)
+        buildWonder(i) && cheatCash()
     ])
 }
 
@@ -1286,18 +1293,18 @@ function cheevoTest() {
 // -- ACHIEVEMENTS --
 trigger = always_false()
 concepts = [
-    ["Balanced Diet", "Create an Farmland improvement", 2, farmland()],
+    ["The Breadbasket of Empire", "Create an Farmland improvement", 2, farmland()],
     ["The Children Yearn for the Mines", "Create a Mine improvement on a Hills tile", 1, hillsMine()],
     ["You Shall Not Pass", "Garrison a unit on a Fortress improvement", 1, fortifyFort()],
     ["Pit Stop", "Refuel an bomber type air unit on an Airbase improvement on its second turn airborne", 3, refuelBomber()],
     ["Battle-Hardened", "Have a unit reach veterancy", 1, unitGetVeteran()],
     ["We Live in a Society", "Adopt an Ancient era government", 2, ancientGovernment()],
     ["We The People", "Adopt an Industrial era government", 4, industrialGovernment()],
-    ["Baby's First Diplomacy", "Establish an embassy with another civilization", 3, embassy()],
-    ["BFF <3", "Form an alliance with another civilization", 2, alliance()],
-    ["Blood for the Blood God", "Receive a gift from a tribal village", 1, message([MSG_TRIBAL_ADVANCE, MSG_TRIBAL_CITY, MSG_TRIBAL_GOLD, MSG_TRIBAL_SETTLER, MSG_TRIBAL_UNIT])],
+    ["First Step into a Larger World", "Establish an embassy with another civilization", 3, embassy()],
+    ["A Solemn Understanding", "Form an alliance with another civilization", 2, alliance()],
+    ["A Tribute to Your Majesty", "Receive a gift from a tribal village", 1, message([MSG_TRIBAL_ADVANCE, MSG_TRIBAL_CITY, MSG_TRIBAL_GOLD, MSG_TRIBAL_SETTLER, MSG_TRIBAL_UNIT])],
     ["Best. Ruler. Ever.", "Celebrate \"We love the king\" day", 1, message([MSG_WELOVETHEKING])],
-    ["Supply and Demand, Baby", "Send a trade route to another tribe's city", 5, tradeRoute()],
+    ["Commerce Changes the Fate of Nations", "Send a trade route to another tribe's city", 2, tradeRoute()],
     ["Fit for a King", "Complete all the throne room improvements in a single game", 50, throneRoom()],
 ]
 winsWC = [
@@ -1309,30 +1316,30 @@ wins = [
     ["Little Prince", "Achieve a victory in Prince difficulty or harder", 4, win(diff=DIF_PRINCE)],
     ["King for a Day", "Achieve a victory in King difficulty or harder", 5, win(diff=DIF_KING)],
     ["New Groove", "Achieve a victory in Emperor difficulty or harder", 10, win(diff=DIF_EMPEROR)],
-    ["Dieting", "Achieve a victory in Deity difficulty", 25, win(diff=DIF_DEITY)],
+    ["On a Diet", "Achieve a victory in Deity difficulty", 25, win(diff=DIF_DEITY)],
 ]
 tribeChallenges = [
-    ["temp Rome", "As the Romans, have sewers in 10 of your cities", 10, romanChall()],
-    ["Reverse Space Race", "As the Russians, build the Apollo Space Program before 1969", 10, russiaChall()],
+    ["Aqua Decem", "As the Romans, build sewers in 10 of your cities in a single session", 10, romanChall()],
+    ["Yuri's Revenge", "As the Russians, build the Apollo Space Program before 1969", 10, russiaChall()],
     ["One Small Village of Indomitable Gauls", "As the Celts, win a game without ever having more than one city in a single session", 50, celtChall()],
     ["B.A.B.E.L. 3000", "As the Babylonians, obtain a science victory with a complete spaceship", 25, babylonChall()],
     ["Reformed Warlord", "As the Zulus, win a game with a Spotless reputation", 25, zuluChall()],
-    ["temp Japan", "As the Japanese, have all possible improvements on a single city", 25, japanChall()],
-    ["It's De German Engineering!", "As the Germans, research all existing technologies in a single game", 10, germanChall()],
-    ["Takesies Backsis", "As the French, capture an American city that built the Statue of Liberty", 10, frenchChall2()],
-    ["temp Viking", "As the Vikings, destroy 3 cities in one turn", 10, vikingChall()],
-    ["temp Egypt", "As the Egyptians, build the Pyramids, the Great Library and the Lighthouse", 25, egyptChall()],
-    ["El Dorado", "As the Aztecs, produce 500 gold per turn", 10, aztecChall()],
-    ["Primus Circumdedisti Me", "As the Spanish, circumnavigate the world before 1550", 25, spainChall()],
+    ["The Vermillion City", "As the Japanese, have all possible improvements on a single city", 25, japanChall()],
+    ["It's Ze German Engineering!", "As the Germans, research all existing advances in a single game", 10, germanChall()],
+    ["Eternal Friendship, Betrayed", "As the French, capture an American city that built the Statue of Liberty", 10, frenchChall2()],
+    ["Hasting Their Defeat", "As the Vikings, destroy 3 cities in one turn", 10, vikingChall()],
+    ["Pharoanic Feats", "As the Egyptians, build the Pyramids, the Great Library and the Lighthouse", 25, egyptChall()],
+    ["El Dorado", "As the Aztecs, fill up your treasury with over 30,000 gold pieces", 10, aztecChall()],
+    ["Primus Circumdedisti Me", "As the Spanish, circumnavigate the world before 1550 on a large map", 25, spainChall()],
     ["The Greatest Force for Good", "As an American Democracy, successfully declare a war", 5, americanChall()],
     ["The Silk Road", "As China, establish a trade route spanning at least 100 tiles", 10, chinaChall2()],
-    ["Persian Postal Service", "As the Persians, establish an embassy with 6 different civilizations in a single game without using the Marco Polo Embassy", 25, persianChall()],
+    ["Persian Postal Service", "As the Persians, establish a permanent embassy with 6 different civilizations in a single game", 25, persianChall()],
     ["Demokratia", "As the Greeks, be the first civilization to research and adopt Democracy", 10, greekChall()],
     ["It's the Industrial Revolution, Baby!", "As an English monarchy, build the first factory in the world", 10, englandChall()],
     ["Return to Sender", "As the Carthaginians, send Salt to a Roman city with a trade route", 10, carthageChall()],
     ["Peace Was Never an Option", "As the Indians, use a nuclear device", 5, indiaChall()],
-    ["Great Great Grandfather", "As the Mongols, have 200 citizens across your empire", 25, mongolChall()],
-    ["Sitting Horse", "As the Sioux, discover Horseback Riding before any other civilization", 10, siouxChall()],
+    ["Great Great Grandfather", "As the Mongols, reach a population of 20 million citizens", 25, mongolChall()],
+    ["Sitting Horse", "As the Sioux, discover Horseback Riding before any other civilization", 3, siouxChall()],
 ]
 
 //cheevoTest()
@@ -1349,7 +1356,7 @@ function rpNotIngame() => turn()==0
 function rpYear() => (year() * ~yearSign()) + ((year()^0xffff) * yearSign() + yearSign())
 
 rich_presence_conditional_display(rpNotIngame(), "Preparing for a new campaign")
-rich_presence_display("It's {5}{6}{7}. {0} {8} • {9} gold • {1} map, {2}, {3} tribes, {4}",
+rich_presence_display("It's {5}{6}{7}. {0} {8} • {9} gold, {10}/88 advances • {1} map, {2}, {3} tribes, {4}",
     rich_presence_lookup("TITLE", rpTitle(), lookupTitle, "Someone"),
     rich_presence_lookup("SIZE", mapPointer(), lookupSize),
     rich_presence_lookup("DIFF", difficulty(), lookupDiff),
@@ -1359,5 +1366,6 @@ rich_presence_display("It's {5}{6}{7}. {0} {8} • {9} gold • {1} map, {2}, {3
     rich_presence_macro("Number", rpYear()),
     rich_presence_lookup("BC", yearSign(), lookupBC),
     rich_presence_lookup("REP", tribeReputation(player()), lookupReputation),
-    rich_presence_macro("Number", tribeGold(player()))
+    rich_presence_macro("Number", tribeGold(player())),
+    rich_presence_macro("Number", sum_of(techs, i => tribeTech(player(),i)))
 )
