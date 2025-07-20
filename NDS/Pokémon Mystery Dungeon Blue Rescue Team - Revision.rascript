@@ -2,6 +2,7 @@
 // #ID = 17492
 
 rangeSlots = range(0,3)
+rangeBodySlots = range(0,5)
 rangeInventory = range(0,19)
 dojoDungeons = range(0x5c,0x5f)
 ITEM_ID = 0
@@ -127,14 +128,13 @@ function slotHeldItemId(i) => byte(a_slot1 + o_slotDatablock*i + o_slotHeldItem 
 function inventoryFlag(i, n) => bit(n, a_inventorySlot1 + o_inventoryDatablock*i + o_inventoryFlag)
 function inventoryId(i) => byte(a_inventorySlot1 + o_inventoryDatablock*i + o_inventoryId)
 
-function recruit(id=-1, where=[-1,-1]) {
+function recruit(where=[-1,-1]) {
     trigger = dungeonId()>0
     if(where[0]>0) trigger = dungeonId()==where[0] && dungeonFloor()==where[1] 
-    slots = sum_of(rangeSlots, i => slotUsed(i))
+    slots = sum_of(rangeBodySlots, i => slotUsed(i))
     alts = always_false()
-    for i in rangeSlots {
+    for i in rangeBodySlots {
         slotTrigger = slots > 1 && slots==prev(slots)+1 && slotUsed(i)==1 && prev(slotUsed(i))==0
-        if(id>0) slotTrigger = slotTrigger && slotId(i)==id
         alts = alts || slotTrigger
     }
     
