@@ -743,7 +743,7 @@ w3v4 = {
 w3v5areas = {
     1: range(1,0x18),
     2: range(1,0x22),
-    3: range(1,0x1f),
+    3: array_concat(range(1,8), range(10,0x1f)), //range(1,0x1f),
     4: range(1,0x1b),
     5: range(1,0x24),
     6: range(1,0x18),
