@@ -1707,7 +1707,7 @@ function sizeLeaderboard(mon, id) {
     leaderboard(
         format("Biggest {0} hunted",mon[MON_NAME]),
         "Size in mm",
-        monsterId()==mon[MON_ID] && questFinished() && (size!=prev(size)),
+        questFinished() && (size!=prev(size)),
         always_false(),
         always_true(),
         displaySize,
