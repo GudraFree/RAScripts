@@ -10,6 +10,7 @@ CHEEVO_LOGIC = 3
 REMATCH_TRAINER = 0
 REMATCH_ITEM = 1
 REMATCH_MON = 2
+REMATCH_OFFSET = 3
 
 LB_TITLE = 0
 LB_DESC = 1
@@ -97,7 +98,7 @@ BATT_WON = 1
 
 MOVE_ID_VOLTTACKLE = 344
 
-RIBBON_EFFORT = 0x80000
+RIBBON_EFFORT = 19
 
 CON_RANK_MASTER = 3
 CON_TYPE_COOL = 0
@@ -5026,16 +5027,19 @@ rematchFight = [
     0xbb, // Nob 4th rematchOnwards
     0xcf, // black belt
     0x44, // Machamp
+    0x10, // rematch offset
 ]
 rematchBug = [
     0xe7, // Jeffrey 4th rematch onwards
     0xbc, // silver powder
     0x138, // Masquerain
+    0x17, // rematch offset
 ]
 rematchDragon = [
     0x18c, // Nicolas 4th rematch onwards
     0xd8, // dragon fang
     0x18c, // Shelgon
+    0x2b, // rematch offset
 ]
 listTrickPuzzle1 = [
     FLAG_ITEM_TRICK_HOUSE_PUZZLE_1_ORANGE_MAIL,
@@ -5238,7 +5242,8 @@ o_contestWinnerPV = 0
 o_contestWinnerTID = 4
 o_contestWinnerType = 10
 o_contestWinnerRank = 30
-o_rematchWally = 0x8a0a
+o_rematchStart = 0x89ca
+o_rematchWally = 0x40
 
 // we use regular offsets for pointer 2 since they are all noted in its note
 a_pointerBlock2 = 0x005d90
@@ -5279,6 +5284,7 @@ o_partyMonDatablock = 100
 o_partyMonPersonality = 0
 o_partyMonTID = 4
 o_partyMonMiscFlags = 0x13
+o_partyMonChecksum = 0x1c
 o_partyMonDataStructStart = 0x20
 o_partyMonDataStructDatablock = 12
 n_pokemonDataStructs = 4
@@ -5303,18 +5309,21 @@ function musicId() => word(a_musicId)
 function trainerId() => word(a_trainerId)
 function partyMonPersonality(i=1, size=4, offset=0) {
     address = a_partyMonStart + o_partyMonDatablock*(i-1) + o_partyMonPersonality + offset
+    if(size>=10) return bit(size-10, address)
     if(size==1) return byte(address)
     if(size==2) return word(address)
     return dword(address)
 }
 function partyMonTID(i=1, size=4, offset=0) {
     address = a_partyMonStart + o_partyMonDatablock*(i-1) + o_partyMonTID + offset
+    if(size>=10) return bit(size-10, address)
     if(size==1) return byte(address)
     if(size==2) return word(address)
     return dword(address)
 }
+function partyMonChecksum(i=1) => word(a_partyMonStart + o_partyMonDatablock*(i-1) + o_partyMonChecksum)
 function partyMonIsEgg(i=1) => bit2(a_partyMonStart + o_partyMonDatablock*(i-1) + o_partyMonMiscFlags)
-function partyMonRibbons(struct, i=1) => dword(a_partyMonStart + o_partyMonDatablock*(i-1) + o_partyMonDataStructStart + o_partyMonDataStructDatablock*(struct-1) + o_partyMonRibbons)
+function partyMonRibbon(struct, ribbon, i=1) => bit(ribbon%8, a_partyMonStart + o_partyMonDatablock*(i-1) + o_partyMonDataStructStart + o_partyMonDataStructDatablock*(struct-1) + o_partyMonRibbons + ribbon/8)
 function partyMonFriendship(struct, i=1) => byte(a_partyMonStart + o_partyMonDatablock*(i-1) + o_partyMonDataStructStart + o_partyMonDataStructDatablock*(struct-1) + o_partyMonFriendship)
 function partyMonMoveId(struct, i=1, j=1) => word(a_partyMonStart + o_partyMonDatablock*(i-1) + o_partyMonDataStructStart + o_partyMonDataStructDatablock*(struct-1) + o_partyMonMoveId + (j-1)*2)
 function slotsState() => byte(a_slotsState)
@@ -5353,7 +5362,7 @@ function contestWinnerRank() => dword(pointerBlock1() + o_contestWinner + o_cont
 function gameStat(stat) => dword(pointerBlock1() + o_gameStatsStart + stat*4)
 function cutRadio() => byte(a_cutRadio)
 function dexFlag(i) => bit((i-1)%8, pointerBlock2() + o_dexCaughtStart + (i-1)/8)
-function rematch(i) => byte(pointerBlock1() + o_rematchWally + i) // expects an index from rematches lookup
+function rematch(i) => byte(pointerBlock1() + o_rematchStart + i) // expects an index from rematches lookup
 
 function isInGame() => ingame() == 1
 function isPaused() => menu() == 1
@@ -5420,9 +5429,9 @@ function partyMonDataStructGIsInSlot(slot, i=1) {
 }
 function partyMonDataStructMIsInSlot(slot, i=1) {
     valuesM = [18,19,20,21,22,23]
-    if(slot==2) valuesM = [0,1,14,15,20,21]
-    if(slot==3) valuesM = [2,4,12,17,18,23]
-    if(slot==4) valuesM = [3,5,13,16,19,22]
+    if(slot==2) valuesM = [4,5,10,11,16,17]
+    if(slot==3) valuesM = [1,3,7,9,13,15]
+    if(slot==4) valuesM = [0,2,6,8,14,15]
     
     return __ornext(any_of(valuesM, v => partyMonPersonality(i)%24 == v))
 }
@@ -5486,7 +5495,7 @@ function gameCorner() {
         pointerSanity() &&
         pokenewsActive(NEWS_KIND_GAMECORNER) &&
         trigger_when(map() == MAP_MAUVILLE_CITY_GAME_CORNER) &&
-        trigger_when(slotsPayout() == SLOT_PAYOUT_BIGBONUS) &&
+        trigger_when(slotsPayout() >= SLOT_PAYOUT_BIGBONUS) &&
         trigger_when(prev(slotsState()) == SLOT_STATE_STOP_REEL) &&
         trigger_when(slotsState() == SLOT_STATE_WIN)
 }
@@ -5506,12 +5515,17 @@ function scottReward() {
         flagTrigger(FLAG_SCOTT_GIVES_BATTLE_POINTS)
 }
 function effortRibbon() {
+    sizeRibbon = (RIBBON_EFFORT % 8) + 10
+    offsetRibbon = RIBBON_EFFORT / 8
     return
         map() == MAP_SLATEPORT_CITY &&
         partyMonPersonality() == prev(partyMonPersonality()) &&
+        partyMonChecksum() != prev(partyMonChecksum()) &&
         any_of(range(1,n_pokemonDataStructs), struct =>
             partyMonDataStructMIsInSlot(struct) &&
-            partyMonRibbons(struct) & RIBBON_EFFORT != prev(partyMonRibbons(struct)) & RIBBON_EFFORT
+            //partyMonRibbons(struct) & RIBBON_EFFORT != prev(partyMonRibbons(struct)) & RIBBON_EFFORT
+            partyMonRibbon(struct, RIBBON_EFFORT) ^ (partyMonPersonality(size=sizeRibbon, offset=offsetRibbon) ^ partyMonTID(size=sizeRibbon, offset=offsetRibbon)) == 1 &&
+            prev(partyMonRibbon(struct, RIBBON_EFFORT)) ^ (partyMonPersonality(size=sizeRibbon, offset=offsetRibbon) ^ partyMonTID(size=sizeRibbon, offset=offsetRibbon)) == 0
         )
 }
 function trainApprentice() {
@@ -5527,6 +5541,7 @@ function trainApprentice() {
 function defeatApprentice() {
     return
         pointerSanity(2) &&
+        __ornext(map() == MAP_BATTLE_FRONTIER_BATTLE_TOWER_BATTLE_ROOM || map() == MAP_BATTLE_FRONTIER_BATTLE_TOWER_MULTI_BATTLE_ROOM) &&
         trainerId() >= 400 &&
         trainerId() < 404 &&
         apprenticeTID(trainerId()-400) == playerTID() &&
@@ -5552,12 +5567,19 @@ function nuggetTrickHouse() {
 function stealItem(rematch) {
     item = rematch[REMATCH_ITEM]
     return
-        isInBattle() &&
-        trainerId() == rematch[REMATCH_TRAINER] &&
-        enemyPokemonId() == rematch[REMATCH_MON] &&
         trigger_when(prior(enemyPokemonHeldItem()) == item) &&
         trigger_when(myPokemonHeldItem() == item) &&
-        trigger_when(prev(myPokemonHeldItem()) != myPokemonHeldItem())
+        trigger_when(prev(myPokemonHeldItem()) != myPokemonHeldItem()) &&
+        // one alt for the primed when in battle, another for outside of battle and rematch is available
+        ((
+            isInBattle() &&
+            trainerId() == rematch[REMATCH_TRAINER] &&
+            enemyPokemonId() == rematch[REMATCH_MON]
+        ) || (
+            trigger_when(pointerBlock1()==0xdeadbeef) && 
+            rematch(rematch[REMATCH_OFFSET]) > 0 && 
+            !isInBattle()
+        ))
 }
 // bullshit function that only makes the right alts. Change addsource of XOR by remember, then get the right offset and XOR by recall <=50
 function receiveFrustration() {
@@ -5585,14 +5607,14 @@ function allDecos(decos, tents=false) {
     conditions = array_map(decos, deco => __ornext(any_of(range(0, decorSlots[decos[deco]]), i => decorId(i, decos[deco])==deco)))
     if(tents) array_push(conditions, counter(o_trickHouseLevel)==8)
     total = length(conditions)
-    // get full deco inventory. Easiest to figure what types are on the array ig. Type doll is the last one on the list
+    // get full deco inventory. Easiest to figure what types are on the array ig. Type cushion is the last one on the list
     totalDecoSlots = 0
-    for j in range(0, DECOR_TYPE_DOLL) totalDecoSlots = totalDecoSlots + decorSlots[j]
+    for j in range(0, DECOR_TYPE_CUSHION) totalDecoSlots = totalDecoSlots + decorSlots[j]
     
     return
         pointerSanity() &&
         measured(tally_of(conditions, total, c => once(c))) &&
-        // delta check for any deco increasing. Type desk is the first one on the list
+        // delta check for any deco increasing. Type desk is the first one on the list, index 0
         any_of(range(0, totalDecoSlots), k => prev(decorId(k, DECOR_TYPE_DESK)) == 0 && decorId(k, DECOR_TYPE_DESK) != 0)
 }
 function pichu() {
@@ -5624,11 +5646,15 @@ function flutes() {
     bagItems = range(1, n_bagItems)
     return
         pointerSanity() &&
-        once(counter(o_ashCount) < prev(counter(o_ashCount))) &&
-        measured(tally_of(listFlutes, length(listFlutes), flute =>
+        // once(counter(o_ashCount) < prev(counter(o_ashCount))) && // gives more troubles than it's worth
+        (tally_of(listFlutes, length(listFlutes), flute =>
             once(__ornext(any_of(bagItems, i => bagItem(i) == flute)))
         )) &&
-        any_of(bagItems, i => bagItem(i)!=prev(bagItem(i)))
+        (
+            any_of(bagItems, i => bagItem(i)!=prev(bagItem(i))) ||
+            // impossible alt to measure ash
+            (bagItem(n_bagItems+1)==0xdead && measured(counter(o_ashCount)==10000, when=map()==MAP_ROUTE113))
+        )
         
 }
 function shellBell() {
@@ -5679,9 +5705,18 @@ function fullDex() {
     return pointerSanity(2) && alts
 }
 function rematchFinal(flag) {
+    rematchAvailable = rematch(rematches[flag] + o_rematchWally)
     return
-        prev(rematch(rematches[flag])) > 0 &&
-        trigger_when(flagTrigger(flag))
+        pointerSanity() &&
+        prev(rematchAvailable) > 0 &&
+        trigger_when(flag(flag) == 1) &&
+        trigger_when(rematchAvailable == 0)
+}
+function kecleon() {
+    flag = flag(FLAG_DEFEATED_KECLEON_ROUTE_120_BRIDGE)
+    return pointerSanity() && 
+    map() == MAP_ROUTE120 && 
+    once(flag > prev(flag))
 }
 
 // #region achievements
@@ -5705,7 +5740,7 @@ cheevosProg = [
     ["Fight at the Museum", "Defeat Team Aqua at the Oceanic Museum", 3, flagTrigger(FLAG_HIDE_SLATEPORT_CITY_OCEANIC_MUSEUM_AQUA_GRUNTS)],
     ["Still a Novice", "Defeat Wally at the entrance to the Mauville Gym", 2, flagTrigger(FLAG_DEFEATED_WALLY_MAUVILLE)],
     ["Free Falling", "Help out Professor Cozmo at Meteor Falls", 1, flagTrigger(FLAG_MET_ARCHIE_METEOR_FALLS)],
-    ["Who You Gonna Call?", "Defeat the invisible obstacle with the help of the Devon Scope", 2, flagTrigger(FLAG_DEFEATED_KECLEON_ROUTE_120_BRIDGE)],
+    ["Who You Gonna Call?", "Defeat the invisible obstacle with the help of the Devon Scope", 2, kecleon()],
     ["Orbs of Power", "Witness the events on Mt. Pyre's summit", 5, flagTrigger(FLAG_RECEIVED_RED_OR_BLUE_ORB)],
     ["Ozone Peacekeeper", "Watch Rayquaza put an end to the legendary showdown in Sootopolis City", 5, flagTrigger(FLAG_HIDE_SOOTOPOLIS_CITY_KYOGRE, map=MAP_SOOTOPOLIS_CITY)],
 ] // ig Orbs of Power is a remnant from RS. You receive the Magma Emblem
