@@ -5841,10 +5841,10 @@ cheevosReg = [
     ["Soar the Skies", "Defeat Winona's strongest team", 25, rematchFinal(TRAINER_WINONA_5)],
     ["Otherwordly Bond", "Defeat Tate and Liza's strongest team", 25, rematchFinal(TRAINER_TATE_AND_LIZA_5)],
     ["Don Juan", "Defeat Juan's strongest team", 25, rematchFinal(TRAINER_JUAN_5)],
-    ["Furniture Collector", "Collect every desk, chair and plant for your secret base", 25, allDecos(listDecosFurniture)],
+    ["Furniture Collector", "Collect every desk, chair and plant for your secret base", 50, allDecos(listDecosFurniture)],
     ["Fun Collector", "Collect every ornament and poster for your secret base, except the color tent you didn't choose at the Trick House", 25, allDecos(listDecosFun, true)],
     ["Comfort Collector", "Collect every cushion and mat for your secret base", 10, allDecos(listDecosComfort)],
-    ["FREN Collector", "Collect every doll for your secret base, excluding Seedot, Regirock, Regice, and Registeel", 100, allDecos(listDecosDolls)],
+    ["FREN Collector", "Collect every doll for your secret base, excluding Seedot, Regirock, Regice, and Registeel", 50, allDecos(listDecosDolls)],
     ["Melodies of the Ashen One", "Obtain and own every flute by trading soot for them on Route 113", 10, flutes()],
 
     ["Little Trainer Big World - Trainers", "Defeat every trainer in Littleroot Town, Route 101, Oldale Town, Route 103 and Route 102", 10, collect(listTrainersZoneLittleroot, maxIncrement=2)],
