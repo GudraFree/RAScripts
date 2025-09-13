@@ -4160,8 +4160,9 @@ progression = [
     ["Beacon of Hope", "Earn the Beacon Badge", 10, eventFlag(o_Badges, 7)],
     ["Countercurrent", "Get HM07 Waterfall from Jasmine", 2, eventFlag(0x0000e203, 2)],
     ["Boo-YAAAAAAHHHHHH!", "Defeat your rival at the Pokémon League", 10, eventCounter([o_EventsBarryLeague], 1)],
-    ["Epic Piano Solo", "Defeat Cynthia, the Champion of Sinnoh", 25, eventFlag(0x0000e206, 4)],
 ]
+
+cheevoWinCon = ["Epic Piano Solo", "Defeat Cynthia, the Champion of Sinnoh", 25, eventFlag(0x0000e206, 4)]
 
 missables = [
     ["Chronicles of the Childhood Rival", "Listen to everything your rival has to say on your escapade from Twinleaf Town", 1, sanity(GS_OW) && eventCounter([o_EventsBarryDialogsWayToLake, o_EventsBarryDialogsBackFromLake], 7, true)],
@@ -4300,6 +4301,13 @@ secondBatch = [
 
 // achievement generation
 for prog in progression cheevoProgression(prog)
+myAchievement(
+    cheevoWinCon[C_TITLE],
+    cheevoWinCon[C_DESC],
+    cheevoWinCon[C_POINTS],
+    sanity(GS_OW) && cheevoWinCon[C_TRIGGER],
+    "win_condition"
+)
 for miss in missables cheevoMissable(miss)
 for gift in gifts cheevoStandard(gift)
 for collectible in collectibles cheevoStandard(collectible)
