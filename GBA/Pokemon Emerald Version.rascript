@@ -5752,7 +5752,7 @@ cheevosMiss = [
     ["Reward by Reputation", "Be rewarded 4BP by Scott at Battle Frontier", 5, scottReward()],
     ["It Moved!", "Catch the weird tree at the Battle Frontier", 3, catchMon(SPECIES_SUDOWOODO, MAP_BATTLE_FRONTIER_OUTSIDE_EAST)],
     ["Panic! At the Institute", "Defeat every grunt at the Weather Institute", 3, collect(listWeatherInstitute)],
-    ["Amoonguss Would Debute 6 Years Later", "Defeat the suspicious Magma grunt on Jagged Pass", 1, flagTrigger(TRAINER_GRUNT_JAGGED_PASS)],
+    ["Amoonguss Would Debut 6 Years Later", "Defeat the suspicious Magma grunt on Jagged Pass", 1, flagTrigger(TRAINER_GRUNT_JAGGED_PASS)],
     ["Not the Space, Not the Time", "Defeat every grunt at the Space Center", 4, collect(listSpaceCenter)],
     ["Trick Master Is Fabulous", "Defeat every trainer and find every item in the first Trick House puzzle", 3, collect(listTrickPuzzle1)],
     ["Trick Master Is Smart", "Defeat every trainer and find every item in the second Trick House puzzle", 3, collect(listTrickPuzzle2)],
@@ -5790,14 +5790,14 @@ cheevosReg = [
     ["Growing Stronger Every Day", "Receive a special prize from your Mom for defeating your Dad", 3, flagTrigger(FLAG_RECEIVED_AMULET_COIN)],
     ["Fishing Enthusiast", "Receive the Good Rod on Route 118", 3, flagTrigger(FLAG_RECEIVED_GOOD_ROD)],
     ["Right or Left?", "Receive the TM10 Hidden Power from playing a guessing game with an old woman", 3, flagTrigger(FLAG_RECEIVED_TM_HIDDEN_POWER)],
-    ["Oeuvre D'Art", "Receive a Glass Ornament for filling up the Lillicove Museum's new exposition with breathtaking paintings", 25, flagTrigger(FLAG_RECEIVED_GLASS_ORNAMENT)],
+    ["Oeuvre D'Art", "Receive a Glass Ornament for filling up the Lilycove Museum's new exposition with breathtaking paintings", 25, flagTrigger(FLAG_RECEIVED_GLASS_ORNAMENT)],
     ["Fishing Master", "Receive the Super Rod in Mossdeep City", 4, flagTrigger(FLAG_RECEIVED_SUPER_ROD)],
     ["Wingull Postal Service", "Receive a Mental Herb for checking on the successful return of Wingull", 4, flagTrigger(FLAG_RECEIVED_MENTAL_HERB)],
     ["Ferocious Fiend", "Receive the TM21 Frustration by showing a wild and untamable Pokémon to a man in Pacifidlog Town", 3, receiveFrustration()],
     ["Ün Ün Ün", "Unlock the Sealed Chamber", 5, flagTrigger(FLAG_REGI_DOORS_OPENED)],
     ["Size Matters", "Break the records of both size-obsessed brothers in Sootopolis City", 10, sizeContest()],
     ["The House Always Wins", "Bet 15BP on yourself with a man in a building south of Battle Pyramid and win", 10, betBf()],
-    ["Sale Season", "Assist with the clearance sale at the top of Lillicove Department Store", 5, clearance()],
+    ["Sale Season", "Assist with the clearance sale at the top of Lilycove Department Store", 5, clearance()],
     ["Go Big or Go Home", "Win big at the Mauville Game corner during a special day, as seen on TV", 5, gameCorner()],
     ["Smoothest Blocks You Will Ever See", "Make Pokéblocks with the Blend Master", 5, blendmaster()],
     ["Breaking News!", "Defeat Reporters Gabby & Ty at their strongest", 5, flagTrigger(TRAINER_GABBY_AND_TY_6)],
@@ -5898,9 +5898,9 @@ cheevosCoreProg = [
     ["The Planet from Above", "Help Steven Stone in the Mossdeep Space Center", 5, flagTrigger(FLAG_DEFEATED_MAGMA_SPACE_CENTER)],
     ["Submarine Showdown", "Defeat Archie in the Seafloor Cavern", 5, flagTrigger(FLAG_HIDE_SEAFLOOR_CAVERN_AQUA_GRUNTS)],
     ["Zero to Hero", "Defeat Wally on Victory Road", 5, flagTrigger(FLAG_DEFEATED_WALLY_VICTORY_ROAD)],
-    ["League Champion", "Defeat the current champion and become the Pokémon League Champion", 25, flagTrigger(FLAG_SYS_GAME_CLEAR)],
 
 ]
+cheevoCoreWinCon =  ["League Champion", "Defeat the current champion and become the Pokémon League Champion", 25, flagTrigger(FLAG_SYS_GAME_CLEAR)]
 cheevosCoreMiss = [
     ["I'll Battle with You", "Defeat your Rival in Lilycove City", 5, anyFlagTrigger(listRivalLilycove)],
     ["Gotta Catch 'Em All", "Obtain all 212 available Pokémon in the game", 50, fullDex()],
@@ -5968,6 +5968,7 @@ for c in cheevosMiss cheevo(c, "missable")
 for c in cheevosReg cheevo(c)
 
 for c in cheevosCoreProg cheevo(c, "progression")
+cheevo(cheevoCoreWinCon, "win_condition")
 for c in cheevosCoreMiss cheevo(c, "missable")
 for c in cheevosCore cheevo(c)
 
