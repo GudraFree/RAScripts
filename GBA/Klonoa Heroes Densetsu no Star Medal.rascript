@@ -1414,7 +1414,7 @@ function weaponType(char, weapon) => weaponEquipped(char) >= weapon && weaponEqu
 
 function noDamage() => disable_when(hp()<prev(hp()) && hpMax()==prev(hpMax()) && ingame(), until=!ingame())
 
-function noHealing() => disable_when(hp()>prev(hp()) && hpMax()==prev(hpMax()) && ingame(), until=!ingame())
+function noHealing(area) => disable_when(hp()>prev(hp()) && hpMax()==prev(hpMax()) && repeated(60,areaId()==area) && ingame(), until=!ingame())
 
 function noHealingEnemy(enemy, area) => disable_when(enemyHp(enemy)>prev(enemyHp(enemy)) && repeated(60,areaId()==area) && ingame(), until=!ingame())
 
@@ -1777,7 +1777,7 @@ function bossChallengeRematch6() {
         areaCheck(WORLD_MOMETT, 6, 1) &&
         characterLock(GUNTZ) &&
         weaponType(GUNTZ, WEAP_LAZER) &&
-        noHealing() &&
+        noHealing(1) &&
         triggerBoss()
         
     return trigger
