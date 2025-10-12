@@ -5364,7 +5364,7 @@ function cutRadio() => byte(a_cutRadio)
 function dexFlag(i) => bit((i-1)%8, pointerBlock2() + o_dexCaughtStart + (i-1)/8)
 function rematch(i) => byte(pointerBlock1() + o_rematchStart + i) // expects an index from rematches lookup
 
-function isInGame() => ingame() == 1
+function isInGame() => ingame() > 0
 function isPaused() => menu() == 1
 function isInBattle() => musicId() == MUS_BATTLE
 function pointerSanity(n=1) { 
