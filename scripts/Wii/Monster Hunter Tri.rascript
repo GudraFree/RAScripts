@@ -76,7 +76,7 @@ class Quest {
     function flag() => flagBE(a_questStart, this.id)
     function desc() {
         desc = "Complete the "
-        if(this.type == QT_KEY) desc = desc + this.level + " star "
+        if(this.type == QT_KEY) desc = desc + this.level + "-star "
         if(this.type != QT_NORMAL) desc = desc + this.type
         desc = desc + this.loc + "quest \"" + this.name + "\""
         
@@ -96,30 +96,33 @@ class Quest {
 class Monster {
     name = "Monstie"
     id = 0
+    title1 = "Lv 1 baby"
+    title2 = "Lv10 crook"
+    title3 = "Lv100 boss"
     small = 0
     silver = 0
     gold = 0
     factor = 10000
     online = false
-    
-    function Monster(name, id, small=0, silver=0, gold=0, factor=0, online=false) {
-        this.name = name
-        this.id = id
-        this.small = small
-        this.silver = silver
-        this.gold = gold
-        this.factor = factor
-        this.online = online
+    elder = false
+        
+    function titles() => [title1, title2, title3]
+    function huntObtjectives() {
+        if(this.elder) return [10, 20, 30]
+        return [20, 50, 100]
     }
     
     function slain() => counter16(a_monsterSlainStart, this.id)
     function cap() => counter16(a_monsterCapStart, this.id)
+    function hunted() => this.slain() + this.cap()
     function shortest() => counter16(a_monsterSizeStart, this.id * 2)
     function longest() => counter16(a_monsterSizeStart, this.id * 2 + 1)
     
-    function isSmall() => this.shortest()<=this.small && this.shortest()!=prev(this.shortest())
     function isSilver() => this.longest()>=this.silver && this.longest()!=prev(this.longest())
-    function isGold() => this.longest()>=this.gold && this.longest()!=prev(this.longest())
+    function isBothGold() => 
+        this.shortest()<=this.small && 
+        this.longest()>=this.gold && 
+        (this.longest()!=prev(this.longest()) || this.shortest()!=prev(this.shortest()))
 }
 
 
@@ -149,31 +152,31 @@ awards = {
     27: "Giant Crown",
 }
 monsters = [
-    Monster("Rathian", 1, 0x5a, 0x73, 0x7b, 16537),
-    Monster("Rathalos", 2, 0x5a, 0x73, 0x7b, 17147),
-    Monster("Qurupeco", 3, 0x5a, 0x73, 0x7b, 8683),
-    Monster("Gigginox", 4, 0x5c, 0x6f, 0x74, 10920),
-    Monster("Barioth", 5, 0x5c, 0x6f, 0x74, 18217),
-    Monster("Diablos", 6, 0x5a, 0x73, 0x7b, 20423),
-    Monster("Deviljho", 7, 0x5a, 0x78, 0x80, 20489, online=true),
-    Monster("Barroth", 8, 0x5a, 0x73, 0x7b, 14067),
-    Monster("Uragaan", 9, 0x5a, 0x73, 0x7b, 20903),
+    Monster("Rathian", 1, "Earth Mover", "Princess", "Wyvern Princess", 0x5a, 0x73, 0x7b, 16537),
+    Monster("Rathalos", 2, "Heaven Mover", "Brave", "Monarch", 0x5a, 0x73, 0x7b, 17147),
+    Monster("Qurupeco", 3, "Wind Whisperer", "Troubadour", "Diva", 0x5a, 0x73, 0x7b, 8683),
+    Monster("Gigginox", 4, "Dark Haunter", "Vampire", "God of Death", 0x5c, 0x6f, 0x74, 10920),
+    Monster("Barioth", 5, "Snow Driver", "Speedster", "Absolute Zero", 0x5c, 0x6f, 0x74, 18217),
+    Monster("Diablos", 6, "Stone Piercer", "Brawler", "Dual Demon", 0x5a, 0x73, 0x7b, 20423),
+    Monster("Deviljho", 7, "Rampager", "Champion", "Despot", 0x5a, 0x78, 0x80, 20489, online=true),
+    Monster("Barroth", 8, "Mud Clad", "Tyrant", "Steel Will", 0x5a, 0x73, 0x7b, 14067),
+    Monster("Uragaan", 9, "Mountain Splitter", "Rolling Stone", "Crushing Hammer", 0x5a, 0x73, 0x7b, 20903),
     //Monster("Jaggi", 10),
     //Monster("Jaggia", 11),
-    Monster("Great Jaggi", 12, 0x5a, 0x73, 0x7b, 9343),
+    Monster("Great Jaggi", 12, "Commander", "Rowdy Chief", "Dark Cloud", 0x5a, 0x73, 0x7b, 9343),
     //Monster("Baggi", 13),
-    Monster("Great Baggi", 14, 0x53, 0x79, 0x83, 10489),
-    Monster("Lagiacrus", 15, 0x5a, 0x73, 0x7b, 26485),
-    Monster("Royal Ludroth", 16, 0x5a, 0x73, 0x7b, 15452),
+    Monster("Great Baggi", 14, "Freedom Taker", "Plunderer", "Waking Dreamer", 0x53, 0x79, 0x83, 10489),
+    Monster("Lagiacrus", 15, "Lightning Clad", "Rival", "God of the Seas", 0x5a, 0x73, 0x7b, 26485),
+    Monster("Royal Ludroth", 16, "Ocean Drinker", "Siren", "Aqua Lion", 0x5a, 0x73, 0x7b, 15452),
     //Monster("Ludroth", 17),
-    Monster("Gobul", 18, 0x5a, 0x73, 0x7b, 18965),
-    Monster("Agnaktor", 19, 0x5a, 0x73, 0x7b, 27147),
-    Monster("Ceadeus", 20),
+    Monster("Gobul", 18, "Hidden Stalker", "Sly Schemer", "General", 0x5a, 0x73, 0x7b, 18965),
+    Monster("Agnaktor", 19, "Fire Starter", "Volcano", "Infernal Lord", 0x5a, 0x73, 0x7b, 27147),
+    Monster("Ceadeus", 20, "Sea Shaker", "Lord of the Abyss", "Fabled Harpooner", elder=true),
     //Monster("Uroktor", 21),
     //Monster("Delex", 22),
     //Monster("Epioth", 23),
-    Monster("Alatreon", 24, online=true),
-    Monster("Jhen Mohran", 25, online=true),
+    Monster("Alatreon", 24, "Finalizer", "Dragoon", "Emperor Wyvern", online=true, elder=true),
+    Monster("Jhen Mohran", 25, "Tornado Caller", "Juggernaut", "God of War", online=true, elder=true),
     // rest of small monsters no one cares about
 ]
 quests = [
@@ -270,7 +273,7 @@ function cheevoQuestLevel(level, location=QL_VILLAGE) {
     levelQuests = []
     for q in quests if(q.loc == location && q.level == level) array_push(levelQuests, q.id)
     Cheevo(
-        format("{2}{0}{1}-star", substring(location, 1), level, capital), 
+        format("{2}{0}{1}-Star", substring(location, 1), level, capital), 
         format("Complete every {1}-star {0}quest", location, level), 
         10, 
         flagCounter(a_questStart, levelQuests)
@@ -293,10 +296,14 @@ function cheevoAward(i) {
     ).generate()
 }
 
-for q in quests if(q.loc == QL_VILLAGE && q.type != QT_NORMAL) cheevoQuest(q)
+for q in quests {
+    if(q.loc == QL_VILLAGE && q.type != QT_NORMAL) cheevoQuest(q)
+}
 for star in villageStars cheevoQuestLevel(star)
 for c in extraCheevos c.generate()
-for m in monsters if(!m.online && m.silver>0) cheevoSilverCrown(m)
+for m in monsters {
+    if(!m.online && m.silver>0) cheevoSilverCrown(m)
+}
 for a in awardsOffline cheevoAward(a)
 
 // lbs
