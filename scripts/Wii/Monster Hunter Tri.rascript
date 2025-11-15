@@ -17,7 +17,9 @@ FLAG_TUTORIAL = 101
 FLAG_ANCIENT_MASK = 120
 
 // addresses
-a_ingame = 0x00658608
+offset_EU = 0x2480
+
+a_state = 0x00658604
 a_money = 0x100e0588
 a_rp = 0x100e4474
 
@@ -33,7 +35,8 @@ a_chachaSkillStart = 0x100e570c
 
 
 // functions
-function isIngame() => byte(a_ingame) == 1
+function gamestate() => byte(a_state + (bit4(0x03)*offset_EU)) 
+function isIngame() => gamestate() > 0
 function beIndex(i) => 4*(i/4) + 3 - (i%4)
 function flagBE(ba, i) => bit(i%8, ba + beIndex(i/8))
 function flag(ba, i) => bit(i%8, ba + (i/8))
@@ -249,7 +252,7 @@ class Cheevo {
     }
 }
 extraCheevos = [
-    Cheevo("Guild Certified", "Complete your introduction to hunting basics and earn the right to accept official Guild Quests", 1, flagTrigger(flagBE(a_argosyTradeStart, FLAG_TUTORIAL)), "progression"),
+    Cheevo("Guild Certified", "Complete your introduction to hunting basics and earn the right to accept official Guild quests", 1, flagTrigger(flagBE(a_argosyTradeStart, FLAG_TUTORIAL)), "progression"),
     Cheevo("Ancient Mask", "Obtain the mask that will let you face the submarine threat", 5, flagTrigger(flagBE(a_argosyTradeStart, FLAG_ANCIENT_MASK)), "progression"),
     Cheevo("One Chance", "Defy the Guild's Orders and help build an operation camp to take on Ceadeus", 5, flagTrigger(flagBE(a_argosyTradeStart, FLAG_ONE_CHANCE)), "progression"),
     Cheevo("Magazine of Porcine Fashion", "Collect every pig outfit available in Moga", 25, flagCounter(a_poogieOutfitStart, poogieOutfits, maxIncrement=2)),
@@ -338,10 +341,16 @@ for m in monsters {
 }
 
 // RP
+state = {
+    1: "Hunting",
+    2: "Preparing for the hunt",
+    3: "Selecting an Arena quest",
+}
 rich_presence_conditional_display(!isIngame(), "Moga awaits")
-rich_presence_display("Hunting • Quests: {0}/{1} • Money: {2} • RP: {3}",
+rich_presence_display("{4} • Quests: {0}/{1} • Money: {2} • RP: {3}",
     rich_presence_value("mogaQuests", sum_of(array_filter(quests, q => q.loc == QL_VILLAGE), q=>q.flag())),
     length(array_filter(quests, q => q.loc == QL_VILLAGE)),
     rich_presence_value("money", dword_be(a_money)),
-    rich_presence_value("rp", dword_be(a_rp))
+    rich_presence_value("rp", dword_be(a_rp)),
+    rich_presence_lookup("STATE", gamestate(), state, "Vibing")
 )
