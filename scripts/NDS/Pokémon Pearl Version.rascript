@@ -2160,7 +2160,7 @@ trainers = [
     ["Battle Girl Kelsey", FLOWER, mbit(4, o_Trainers3)],
     ["Aroma Lady Elizabeth", FLOWER, mbit(5, o_Trainers3)],
     ["Fisherman Andrew", FLOWER, mbit(6, o_Trainers3)],
-    ["Fisherman Joseph", FLOWER, mbit(6, o_Trainers3)],
+    ["Fisherman Joseph", FLOWER, mbit(7, o_Trainers3)],
 
     ["Fisherman Zachary", FLOWER, mbit(0, o_Trainers4)],
     ["Cyclist Axel", OLDNEW, mbit(1, o_Trainers4)],
