@@ -149,7 +149,7 @@ rangeSlots = range(0,7)
 rangeTrade = range(1,3)
 
 TECH_DEMOCRACY = 21
-TECH_HORSEBACK = 36
+TECH_AUTOMOBILE = 5
 techs = {
     0: "Advanced Flight",
     1: "Alphabet",
@@ -944,9 +944,9 @@ function siouxChall() {
     notSioux = otherTribes(TRB_SIOUX)
     return 
         tribe()==TRB_SIOUX &&
-        all_of(notSioux, slot => tribeTech(slot, TECH_HORSEBACK)==0) &&
-        prev(tribeTech(slotSioux, TECH_HORSEBACK)) == 0  &&
-        trigger_when(tribeTech(slotSioux, TECH_HORSEBACK) == 1)
+        all_of(notSioux, slot => tribeTech(slot, TECH_AUTOMOBILE)==0) &&
+        prev(tribeTech(slotSioux, TECH_AUTOMOBILE)) == 0  &&
+        trigger_when(tribeTech(slotSioux, TECH_AUTOMOBILE) == 1)
 }
 function spainChall() {
     slotSpain = slot(TRB_SPAIN)
@@ -1293,10 +1293,10 @@ function cheevoTest() {
 // -- ACHIEVEMENTS --
 trigger = always_false()
 concepts = [
-    ["The Breadbasket of Empire", "Create an Farmland improvement", 2, farmland()],
+    ["The Breadbasket of Empire", "Create a Farmland improvement", 2, farmland()],
     ["The Children Yearn for the Mines", "Create a Mine improvement on a Hills tile", 1, hillsMine()],
     ["You Shall Not Pass", "Garrison a unit on a Fortress improvement", 1, fortifyFort()],
-    ["Pit Stop", "Refuel an bomber type air unit on an Airbase improvement on its second turn airborne", 3, refuelBomber()],
+    ["Pit Stop", "Refuel a bomber type air unit on an Airbase improvement on its second turn airborne", 3, refuelBomber()],
     ["Battle-Hardened", "Have a unit reach veterancy", 1, unitGetVeteran()],
     ["We Live in a Society", "Adopt an Ancient era government", 2, ancientGovernment()],
     ["We The People", "Adopt an Industrial era government", 4, industrialGovernment()],
@@ -1339,7 +1339,7 @@ tribeChallenges = [
     ["Return to Sender", "As the Carthaginians, send Salt to a Roman city with a trade route", 10, carthageChall()],
     ["Peace Was Never an Option", "As the Indians, use a nuclear device", 5, indiaChall()],
     ["Great Great Grandfather", "As the Mongols, reach a population of 20 million citizens", 25, mongolChall()],
-    ["Sitting Horse", "As the Sioux, discover Horseback Riding before any other civilization", 3, siouxChall()],
+    ["At Least Five Horses of Power", "As the Sioux, research Automobile before any other civilization", 5, siouxChall()],
 ]
 
 //cheevoTest()
