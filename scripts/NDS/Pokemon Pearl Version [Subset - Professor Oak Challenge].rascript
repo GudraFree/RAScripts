@@ -1,5 +1,5 @@
-// Pokemon Pearl Version [Subset - Professor Oak Challenge]
-// #ID = 29666
+// Pokemon Pearl Version [Subset - Professor Oak Challenge] id 29666
+// #ID = 25369
 // Guide: https://docs.google.com/document/d/1Edz1FjpUKoHiryD00rjHvvGTkirJaH6vb68vLRySYoI
 
 // common functions
@@ -683,6 +683,7 @@ function getCheckpoint(phase) {
     for mon in dex if(mon[PK_PHASE]==51) array_push(starters, mon)
     
     trigger =
+        prev(checkpoint()) < badges &&
         trigger_when(checkpoint() == badges) &&
         trigger_when(prev(checkpoint()) == badges-1) &&
         any_of(starters, starter =>
@@ -735,7 +736,7 @@ function cheevoMon(mon) {
     name = mon[PK_NAME]
     myAchievement(
         name,
-        format("Obtain a{1} {0}", name, iHateEnglish(name)),
+        format("Obtain a{1} {0} with {2} badges earned", name, iHateEnglish(name), phaseBadges[mon[PK_PHASE]]),
         0,
         captureMon(mon)
     )
