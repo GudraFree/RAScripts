@@ -1,8 +1,8 @@
 // Monster Hunter Tri
-// #ID = 36547
+// #ID = 208
 // ids: 208 (core), 36547 (subset online)
 
-subset = true
+subset = false
 
 // common
 
@@ -773,6 +773,7 @@ ITM_TORCHLIGHT_JEWEL = 746
 offset_EU = 0x2480
 
 a_state = 0x00658604
+a_name = 0x100e0573
 a_money = 0x100e0588
 a_rp = 0x100e4474
 a_hr = 0x100e4354
@@ -794,6 +795,10 @@ a_arenaTimeStart = 0x100e5854
 // functions
 function gamestate() => byte(a_state + (bit4(0x03)*offset_EU)) 
 function isIngame() => gamestate() > 0
+function name() => dword_be(a_name)
+function saveProtection() => isIngame() && name() == prev(name())
+function money() => dword_be(a_money)
+function rp() => dword_be(a_rp)
 function hr() => word_be(a_hr)
 function hrUp(i) => prev(hr())==i-1 && hr()==i
 function guestHouse(i) => byte(a_guestHouse)==i-1 && prev(byte(a_guestHouse))!=i-1
@@ -965,7 +970,7 @@ monsters = [
     //Monster("Jaggia", 11),
     Monster("Great Jaggi", 12, "Commander", "Rowdy Chief", "Dark Cloud", 0x5a, 0x73, 0x7b, 9343),
     //Monster("Baggi", 13),
-    Monster("Great Baggi", 14, "Freedom Taker", "Plunderer", "Waking Dreamer", 0x53, 0x79, 0x83, 10489),
+    Monster("Great Baggi", 14, "Freedom Taker", "Plunderer", "Waking Dreamer", 0x53, 0x7d, 0x89, 10489),
     Monster("Lagiacrus", 15, "Lightning Clad", "Rival", "God of the Seas", 0x5a, 0x73, 0x7b, 26485),
     Monster("Royal Ludroth", 16, "Ocean Drinker", "Siren", "Aqua Lion", 0x5a, 0x73, 0x7b, 15452),
     //Monster("Ludroth", 17),
@@ -1060,7 +1065,7 @@ quests = [
     Quest(86, "Flooded Forest Extermination", 2, QL_CITY, type=QT_KEY, points=5),
     Quest(87, "Scene of the Crime", 2, QL_CITY, type=QT_KEY, points=5),
     Quest(88, "Lady and the Gobul", 2, QL_CITY),
-    Quest(89, "The Merchat's Mission", 2, QL_CITY, type=QT_KEY, points=5),
+    Quest(89, "The Merchant's Mission", 2, QL_CITY, type=QT_KEY, points=5),
     Quest(90, "Blood From a Stone", 2, QL_CITY),
     Quest(91, "Leader of the Icepack", 2, QL_CITY),
     Quest(92, "The Butler's Great Baggi", 2, QL_CITY, type=QT_KEY, points=5),
@@ -1076,7 +1081,7 @@ quests = [
     Quest(102, "Roll the Uroktor", 3, QL_CITY),
     Quest(103, "Powder Burns", 3, QL_CITY),
     Quest(104, "The Volcano's Fury", 3, QL_CITY),
-    Quest(105, "To Catch an Uragaan", 3, QL_CITY, type=QT_KEY, points=5),
+    Quest(105, "To Catch a Uragaan", 3, QL_CITY, type=QT_KEY, points=5),
     Quest(106, "[Advanced] Double Trouble", 3, QL_CITY),
     Quest(107, "[Advanced] Fort Gigginox", 3, QL_CITY),
     Quest(108, "[Advanced] Rathalos Alert", 3, QL_CITY),
@@ -1103,7 +1108,7 @@ quests = [
     Quest(129, "Rathalos Research", 5, QL_CITY),
     Quest(130, "Into the Danger Zone", 5, QL_CITY, type=QT_KEY, points=10),
     Quest(131, "Harvest Tour: Flooded Forest", 5, QL_CITY),
-    Quest(132, "Rotten Fish", 5, QL_CITY),
+    Quest(132, "Rotten Fish", 5, QL_CITY, type=QT_KEY, points=10),
     Quest(133, "Harvest Tour: Tundra", 5, QL_CITY),
     Quest(134, "Leader of the Icepack", 5, QL_CITY),
     Quest(135, "The Creeping Venom", 5, QL_CITY, type=QT_KEY, points=10),
@@ -1127,7 +1132,7 @@ quests = [
     Quest(153, "Tragedy on the Tundra", 6, QL_CITY),
     Quest(154, "A Burnt Offering", 6, QL_CITY),
     Quest(155, "Leading the Charge", 2, QL_CITY, type=QT_URGENT, points=5),
-    Quest(156, "The Fisherman's Friend", 3, QL_CITY, type=QT_URGENT, points=5),
+    Quest(156, "The Fisherman's Fiend", 3, QL_CITY, type=QT_URGENT, points=5),
     Quest(157, "The Festival of Fear", 3, QL_CITY, type=QT_URGENT, points=10),
     Quest(158, "Double Trouble", 5, QL_CITY, type=QT_URGENT, points=25),
     Quest(159, "The Brilliant Darkness", 6, QL_CITY, type=QT_URGENT, points=25),
@@ -1164,7 +1169,7 @@ arenaQuests = [
     ArenaQuest(28, "Grudge Match: The Two Flames", 10, 0, 10),
     ArenaQuest(29, "Grudge Match: Ice and Fire", 12, 0, 10),
     ArenaQuest(30, "Grudge Match: Brute Horns", 10, 0, 10),
-    ArenaQuest(31, "Grudge Match: The Land Lords", 16, 0, 25),
+    ArenaQuest(31, "Grudge Match: Land Lords", 16, 0, 25),
 ]
 
 // cheevo functions
@@ -1176,7 +1181,7 @@ class Cheevo {
     type = ""
     
     function generate() {
-        achievement(this.name, this.desc, this.points, isIngame() && this.logic, type=this.type)
+        achievement(this.name, this.desc, this.points, saveProtection() && this.logic, type=this.type)
     }
 }
 extraCheevos = [
@@ -1298,7 +1303,7 @@ else {
 function leeboMonSize(monster, longest=false) {
     sizeStr = "Shortest"
     size = monster.shortest()
-    comp = size < prev(size)
+    comp = size < prev(size) && size > 0
     if(longest) {
         sizeStr = "Longest"
         size = monster.longest()
@@ -1310,7 +1315,7 @@ function leeboMonSize(monster, longest=false) {
     leaderboard(
         format("{0} {1} hunted", sizeStr, monster.name),
         "In cm",
-        isIngame() && comp,
+        saveProtection() && comp,
         always_false(),
         always_true(),
         displaySize,
@@ -1345,20 +1350,23 @@ if(!subset) {
     rich_presence_display("{4} • Quests: {0}/{1} • Money: {2} • RP: {3}",
         rich_presence_value("mogaQuests", sum_of(array_filter(quests, q => q.loc == QL_VILLAGE), q=>q.flag())),
         length(array_filter(quests, q => q.loc == QL_VILLAGE)),
-        rich_presence_value("money", dword_be(a_money)),
-        rich_presence_value("rp", dword_be(a_rp)),
+        rich_presence_value("money", money()),
+        rich_presence_value("rp", rp()),
         rich_presence_lookup("STATE", gamestate(), state, "Vibing")
     )
 }
 else {
     rich_presence_conditional_display(!isIngame(), "Loc Lac awaits")
-    rich_presence_display("HR {3} • {4} • LR: {0}/{1}; HR: {5}/{6} • Money: {2}",
+    rich_presence_display("HR {1} • {0} • Moga: {4}/{5}; LR: {6}/{7}; HR: {8}/{9} • Money: {2} • RP: {3}",
+        rich_presence_lookup("STATE", gamestate(), state, "Vibing"),
+        rich_presence_value("hr", hr()),
+        rich_presence_value("money", money()),
+        rich_presence_value("rp", rp()),
+        rich_presence_value("mogaQuests", sum_of(array_filter(quests, q => q.loc == QL_VILLAGE), q=>q.flag())),
+        length(array_filter(quests, q => q.loc == QL_VILLAGE)),
         rich_presence_value("lrQuests", sum_of(array_filter(quests, q => q.loc == QL_CITY && q.level<=3), q=>q.flag())),
         length(array_filter(quests, q => q.loc == QL_CITY && q.level<=3)),
-        rich_presence_value("money", dword_be(a_money)),
-        rich_presence_value("hr", hr()),
-        rich_presence_lookup("STATE", gamestate(), state, "Vibing"),
-        rich_presence_value("lrQuests", sum_of(array_filter(quests, q => q.loc == QL_CITY && q.level>3), q=>q.flag())),
+        rich_presence_value("hrQuests", sum_of(array_filter(quests, q => q.loc == QL_CITY && q.level>3), q=>q.flag())),
         length(array_filter(quests, q => q.loc == QL_CITY && q.level>3))
     )
 }
