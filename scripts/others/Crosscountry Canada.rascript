@@ -12,6 +12,7 @@ a_destination = 0x00032d
 a_phase = 0x000357
 a_onRoad = 0x000329
 a_deliveryDestination = 0x0340
+a_hour_real = 0x0300
 a_weather = 0x0327
 a_speed = 0x032a
 a_gas = 0x033e
@@ -36,6 +37,7 @@ destination = byte(a_destination)
 phase = byte(a_phase)
 onRoad = bit0(a_onRoad)
 deliveryDestination = byte(a_deliveryDestination)
+hour = (bcd(byte(a_hour_real)) & 0x3f) + 12*bit7(a_hour_real)
 weather = byte(a_weather)
 speed = byte(a_speed)
 gas = byte (a_gas)
@@ -426,6 +428,82 @@ lookupLocation = {
     0x4f: "Yarmouth",
     0x50: "Yellowknife",
 }
+lookupHourGreeting = {
+    0: "We are counting down the hottest tracks in Canada today on the CBC Music Top 20",
+    1: "We are counting down the hottest tracks in Canada today on the CBC Music Top 20",
+    2: "We are counting down the hottest tracks in Canada today on the CBC Music Top 20",
+    3: "We are counting down the hottest tracks in Canada today on the CBC Music Top 20",
+    4: "We are counting down the hottest tracks in Canada today on the CBC Music Top 20",
+    5: "Coming up on CBC Radio One: The Current",
+    6: "Coming up on CBC Radio One: The Current",
+    7: "Coming up on CBC Radio One: The Current",
+    8: "Coming up on CBC Radio One: The Current",
+    9: "Coming up on CBC Radio One: The Current",
+    10: "Coming up on CBC Radio One: The Current",
+    11: "Arts, culture and entertainment coming up next on The Commotion",
+    12: "Arts, culture and entertainment coming up next on The Commotion",
+    13: "Arts, culture and entertainment coming up next on The Commotion",
+    14: "Arts, culture and entertainment coming up next on The Commotion",
+    15: "Today’s top stories on Your World Tonight",
+    16: "Today’s top stories on Your World Tonight",
+    17: "Today’s top stories on Your World Tonight",
+    18: "Today’s top stories on Your World Tonight",
+    19: "We’re taking a deep-dive tonight on Ideas",
+    20: "We’re taking a deep-dive tonight on Ideas",
+    21: "We’re taking a deep-dive tonight on Ideas",
+    22: "We’re taking a deep-dive tonight on Ideas",
+    23: "We are counting down the hottest tracks in Canada today on the CBC Music Top 20",
+}
+lookupHourDay = {
+    0: "overnight",
+    1: "overnight",
+    2: "overnight",
+    3: "overnight",
+    4: "overnight",
+    5: "this morning",
+    6: "this morning",
+    7: "this morning",
+    8: "this morning",
+    9: "this morning",
+    10: "this morning",
+    11: "this midday",
+    12: "this midday",
+    13: "this midday",
+    14: "this midday",
+    15: "this afternoon",
+    16: "this afternoon",
+    17: "this afternoon",
+    18: "this afternoon",
+    19: "this evening",
+    20: "this evening",
+    21: "this evening",
+    22: "this evening",
+    23: "overnight",
+}
+lookupWeather = {
+    0x0: "blue skies with bitter cold temperatures",
+    0x1: "sunny skies with quite chilly temperatures",
+    0x2: "clear skies with frigid temperatures",
+    0x3: "clear skies with very brisk temperatures",
+    0x4: "sunny skies with cooler temperatures",
+    0x5: "blue skies with mild temperatures",
+    0x6: "sunny skies with high humidity",
+    0x7: "clear skies with scorching temperatures",
+    0x8: "grey skies with bitter cold temperatures",
+    0x9: "cloudy skies with very cold temperatures",
+    0xa: "overcast skies with cold temperatures",
+    0xb: "overcast skies with brisk temperatures",
+    0xc: "cloudy skies with cooler temperatures",
+    0xd: "grey skies with warm temperatures",
+    0xe: "cloudy skies with high humidity",
+    0xf: "overcast skies and very hot temperatures",
+    0x10: "drizzly weather",
+    0x11: "severe thunderstorms",
+    0x12: "light snow",
+    0x13: "a winter storm"
+}
+
+rpString = "{0}. But first, the weather in {1}. Environment Canada is calling for {2} {3} in {4}. "
 
 inGame = name_p1>0
 function answerCommodityQuestion() => byte(a_commodityQuestion) == 0x9c && prev(byte(a_commodityQuestion)) == 0
@@ -433,7 +511,7 @@ function totalExpenses() => bcd(word(a_exGas)) + 30*byte(a_exHotel) + 10*byte(a_
 function passLandmarks(list) => measured(tally_of(list, length(list), i => once(i.passed()))) && never(!inGame)
 function finishGame(commodities) => location == deliveryDestination && endedGame > prev(endedGame) && sum_of(range(1, commodities), i => commodityPicked(i)) == commodities
 function haveCommodity(id) => any_of(range(1,n_commodities), i => commodityId(i) == id && commodityPicked(i) == 1)
-function get3BonusCommodities() => any_of(range(1, n_baseCommodities), i => commodityPicked(i) == 1 && commodityPicked(i+1) == 1 && commodityPicked(i+2) == 1 && commodityPicked(i+3) > prev(commodityPicked(i+3)))
+function get3BonusCommodities() => any_of(range(1, n_baseCommodities), i => commodityPicked(i) == 0 && commodityPicked(i+1) == 1 && commodityPicked(i+2) == 1 && commodityPicked(i+3) > prev(commodityPicked(i+3)))
 function getTrainCommodity() => any_of(range(1,n_commodities), i => commodityId(i) == prev(trainCommodity) && commodityPicked(i)>prev(commodityPicked(i)))
 
 class Cheevo {
@@ -451,15 +529,15 @@ class Cheevo {
     logic = always_true()
 
 cheevos = [
-    Cheevo("Short Trip", "Finish a game with 4 or more commodities", 5, finishGame(4), "win_condition"),
-    Cheevo("Medium Trip", "Finish a game with 7 or more commodities", 10, finishGame(7), "win_condition"),
-    Cheevo("Long Trip", "Finish a game with 10 or more commodities", 10, finishGame(10), "win_condition"),
-    Cheevo("Canada Lore", "Correctly answer the question about your next commodity to pick up", 3, answerCommodityQuestion()),
-    Cheevo("Bonus Orders", "Pick up 3 or more bonus commodities before your final commodity", 10, get3BonusCommodities()),
-    Cheevo("Train Order", "Pick up some commodity you ordered to be delivered by train from Churchill", 5, getTrainCommodity()),
-    Cheevo("Ferry", "Take a ferry", 3, tbyte(a_exFerry) > prev(tbyte(a_exFerry))),
-    Cheevo("Good Samaritan", "Pick up a hitchhiker", 2, onRoad==1 && hitchhikerOn > prev(hitchhikerOn)),
-    Cheevo("Self Care", "Complete a trip with 4 or more commodities without ever being ravenous, exhausted, run out of gas or speeding", 25, 
+    Cheevo("Ehhh, It's Just a Short Trip", "Finish a game with 4 or more commodities", 5, finishGame(4), "win_condition"),
+    Cheevo("Gettin' a Bit More Adventurous", "Finish a game with 7 or more commodities", 10, finishGame(7), "win_condition"),
+    Cheevo("Gonna Need a Double Double to Keep Me Awake...", "Finish a game with 10 or more commodities", 10, finishGame(10), "win_condition"),
+    Cheevo("A Lil Canadian Questionaire", "Correctly answer the question about your next commodity to pick up", 3, answerCommodityQuestion()),
+    Cheevo("Ey, Where's MY Bonus?", "Pick up 3 or more bonus commodities before your final commodity", 10, get3BonusCommodities()),
+    Cheevo("Churchill's Top Quality", "Pick up some commodity you ordered to be delivered by train from Churchill", 5, getTrainCommodity()),
+    Cheevo("Takin' the Ferry for a Whirl", "Take a ferry", 3, tbyte(a_exFerry) > prev(tbyte(a_exFerry))),
+    Cheevo("Hey Bud, Need a Ride?", "Pick up a hitchhiker", 2, onRoad==1 && hitchhikerOn > prev(hitchhikerOn)),
+    Cheevo("Taking Care of Ya-Self!", "Complete a trip with 4 or more commodities without ever being ravenous, exhausted, run out of gas or speeding", 25, 
         trigger_when(finishGame(4)) && 
         disable_when(hunger>=HUNGER_RAVENOUS) && 
         disable_when(sleep>=SLEEP_EXHAUSTED) && 
@@ -467,18 +545,18 @@ cheevos = [
         disable_when(speed>SPEED_REGULAR) &&
         never(!inGame)
     ),
-    Cheevo("Employee of the Month", "Complete a trip with 4 or more commodities with expenses under $1000", 25, 
+    Cheevo("La Camionneur la Plus Meilleure!", "Complete a trip with 4 or more commodities with expenses under $1000", 25, 
         trigger_when(finishGame(4)) && 
         measured(totalExpenses() < 1000)
     ),
-    Cheevo("Parks of Canada", "Visit or drive by every major National or Provincial park, forest or wildlife reserve. Landmarks that can be passed by in different trajectories will count multiple times", 10, passLandmarks(list_parks)),
-    Cheevo("Rivers of Canada", "Cross and drive by every major river in Canada. Certain rivers can be crossed AND drived by! Be sure to enjoy both experiences. Landmarks that can be passed by in different trajectories will count multiple times", 10, passLandmarks(list_rivers)),
-    Cheevo("Lakes of Canada", "Visit or drive by every major lake in Canada. Landmarks that can be passed by in different trajectories will count multiple times!", 10, passLandmarks(list_lakes)),
-    Cheevo("Mountains of Canada", "Visit or drive by every mountain, range and other geological marvels of Canada", 10, passLandmarks(list_mountains)),
-    Cheevo("Sea of Canada", "Visit or drive by the most iconic sea related landmarks of Canada. Landmarks that can be passed by in different trajectories will count multiple times!", 5, passLandmarks(list_sea)),
-    Cheevo("Living in Canada", "Visit or drive by every smaller town or indian reserve not in your map. Landmarks that can be passed by in different trajectories will count multiple times!", 10, passLandmarks(list_towns)),
-    Cheevo("Exploitations of Canada", "Visit or drive by notable human exploitations of resources", 5, passLandmarks(list_exploitations)),
-    Cheevo("Borders of Canada", "Visit or drive by every border with the USA", 5, passLandmarks(list_usa)),
+    Cheevo("Canada's Natural Beauty", "Visit or drive by every major National or Provincial park, forest or wildlife reserve. Landmarks that can be passed by in different trajectories will count multiple times", 10, passLandmarks(list_parks)),
+    Cheevo("Feel the Gentle Water Drops", "Cross and drive by every major river in Canada. Certain rivers can be crossed AND drived by! Be sure to enjoy both experiences. Landmarks that can be passed by in different trajectories will count multiple times", 10, passLandmarks(list_rivers)),
+    Cheevo("Water as Blue and Clear as the Sky", "Visit or drive by every major lake in Canada. Landmarks that can be passed by in different trajectories will count multiple times!", 10, passLandmarks(list_lakes)),
+    Cheevo("It’s Going to Be a Beauty Day", "Visit or drive by every mountain, range and other geological marvels of Canada", 10, passLandmarks(list_mountains)),
+    Cheevo("Following Mackenzie's Footsteps", "Visit or drive by the most iconic sea related landmarks of Canada. Landmarks that can be passed by in different trajectories will count multiple times!", 5, passLandmarks(list_sea)),
+    Cheevo("Terry Fox's Legacy Lasts Forever!", "Visit or drive by every smaller town or indian reserve not in your map. Landmarks that can be passed by in different trajectories will count multiple times!", 10, passLandmarks(list_towns)),
+    Cheevo("The Whole Bag of Milk", "Visit or drive by notable human exploitations of resources", 5, passLandmarks(list_exploitations)),
+    Cheevo("Keep Your Stick On the Ice", "Visit or drive by every border with the USA", 5, passLandmarks(list_usa)),
     Cheevo("Dragon Quest", "Equip yourself with a STEEL sword and a SILVER shield, and go slay the mythical Ogopogo", 5, haveCommodity(COM_STEEL) && haveCommodity(COM_SILVER) && trigger_when(ogopogo.passed())),
     
 ]
@@ -487,11 +565,15 @@ for cheevo in cheevos cheevo.generate()
 
 // Rich Presence
 
-rich_presence_conditional_display(!inGame, "Readying the game, eh")
-rich_presence_conditional_display(onRoad!=0, "Maple Ron is on road from {0} to {1}",
-    rich_presence_lookup("location", location, lookupLocation, "Canada, eh"),
-    rich_presence_lookup("location", destination, lookupLocation, "Canada, eh")
-) 
-rich_presence_display("Maple Ron is at {0}",
-    rich_presence_lookup("location", location, lookupLocation, "Canada, eh")
+rich_presence_conditional_display(!inGame, "Setting up the game, eh")
+//rich_presence_conditional_display(onRoad!=0, "Maple Ron is on road from {0} to {1}",
+//    rich_presence_lookup("location", location, lookupLocation, "Canada, eh"),
+//    rich_presence_lookup("location", destination, lookupLocation, "Canada, eh")
+//) 
+rich_presence_display(rpString,
+    rich_presence_lookup("greeting", hour, lookupHourGreeting, "Salutations truckers of Canada"),
+    rich_presence_lookup("province", location, lookupProvince, "your province"),
+    rich_presence_lookup("weather", weather, lookupWeather, "average weather"),
+    rich_presence_lookup("time", hour, lookupHourDay, "this beautiful day"),
+    rich_presence_lookup("city", location, lookupLocation, "Canada, eh")
 ) 
