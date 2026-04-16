@@ -1163,7 +1163,7 @@ arenaQuests = [
     ArenaQuest(22, "Grudge Match: Rathian", 4, 30, 5),
     ArenaQuest(23, "Grudge Match: Lagiacrus", 4, 30, 5),
     ArenaQuest(24, "Grudge Match: Uragaan", 7, 0, 5),
-    ArenaQuest(25, "Grudge Match: Wyvern Trio", 10, 0, 10),
+    ArenaQuest(25, "Grudge Match: Wyvern Trio", 12, 0, 10),
     ArenaQuest(26, "Grudge Match: Bird and Brute", 10, 0, 10),
     ArenaQuest(27, "Grudge Match: Sea Power", 9, 0, 10),
     ArenaQuest(28, "Grudge Match: The Two Flames", 10, 0, 10),
@@ -1250,7 +1250,7 @@ function cheevoSilverCrown(monster) {
 function cheevoGoldCrowns(monster) {
     Cheevo(
         format("{0} Crown Hunter", monster.name),
-        format("Obtain both crowns for the {0}", monster.name),
+        format("Obtain both golden crowns for the {0}", monster.name),
         50,
         monster.isBothGold()
     ).generate()
