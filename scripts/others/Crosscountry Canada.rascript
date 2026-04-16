@@ -6,6 +6,7 @@ n_commodities = 16
 
 a_commodityQuestion = 0x0092
 
+a_players = 0x0300
 a_name_p1 = 0x000301
 a_location = 0x000326
 a_destination = 0x00032d
@@ -30,7 +31,9 @@ a_exFood = 0x0334
 a_exFerry = 0x0337
 a_exRepair = 0x0360
 
+players = byte(a_players)
 name_p1 = byte(a_name_p1)
+function name_p1_bit(i) => bit(i, a_name_p1)
 location = byte(a_location)
 destination = byte(a_destination)
 phase = byte(a_phase)
@@ -427,13 +430,13 @@ lookupLocation = {
     0x50: "Yellowknife",
 }
 
-inGame = name_p1>0
-function answerCommodityQuestion() => byte(a_commodityQuestion) == 0x9c && prev(byte(a_commodityQuestion)) == 0
+inGame = players==0 && name_p1>0xc0 && name_p1<0xdb // valid name characters (letters)
+function answerCommodityQuestion() => byte(a_commodityQuestion) != prev(byte(a_commodityQuestion)) && byte(a_commodityQuestion)-0x91 == byte(a_commodityQuestion-1) 
 function totalExpenses() => bcd(word(a_exGas)) + 30*byte(a_exHotel) + 10*byte(a_exFood) + bcd(tbyte(a_exFerry)) + bcd(tbyte(a_exRepair)) + 100*daysPassed
 function passLandmarks(list) => measured(tally_of(list, length(list), i => once(i.passed()))) && never(!inGame)
 function finishGame(commodities) => location == deliveryDestination && endedGame > prev(endedGame) && sum_of(range(1, commodities), i => commodityPicked(i)) == commodities
 function haveCommodity(id) => any_of(range(1,n_commodities), i => commodityId(i) == id && commodityPicked(i) == 1)
-function get3BonusCommodities() => any_of(range(1, n_baseCommodities), i => commodityPicked(i) == 1 && commodityPicked(i+1) == 1 && commodityPicked(i+2) == 1 && commodityPicked(i+3) > prev(commodityPicked(i+3)))
+function get3BonusCommodities() => any_of(range(1, n_baseCommodities), i => commodityPicked(i) == 0 && commodityPicked(i+1) == 1 && commodityPicked(i+2) == 1 && commodityPicked(i+3) > prev(commodityPicked(i+3)))
 function getTrainCommodity() => any_of(range(1,n_commodities), i => commodityId(i) == prev(trainCommodity) && commodityPicked(i)>prev(commodityPicked(i)))
 
 class Cheevo {
@@ -451,34 +454,33 @@ class Cheevo {
     logic = always_true()
 
 cheevos = [
-    Cheevo("Short Trip", "Finish a game with 4 or more commodities", 5, finishGame(4), "win_condition"),
-    Cheevo("Medium Trip", "Finish a game with 7 or more commodities", 10, finishGame(7), "win_condition"),
-    Cheevo("Long Trip", "Finish a game with 10 or more commodities", 10, finishGame(10), "win_condition"),
-    Cheevo("Canada Lore", "Correctly answer the question about your next commodity to pick up", 3, answerCommodityQuestion()),
-    Cheevo("Bonus Orders", "Pick up 3 or more bonus commodities before your final commodity", 10, get3BonusCommodities()),
-    Cheevo("Train Order", "Pick up some commodity you ordered to be delivered by train from Churchill", 5, getTrainCommodity()),
-    Cheevo("Ferry", "Take a ferry", 3, tbyte(a_exFerry) > prev(tbyte(a_exFerry))),
-    Cheevo("Good Samaritan", "Pick up a hitchhiker", 2, onRoad==1 && hitchhikerOn > prev(hitchhikerOn)),
-    Cheevo("Self Care", "Complete a trip with 4 or more commodities without ever being ravenous, exhausted, run out of gas or speeding", 25, 
+    Cheevo("Ehhh, It's Just a Short Trip", "Finish a game with 4 or more commodities", 5, finishGame(4), "win_condition"),
+    Cheevo("Gettin' a Bit More Adventurous ", "Finish a game with 7 or more commodities", 10, finishGame(7), "win_condition"),
+    Cheevo("Gonna Need a Double Double to Keep Me Awake...", "Finish a game with 10 or more commodities", 10, finishGame(10), "win_condition"),
+    Cheevo("A Lil Canadian Questionaire", "Correctly answer the question about your next commodity to pick up", 3, answerCommodityQuestion()),
+    Cheevo("Ey, Where's MY Bonus?", "Pick up 3 or more bonus commodities before your final commodity", 10, get3BonusCommodities()),
+    Cheevo("Churchill's Top Quality", "Pick up some commodity you ordered to be delivered by train from Churchill", 5, getTrainCommodity()),
+    Cheevo("Takin' the Ferry for a Whirl", "Take a ferry", 3, tbyte(a_exFerry) > prev(tbyte(a_exFerry))),
+    Cheevo("Hey Bud, Need a Ride?", "Pick up a hitchhiker", 2, onRoad==1 && hitchhikerOn > prev(hitchhikerOn)),
+    Cheevo("Taking Care of Ya-Self!", "Complete a trip with 4 or more commodities without ever being ravenous, exhausted, run out of gas or speeding", 25, 
         trigger_when(finishGame(4)) && 
-        disable_when(hunger>=HUNGER_RAVENOUS) && 
-        disable_when(sleep>=SLEEP_EXHAUSTED) && 
-        disable_when(gas==0) && 
-        disable_when(speed>SPEED_REGULAR) &&
-        never(!inGame)
+        disable_when(hunger>=HUNGER_RAVENOUS, until= !inGame) && 
+        disable_when(sleep>=SLEEP_EXHAUSTED, until= !inGame) && 
+        disable_when(gas==0, until= !inGame) && 
+        disable_when(speed>SPEED_REGULAR, until= !inGame)
     ),
-    Cheevo("Employee of the Month", "Complete a trip with 4 or more commodities with expenses under $1000", 25, 
+    Cheevo("Le Camionneur le Plus Meilleur!", "Complete a trip with 4 or more commodities with expenses under $2500", 25, 
         trigger_when(finishGame(4)) && 
-        measured(totalExpenses() < 1000)
+        measured(totalExpenses() < 2500)
     ),
-    Cheevo("Parks of Canada", "Visit or drive by every major National or Provincial park, forest or wildlife reserve. Landmarks that can be passed by in different trajectories will count multiple times", 10, passLandmarks(list_parks)),
-    Cheevo("Rivers of Canada", "Cross and drive by every major river in Canada. Certain rivers can be crossed AND drived by! Be sure to enjoy both experiences. Landmarks that can be passed by in different trajectories will count multiple times", 10, passLandmarks(list_rivers)),
-    Cheevo("Lakes of Canada", "Visit or drive by every major lake in Canada. Landmarks that can be passed by in different trajectories will count multiple times!", 10, passLandmarks(list_lakes)),
-    Cheevo("Mountains of Canada", "Visit or drive by every mountain, range and other geological marvels of Canada", 10, passLandmarks(list_mountains)),
-    Cheevo("Sea of Canada", "Visit or drive by the most iconic sea related landmarks of Canada. Landmarks that can be passed by in different trajectories will count multiple times!", 5, passLandmarks(list_sea)),
-    Cheevo("Living in Canada", "Visit or drive by every smaller town or indian reserve not in your map. Landmarks that can be passed by in different trajectories will count multiple times!", 10, passLandmarks(list_towns)),
-    Cheevo("Exploitations of Canada", "Visit or drive by notable human exploitations of resources", 5, passLandmarks(list_exploitations)),
-    Cheevo("Borders of Canada", "Visit or drive by every border with the USA", 5, passLandmarks(list_usa)),
+    Cheevo("Canada's Natural Beauty", "Visit or drive by every major National or Provincial park, forest or wildlife reserve. Landmarks that can be passed by in different trajectories will count multiple times", 10, passLandmarks(list_parks)),
+    Cheevo("Feel the Gentle Water Drops", "Cross and drive by every major river in Canada. Certain rivers can be crossed AND drived by! Be sure to enjoy both experiences. Landmarks that can be passed by in different trajectories will count multiple times", 10, passLandmarks(list_rivers)),
+    Cheevo("Water as Blue and Clear as the Sky", "Visit or drive by every major lake in Canada. Landmarks that can be passed by in different trajectories will count multiple times!", 10, passLandmarks(list_lakes)),
+    Cheevo("It’s Going to Be a Beauty Day", "Visit or drive by every mountain, range and other geological marvels of Canada", 10, passLandmarks(list_mountains)),
+    Cheevo("Following Mackenzie's Footsteps", "Visit or drive by the most iconic sea related landmarks of Canada. Landmarks that can be passed by in different trajectories will count multiple times!", 5, passLandmarks(list_sea)),
+    Cheevo("Terry Fox's Legacy Lasts Forever!", "Visit or drive by every smaller town or indian reserve not in your map. Landmarks that can be passed by in different trajectories will count multiple times!", 10, passLandmarks(list_towns)),
+    Cheevo("The Whole Bag of Milk", "Visit or drive by notable human exploitations of resources", 5, passLandmarks(list_exploitations)),
+    Cheevo("Keep Your Stick On the Ice", "Visit or drive by every border with the USA", 5, passLandmarks(list_usa)),
     Cheevo("Dragon Quest", "Equip yourself with a STEEL sword and a SILVER shield, and go slay the mythical Ogopogo", 5, haveCommodity(COM_STEEL) && haveCommodity(COM_SILVER) && trigger_when(ogopogo.passed())),
     
 ]
