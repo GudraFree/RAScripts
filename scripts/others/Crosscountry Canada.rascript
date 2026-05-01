@@ -13,7 +13,7 @@ a_destination = 0x00032d
 a_phase = 0x000357
 a_onRoad = 0x000329
 a_deliveryDestination = 0x0340
-a_hour_real = 0x0300
+a_hour_real = 0x0323
 a_weather = 0x0327
 a_speed = 0x032a
 a_gas = 0x033e
@@ -40,14 +40,14 @@ destination = byte(a_destination)
 phase = byte(a_phase)
 onRoad = bit0(a_onRoad)
 deliveryDestination = byte(a_deliveryDestination)
-hour = (bcd(byte(a_hour_real)) & 0x3f) + 12*bit7(a_hour_real)
+hour = low4(a_hour_real) +10*bit4(a_hour_real) + 12*bit7(a_hour_real)
 weather = byte(a_weather)
 speed = byte(a_speed)
 gas = byte (a_gas)
 sleep = byte(a_sleep)
 hunger = byte(a_hunger)
 daysPassed = byte(a_daysPassed)
-function commodityId(n) => byte(a_commodity1 + (n-1)) & 0x3c
+function commodityId(n) => byte(a_commodity1 + (n-1)) & 0x3f
 function commodityNext(n) => bit6(a_commodity1 + (n-1))
 function commodityPicked(n) => bit7(a_commodity1 + (n-1))
 trainCommodity = byte(a_trainCommodity)
@@ -537,27 +537,27 @@ cheevos = [
     Cheevo("Gonna Need a Double Double to Keep Me Awake...", "Finish a game with 10 or more commodities", 10, finishGame(10), "win_condition"),
     Cheevo("A Lil Canadian Questionaire", "Correctly answer the question about your next commodity to pick up", 3, answerCommodityQuestion()),
     Cheevo("Ey, Where's MY Bonus?", "Pick up 3 or more bonus commodities before your final commodity", 10, get3BonusCommodities()),
-    Cheevo("Churchill's Top Quality", "Pick up some commodity you ordered to be delivered by train from Churchill", 5, getTrainCommodity()),
+    Cheevo("Churchill's Top Quality", "Pick up the commodity that you ordered to be delivered by train from Churchill", 5, getTrainCommodity()),
     Cheevo("Takin' the Ferry for a Whirl", "Take a ferry", 3, tbyte(a_exFerry) > prev(tbyte(a_exFerry))),
     Cheevo("Hey Bud, Need a Ride?", "Pick up a hitchhiker", 2, onRoad==1 && hitchhikerOn > prev(hitchhikerOn)),
-    Cheevo("Taking Care of Ya-Self!", "Complete a trip with 4 or more commodities without ever being ravenous, exhausted, run out of gas or speeding", 25, 
+    Cheevo("Taking Care of Ya-Self!", "Complete a trip with 4 or more commodities without ever becoming weak from the lack of food, almost exhausted, running out of gas, or speeding", 25, 
         trigger_when(finishGame(4)) && 
-        disable_when(hunger>=HUNGER_RAVENOUS, until= !inGame) && 
+        disable_when(hunger>=HUNGER_WEAK, until= !inGame) && 
         disable_when(sleep>=SLEEP_EXHAUSTED, until= !inGame) && 
         disable_when(gas==0, until= !inGame) && 
         disable_when(speed>SPEED_REGULAR, until= !inGame)
     ),
-    Cheevo("Le Camionneur le Plus Meilleur!", "Complete a trip with 4 or more commodities with expenses under $2500", 25, 
+    Cheevo("Le Camionneur le Plus Meilleur!", "Complete a trip with 4 or more commodities with expenses under $2,500", 25, 
         trigger_when(finishGame(4)) && 
         measured(totalExpenses() < 2500)
     ),
-    Cheevo("Canada's Natural Beauty", "Visit or drive by every major National or Provincial park, forest or wildlife reserve. Landmarks that can be passed by in different trajectories will count multiple times", 10, passLandmarks(list_parks)),
+    Cheevo("Canada's Natural Beauty", "Visit or drive by every major National and Provincial park, forest, and wildlife reserve. Landmarks that can be passed by in different trajectories will count multiple times", 10, passLandmarks(list_parks)),
     Cheevo("Feel the Gentle Water Drops", "Cross and drive by every major river in Canada. Certain rivers can be crossed AND drived by! Be sure to enjoy both experiences. Landmarks that can be passed by in different trajectories will count multiple times", 10, passLandmarks(list_rivers)),
     Cheevo("Water as Blue and Clear as the Sky", "Visit or drive by every major lake in Canada. Landmarks that can be passed by in different trajectories will count multiple times!", 10, passLandmarks(list_lakes)),
-    Cheevo("It’s Going to Be a Beauty Day", "Visit or drive by every mountain, range and other geological marvels of Canada", 10, passLandmarks(list_mountains)),
-    Cheevo("Following Mackenzie's Footsteps", "Visit or drive by the most iconic sea related landmarks of Canada. Landmarks that can be passed by in different trajectories will count multiple times!", 5, passLandmarks(list_sea)),
-    Cheevo("Terry Fox's Legacy Lasts Forever!", "Visit or drive by every smaller town or indian reserve not in your map. Landmarks that can be passed by in different trajectories will count multiple times!", 10, passLandmarks(list_towns)),
-    Cheevo("The Whole Bag of Milk", "Visit or drive by notable human exploitations of resources", 5, passLandmarks(list_exploitations)),
+    Cheevo("It's Going to Be a Beauty Day", "Visit or drive by every mountain range, and any other geological marvels of Canada", 10, passLandmarks(list_mountains)),
+    Cheevo("Following Mackenzie's Footsteps", "Visit or drive by the most iconic sea-related landmarks of Canada. Landmarks that can be passed by in different trajectories will count multiple times", 5, passLandmarks(list_sea)),
+    Cheevo("Terry Fox's Legacy Lasts Forever!", "Visit or drive by every smaller town or indian reserve not on your map. Landmarks that can be passed by in different trajectories will count multiple times", 10, passLandmarks(list_towns)),
+    Cheevo("The Whole Bag of Milk", "Visit or drive by all of the notable human developments of resources", 5, passLandmarks(list_exploitations)),
     Cheevo("Keep Your Stick On the Ice", "Visit or drive by every border with the USA", 5, passLandmarks(list_usa)),
     Cheevo("Dragon Quest", "Equip yourself with a STEEL sword and a SILVER shield, and go slay the mythical Ogopogo", 5, haveCommodity(COM_STEEL) && haveCommodity(COM_SILVER) && trigger_when(ogopogo.passed())),
     
