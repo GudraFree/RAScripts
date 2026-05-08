@@ -1,7 +1,8 @@
 // Monster Hunter Tri
-// #ID = 208
-// ids: 208 (core), 36547 (subset online)
+// #ID = 36547
+// ids: 208 (core), 36547 (subset online), set=36536 (subset online)
 
+subset_loclac = achievement_set("Loc Lac", id=36536)
 subset = false
 
 // common
@@ -1179,9 +1180,10 @@ class Cheevo {
     points = 0
     logic = always_true()
     type = ""
+    set = 0
     
     function generate() {
-        achievement(this.name, this.desc, this.points, saveProtection() && this.logic, type=this.type)
+        achievement(this.name, this.desc, this.points, saveProtection() && this.logic, type=this.type, set=this.set)
     }
 }
 extraCheevos = [
@@ -1195,40 +1197,46 @@ extraCheevos = [
     Cheevo("Findings on Moga's Wildlife, Tome 2", "Register every big monster in your Monster List", 10, flagCounter(a_monsterListStart, monsterListBig, be=false)),
 ]
 extraCheevosOnline = [
-    Cheevo("Wandering Newcomer", "Receive your Hunting Rank from the Guild Master. Welcome to Loc-Lac!", 1, hrUp(1)),
-    Cheevo("Nightingale", "Reach Hunter Rank 8", 5, hrUp(8)),
-    Cheevo("Wunderkind", "Reach Hunter Rank 17", 5, hrUp(17)),
-    Cheevo("Prodigy", "Reach Hunter Rank 30", 10, hrUp(30)),
-    Cheevo("Limit Breaker", "Reach Hunter Rank 39", 10, hrUp(39)),
-    Cheevo("King of Hunters", "Reach Hunter Rank 50", 10, hrUp(50)),
-    Cheevo("Hero of Loc-Lac", "Reach Hunter Rank 100", 25, hrUp(100)),
-    Cheevo("Cozy Hunting", "Move into the level 2 Guest House", 2, guestHouse(2)),
-    Cheevo("Presidential Suite", "Move into the level 3 Guest House", 4, guestHouse(3)),
-    Cheevo("Sweet Fit", "Obtain the Black Honey Poogie outfit", 2, flagTrigger(flagBE(a_poogieOutfitStart, FLAG_POOGIE_BLACK_HONEY))),
-    Cheevo("Findings on Moga's Wildlife, Tome 3", "Register every Loc-Lac exclusive big monster in your Monster List", 3, flagCounter(a_monsterListStart, monsterListOnline, be=false)),
-    Cheevo("Oddity Hunter", "Obtain every event exclusive item", 25, flagCounter(a_itemDiscoveryStart, eventItems)),
+    Cheevo("Wandering Newcomer", "Receive your Hunting Rank from the Guild Master. Welcome to Loc-Lac!", 1, hrUp(1), set=subset_loclac),
+    Cheevo("Nightingale", "Reach Hunter Rank 8", 5, hrUp(8), set=subset_loclac),
+    Cheevo("Wunderkind", "Reach Hunter Rank 17", 5, hrUp(17), set=subset_loclac),
+    Cheevo("Prodigy", "Reach Hunter Rank 30", 10, hrUp(30), set=subset_loclac),
+    Cheevo("Limit Breaker", "Reach Hunter Rank 39", 10, hrUp(39), set=subset_loclac),
+    Cheevo("King of Hunters", "Reach Hunter Rank 50", 10, hrUp(50), set=subset_loclac),
+    Cheevo("Hero of Loc-Lac", "Reach Hunter Rank 100", 25, hrUp(100), set=subset_loclac),
+    Cheevo("Cozy Hunting", "Move into the level 2 Guest House", 2, guestHouse(2), set=subset_loclac),
+    Cheevo("Presidential Suite", "Move into the level 3 Guest House", 4, guestHouse(3), set=subset_loclac),
+    Cheevo("Sweet Fit", "Obtain the Black Honey Poogie outfit", 2, flagTrigger(flagBE(a_poogieOutfitStart, FLAG_POOGIE_BLACK_HONEY)), set=subset_loclac),
+    Cheevo("Findings on Moga's Wildlife, Tome 3", "Register every Loc-Lac exclusive big monster in your Monster List", 3, flagCounter(a_monsterListStart, monsterListOnline, be=false), set=subset_loclac),
+    Cheevo("Oddity Hunter", "Obtain every event exclusive item", 25, flagCounter(a_itemDiscoveryStart, eventItems), set=subset_loclac),
 ]
-function cheevoQuest(quest) {
+function cheevoQuest(quest, m_set=0) {
     Cheevo(
         quest.name, 
         quest.desc(), 
         quest.points, 
         flagTrigger(quest.flag()), 
-        quest.chvType()
+        quest.chvType(),
+        set=m_set
     ).generate()
 }
-function cheevoArenaQuest(quest) {
+function cheevoArenaQuest(quest, m_set=0) {
     Cheevo(
         quest.name, 
         quest.desc(), 
         quest.points, 
-        quest.qualifyingTime()
+        quest.qualifyingTime(),
+        set=m_set
     ).generate()
 }
 function cheevoQuestLevel(level, location=QL_VILLAGE) {
     points = 10
     capital = "V"
-    if(location==QL_CITY) capital = "C"
+    m_set = 0
+    if(location==QL_CITY) {
+        capital = "C"
+        m_set = subset_loclac
+    }
     if(location==QL_CITY && level>3) points = 25
     levelQuests = []
     for q in quests if(q.loc == location && q.level == level) array_push(levelQuests, q.id)
@@ -1236,7 +1244,8 @@ function cheevoQuestLevel(level, location=QL_VILLAGE) {
         format("{2}{0}{1}-Star", substring(location, 1), level, capital), 
         format("Complete every {1}-star {0}quest", location, level), 
         points, 
-        flagCounter(a_questStart, levelQuests)
+        flagCounter(a_questStart, levelQuests),
+        set=m_set
     ).generate()
 }
 function cheevoSilverCrown(monster) {
@@ -1252,7 +1261,8 @@ function cheevoGoldCrowns(monster) {
         format("{0} Crown Hunter", monster.name),
         format("Obtain both golden crowns for the {0}", monster.name),
         50,
-        monster.isBothGold()
+        monster.isBothGold(),
+        set=subset_loclac
     ).generate()
 }
 function cheevoTitle(monster, i) {
@@ -1263,19 +1273,21 @@ function cheevoTitle(monster, i) {
         monster.titles()[i],
         format("Hunt {0} {1}", total, monster.name),
         titlePoints[i],
-        prev(monster.hunted())<total && measured(monster.hunted()>=total, when=monster.hunted()>minimum)
+        prev(monster.hunted())<total && measured(monster.hunted()>=total, when=monster.hunted()>minimum),
+        set=subset_loclac
     ).generate()
 }
-function cheevoAward(i) {
+function cheevoAward(i, m_set=0) {
     Cheevo(
         awards[i],
         format("Obtain the {0} award", awards[i]),
         25,
-        flagTrigger(flagBE(a_awardsStart, i))
+        flagTrigger(flagBE(a_awardsStart, i)),
+        set=m_set
     ).generate()
 }
 
-if(!subset) {
+
     for q in quests {
         if(q.loc == QL_VILLAGE && q.type != QT_NORMAL) cheevoQuest(q)
     }
@@ -1285,10 +1297,9 @@ if(!subset) {
         if(!m.online && m.silver>0) cheevoSilverCrown(m)
     }
     for a in awardsOffline cheevoAward(a)
-}
-else {
+// subset
     for q in quests {
-        if(q.loc == QL_CITY && q.type != QT_NORMAL) cheevoQuest(q)
+        if(q.loc == QL_CITY && q.type != QT_NORMAL) cheevoQuest(q, m_set=subset_loclac)
     }
     for star in cityStars cheevoQuestLevel(star, QL_CITY)
     for c in extraCheevosOnline c.generate()
@@ -1296,11 +1307,11 @@ else {
         if(m.silver>0) cheevoGoldCrowns(m)
         for i in range(0,2) cheevoTitle(m, i)
     }
-    for a in awardsOnline cheevoAward(a)
-    for aq in arenaQuests if(aq.id>=20) cheevoArenaQuest(aq)
-}
+    for a in awardsOnline cheevoAward(a, m_set=subset_loclac)
+    for aq in arenaQuests if(aq.id>=20) cheevoArenaQuest(aq, m_set=subset_loclac)
+
 // lbs
-function leeboMonSize(monster, longest=false) {
+function leeboMonSize(monster, longest=false, m_set=0) {
     sizeStr = "Shortest"
     size = monster.shortest()
     comp = size < prev(size) && size > 0
@@ -1320,25 +1331,25 @@ function leeboMonSize(monster, longest=false) {
         always_true(),
         displaySize,
         format="FIXED1",
-        lower_is_better= !longest
+        lower_is_better= !longest,
+        set=m_set
     )
 }
-if(!subset) {
+// core
     for m in monsters {
         if(!m.online && m.silver>0) {
             leeboMonSize(m)
             leeboMonSize(m, true)
         }
     }
-}
-else {
+// subset
     for m in monsters {
         if(m.online && m.silver>0) {
-            leeboMonSize(m)
-            leeboMonSize(m, true)
+            leeboMonSize(m, m_set=subset_loclac)
+            leeboMonSize(m, true, m_set=subset_loclac)
         }
     }
-}
+
 // RP
 state = {
     1: "Hunting",
