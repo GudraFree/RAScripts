@@ -551,14 +551,14 @@ cheevos = [
         trigger_when(finishGame(4)) && 
         measured(totalExpenses() < 2500)
     ),
-    Cheevo("Canada's Natural Beauty", "Visit or drive by every major National and Provincial park, forest, and wildlife reserve. Landmarks that can be passed by in different trajectories will count multiple times", 10, passLandmarks(list_parks)),
-    Cheevo("Feel the Gentle Water Drops", "Cross and drive by every major river in Canada. Certain rivers can be crossed AND drived by! Be sure to enjoy both experiences. Landmarks that can be passed by in different trajectories will count multiple times", 10, passLandmarks(list_rivers)),
-    Cheevo("Water as Blue and Clear as the Sky", "Visit or drive by every major lake in Canada. Landmarks that can be passed by in different trajectories will count multiple times!", 10, passLandmarks(list_lakes)),
-    Cheevo("It's Going to Be a Beauty Day", "Visit or drive by every mountain range, and any other geological marvels of Canada", 10, passLandmarks(list_mountains)),
-    Cheevo("Following Mackenzie's Footsteps", "Visit or drive by the most iconic sea-related landmarks of Canada. Landmarks that can be passed by in different trajectories will count multiple times", 5, passLandmarks(list_sea)),
-    Cheevo("Terry Fox's Legacy Lasts Forever!", "Visit or drive by every smaller town or indian reserve not on your map. Landmarks that can be passed by in different trajectories will count multiple times", 10, passLandmarks(list_towns)),
-    Cheevo("The Whole Bag of Milk", "Visit or drive by all of the notable human developments of resources", 5, passLandmarks(list_exploitations)),
-    Cheevo("Keep Your Stick On the Ice", "Visit or drive by every border with the USA", 5, passLandmarks(list_usa)),
+    Cheevo("Canada's Natural Beauty", "In one session, visit or drive by every major National and Provincial park, forest, and wildlife reserve. Landmarks that can be passed by in different trajectories will count multiple times", 10, passLandmarks(list_parks)),
+    Cheevo("Feel the Gentle Water Drops", "In one session, cross and drive by every major river in Canada. Certain rivers can be crossed AND drived by! Be sure to enjoy both experiences. Landmarks that can be passed by in different trajectories will count multiple times", 10, passLandmarks(list_rivers)),
+    Cheevo("Water as Blue and Clear as the Sky", "In one session, visit or drive by every major lake in Canada. Landmarks that can be passed by in different trajectories will count multiple times!", 10, passLandmarks(list_lakes)),
+    Cheevo("It's Going to Be a Beauty Day", "In one session, visit or drive by every mountain range, and any other geological marvels of Canada", 10, passLandmarks(list_mountains)),
+    Cheevo("Following Mackenzie's Footsteps", "In one session, visit or drive by the most iconic sea-related landmarks of Canada. Landmarks that can be passed by in different trajectories will count multiple times", 5, passLandmarks(list_sea)),
+    Cheevo("Terry Fox's Legacy Lasts Forever!", "In one session, visit or drive by every smaller town or indian reserve not on your map. Landmarks that can be passed by in different trajectories will count multiple times", 10, passLandmarks(list_towns)),
+    Cheevo("The Whole Bag of Milk", "In one session, visit or drive by all of the notable human developments of resources", 5, passLandmarks(list_exploitations)),
+    Cheevo("Keep Your Stick On the Ice", "In one session, visit or drive by every border with the USA", 5, passLandmarks(list_usa)),
     Cheevo("Dragon Quest", "Equip yourself with a STEEL sword and a SILVER shield, and go slay the mythical Ogopogo", 5, haveCommodity(COM_STEEL) && haveCommodity(COM_SILVER) && trigger_when(ogopogo.passed())),
     
 ]
